@@ -1,0 +1,10 @@
+
+# MacOS
+.DS_Store
+
+# Editor
+.vscode/
+
+# Python
+.mypy_cache/
+.pytest_cache/

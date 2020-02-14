@@ -1,0 +1,17 @@
+<svg xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="400" height="400" viewBox="0 0 239 239" id="svg2" xml:space="preserve">
+	<g transform="matrix(0.975,0,0,0.975,2.9875,2.9875)" id="Ebene_1">
+		<linearGradient x1="119.5" y1="1.5" x2="119.49999" y2="237.5" id="XMLID_3_" gradientUnits="userSpaceOnUse">
+			<stop style="stop-color:#ffffff;stop-opacity:1" offset="0.0056178" id="stop8"/>
+			<stop style="stop-color:#79b3ee;stop-opacity:1" offset="0.30337071" id="stop10"/>
+			<stop style="stop-color:#0000c7;stop-opacity:1" offset="1" id="stop12"/>
+		</linearGradient>
+		<circle cx="119.5" cy="119.5" r="118" style="fill:url(#XMLID_3_);stroke:#000077;stroke-width:3" id="circle14"/> 
+		<linearGradient x1="119.5" y1="213.04346" x2="119.49999" y2="25.957031" id="XMLID_4_" gradientUnits="userSpaceOnUse">
+			<stop style="stop-color:#ffffff;stop-opacity:1" offset="0.0056178" id="stop17"/>
+			<stop style="stop-color:#79b3ee;stop-opacity:1" offset="0.30337071" id="stop19"/>
+			<stop style="stop-color:#0000c7;stop-opacity:1" offset="1" id="stop21"/>
+		</linearGradient>
+		<circle cx="119.5" cy="119.5" r="93.542969" style="fill:url(#XMLID_4_)" id="circle23"/> 
+		<path d="M 101.56934,121.80273 C 101.56934,107.86816 101.11035,107.64014 88.319336,106.04102 L 88.319336,98.273926 L 137.43164,98.273926 L 137.43164,170.68555 C 137.43164,183.70557 138.57324,184.84863 150.68066,186.21875 L 150.68066,195.12744 L 88.319336,195.12744 L 88.319336,186.21875 C 100.42578,184.84863 101.56934,183.70557 101.56934,170.68555 L 101.56934,121.80273 z M 138.80078,59.213379 C 138.80078,70.177734 130.12109,79.086426 118.92969,79.086426 C 108.19141,79.086426 99.055664,70.177734 99.055664,59.213379 C 99.055664,48.020508 108.19141,39.340332 118.92969,39.340332 C 130.12109,39.340332 138.80078,48.020508 138.80078,59.213379 z " style="fill:#ffffff;stroke:#000000;stroke-width:3" id="path25"/>
+	</g>
+</svg>

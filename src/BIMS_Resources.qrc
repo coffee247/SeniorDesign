@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="images">
+    <file>images/Gnome-go-home.svg</file>
+    <file>images/Circle-icons-settings.svg</file>
+    <file>images/Gnome-document-open-recent.svg</file>
+    <file>images/Circle-icons-circlecompass.svg</file>
+    <file>images/Circle-icons-power.svg</file>
+    <file>images/DuPont_logo.png</file>
+    <file>images/Info_icon_001.svg</file>
+  </qresource>
+  <qresource>
+    <file>HomePageText.html</file>
+    <file>AboutPageText.html</file>
+  </qresource>
+</RCC>
