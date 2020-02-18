@@ -73,7 +73,20 @@ def getRanges(caller):
             for j in range(dataShape[1]):
                 index = self.rangeModel.createIndex(i ,j)
                 self.rangeModel.setData(index ,data[i][j], Qt.EditRole)
-    self.RangeView.setColumnHidden(0, True)
+    self.RangeView.setColumnHidden(0, False)
+
+def getProjos(caller):
+    self = caller
+    # Fetch list of projos
+    with self.conn:
+        query = f"select * from projo"
+        data = self.dbase.db_doQuery(query)
+        dataShape = np.array(data).shape
+        for i in range(dataShape[0]):
+            for j in range(dataShape[1]):
+                index = self.rangeModel.createIndex(i, j)
+                self.projectilesModel.setData(index, data[i][j], Qt.EditRole)
+    self.ProjectilesView.setColumnHidden(0, False)
 
 
 def getEnvirons(caller):

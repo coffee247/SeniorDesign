@@ -71,7 +71,7 @@ def doSetup(caller):
     # identify views
     self.GrainsView = self.stacks.findChild(QtWidgets.QListView, 'Grains_listView')
     self.PowdersView = self.stacks.findChild(QtWidgets.QListView, 'Powders_listView')
-    self.ProjectilesView = self.stacks.findChild(QtWidgets.QListView, 'Projectiles_listView')
+    self.ProjectilesView = self.stacks.findChild(QtWidgets.QTableView, 'Projectiles_tableView')
     self.RangeView = self.stacks.findChild(QtWidgets.QTableView, 'Ranges_tableView')
     self.EnvironView = self.stacks.findChild(QtWidgets.QTableView, 'environ_tableView')
 
@@ -79,6 +79,8 @@ def doSetup(caller):
     self.grainsLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'Settings_AddGrain_lineEdit')
     self.powdersLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'Settings_AddPowder_lineEdit')
     self.projosLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'Settings_AddProjectile_lineEdit')
+    self.projosMassLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'ProjoMass_lineEdit')
+    self.projosDragLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'DragCoef_lineEdit')
 
 
     # set up grainsView

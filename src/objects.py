@@ -60,7 +60,7 @@ class Projectile(EasyOut):
     def __init__(self, dragFloat: float, massFloat: float, nameStr: str):
         self.dragFloat: float = dragFloat
         self.massFloat: float = massFloat
-        self.nameStr: str = nameStr
+        self.projectileType: str = nameStr
 
 
 class Range(EasyOut):

@@ -1,7 +1,6 @@
 
 
 from PyQt5.QtCore import QAbstractTableModel, Qt, QModelIndex
-from PyQt5.QtGui import QPixmap
 
 """ Reference https://github.com/pyside/pyside2-examples/blob/dev/examples/widgets/itemviews/addressbook """
 
@@ -76,7 +75,6 @@ class RangeModel(QAbstractTableModel):
     def insertRows(self, position, rows=1, index=QModelIndex()):
         """Insert a row of range data into RangeModel. """
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
-        print(range(rows))
         self.ranges.insert(position + position + rows - 1,
                            {"ID": "", "Date": "", "scr1_scr2": "", "scr2_targ": "", "mid_scr2": "",
                             "muz_mid": ""})

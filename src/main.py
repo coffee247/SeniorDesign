@@ -53,9 +53,15 @@ class MainWindow(QtWidgets.QMainWindow):
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(4, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
         db.getEnvirons(self)
+
+        db.getProjos(self)
+        projoheader = self.ProjectilesView.horizontalHeader()
+        self.ProjectilesView.setColumnWidth(0,150)
+        projoheader.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        projoheader.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
 
     def shoot(self):
         # shot = threading.Thread(target=self.takeShot)
@@ -110,23 +116,25 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def addProjos(self):
         projoVal = self.projosLineEdit.text()
+        projoMass = self.projosMassLineEdit.text()
+        projoDrag = self.projosDragLineEdit.text()
         if projoVal != "":
-            myquery = f"insert into projo (projectileType) values ('{projoVal}')"
+            myquery = f"insert into projo (projectileType, projo_mass, projo_DragCoef) values ('{projoVal}', '{projoMass}', '{projoDrag}')"
             try:
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
-                self.projectilesModel.addData(projoVal)
-                self.projosLineEdit.setText("")
+                self.projectilesModel.addData(projoVal, projoMass, projoDrag)
             except pymysql.err.IntegrityError as e:
                 if e.args[0] == 1062:
                     self.issueWarning(f"Duplicate Entry for {projoVal} ---> (already exists.)\n\nTry again!")
-                    self.projosLineEdit.setText("")
-                    self.projosLineEdit.seytFocus()
             except pymysql.err.InternalError:
                 pass
             finally:
                 pass
             self.projosLineEdit.setText("")
+            self.projosMassLineEdit.setText("")
+            self.projosDragLineEdit.setText("")
+            self.projosLineEdit.setFocus()
         else:
             self.issueWarning("No value was entered for Projectile")
             self.projosLineEdit.setFocus()

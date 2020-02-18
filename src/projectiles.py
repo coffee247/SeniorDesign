@@ -1,5 +1,4 @@
 from PyQt5.QtCore import QAbstractTableModel, Qt, QModelIndex
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMessageBox
 
 """ Reference https://github.com/pyside/pyside2-examples/blob/dev/examples/widgets/itemviews/addressbook """
@@ -8,8 +7,7 @@ from PyQt5.QtWidgets import QMessageBox
 class ProjectilesModel(QAbstractTableModel):
     def __init__(self, Projos=None, parent=None):
         super(ProjectilesModel, self).__init__(parent)
-        # set up grains attributes
-        self.caller = object
+        # create Projos list if it does not exist
         if Projos is None:
             self.Projos = []
         else:
@@ -24,7 +22,7 @@ class ProjectilesModel(QAbstractTableModel):
         return len(self.Projos)
 
     def columnCount(self, index=QModelIndex()):
-        return 1    #  fields:  projectileType
+        return 3    #  fields:  projectileType, projoMass, projoDrag
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
@@ -34,8 +32,18 @@ class ProjectilesModel(QAbstractTableModel):
             return None
 
         if role == Qt.DisplayRole:
-            projoval = self.Projos[index.row()]["projectileType"]
-            return projoval
+
+            projectileType = self.Projos[index.row()]["projectileType"]
+            projoMass = self.Projos[index.row()]["projo_mass"]
+            projoDrag = self.Projos[index.row()]["projo_DragCoef"]
+
+            if index.column() == 0:
+                return projectileType
+            elif index.column() == 1:
+                return projoMass
+            elif index.column() == 2:
+                return projoDrag
+            return None
 
 
 
@@ -45,8 +53,13 @@ class ProjectilesModel(QAbstractTableModel):
 
         if orientation == Qt.Horizontal:
             if section == 0:
-                return "projectileType"
+                return "Projectile"
+            if section == 1:
+                return "Mass"
+            if section == 2:
+                return "Drag Coef"
             return None
+
         if orientation == Qt.Vertical:
             if role == Qt.DisplayRole:
                 return " --> "
@@ -57,7 +70,7 @@ class ProjectilesModel(QAbstractTableModel):
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
-            self.Projos.insert(position + row, {"projectileType": ""})
+            self.Projos.insert(position + row, {"projectileType": "", "projo_mass": "", "projo_DragCoef": ""})
 
         self.endInsertRows()
         return True
@@ -72,14 +85,19 @@ class ProjectilesModel(QAbstractTableModel):
         self.dataChanged.emit(index, index)
         return True
 
-    def addData(self, projosVal):
+    def addData(self, projosVal, projoMass, projoDrag):
         rowCount = self.rowCount()
-        for i in range(rowCount):
+        for i in range(rowCount):  # for each row i the projectiles table
             j = i+1
             if projosVal < self.Projos[0]["projectileType"]:
                 self.insertRow(0)
                 index = self.createIndex(0, 0)
-                self.setData(index, projosVal, role=Qt.EditRole)
+                if index.column() == 0:
+                    self.setData(index, projosVal, role=Qt.EditRole)
+                elif index.column() == 1:
+                    self.setData(index, projoMass, role=Qt.EditRole)
+                elif index.column() == 2:
+                    self.setData(index, projoDrag, role=Qt.EditRole)
 
             elif projosVal > self.Projos[i]["projectileType"]:
                 try:
@@ -87,10 +105,21 @@ class ProjectilesModel(QAbstractTableModel):
                         if projosVal < self.Projos[j]["projectileType"]:
                             self.insertRow(j)
                             index = self.createIndex(j, 0)
-                            self.setData(index, projosVal, role=Qt.EditRole)
+                            if index.column() == 0:
+                                self.setData(index, projosVal, role=Qt.EditRole)
+                            elif index.column() == 1:
+                                self.setData(index, projoMass, role=Qt.EditRole)
+                            elif index.column() == 2:
+                                self.setData(index, projoDrag, role=Qt.EditRole)
                     else:
                         self.insertRow(j)
                         index = self.createIndex(j, 0)
+                        if index.column() == 0:
+                            self.setData(index, projosVal, role=Qt.EditRole)
+                        elif index.column() == 1:
+                            self.setData(index, projoMass, role=Qt.EditRole)
+                        elif index.column() == 2:
+                            self.setData(index, projoDrag, role=Qt.EditRole)
                         self.setData(index, projosVal, role=Qt.EditRole)
                 except:
                     pass
@@ -106,6 +135,10 @@ class ProjectilesModel(QAbstractTableModel):
             aProjo = self.Projos[index.row()]
             if index.column() == 0:
                 aProjo["projectileType"] = f"{value}"
+            elif index.column() == 1:
+                aProjo["projo_mass"] = f"{value}"
+            elif index.column() == 2:
+                    aProjo["projo_DragCoef"] = f"{value}"
             else:
                 return False
 
