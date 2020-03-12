@@ -124,6 +124,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
                 self.projectilesModel.addData(projoVal, projoMass, projoDrag)
+
             except pymysql.err.IntegrityError as e:
                 if e.args[0] == 1062:
                     self.issueWarning(f"Duplicate Entry for {projoVal} ---> (already exists.)\n\nTry again!")
@@ -186,29 +187,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.grainsLineEdit.setFocus()
 
 
-    def addRange(self):
-        scrn1_to_scrn2_Val = self.lineEdit_S1S2.text()
-        if scrn1_to_scrn2_Val != "":
-            # myquery = f"insert into BimsRange (scrn1_to_scrn2, scrn2_to_target, mid_to_scrn2, muz_to_mid ) values ({grainsVal})"
-            # try:
-            #     self.dbase.db_doQuery(myquery)
-            #     self.dbase.db_doQuery("Commit")
-            #     self.grainsModel.addData(grainsVal)
-            #     self.grainsLineEdit.setText("")
-            # except pymysql.err.IntegrityError as e:
-            #     if e.args[0] == 1062:
-            #         self.issueWarning(
-            #             f"Duplicate Entry for {grainsVal} ---> (already exists.)\n\nTry again!")
-            #         self.grainsLineEdit.setText("")
-            #         self.grainsLineEdit.setFocus()
-            # except pymysql.err.InternalError:
-            #     pass
-            # finally:
-                pass
-        else:
-            self.issueWarning("No value was entered for Grains")
-            self.grainsLineEdit.setFocus()
-
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_grainslistView_clicked(self, index):
@@ -226,6 +204,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ProjoRow = index.row()
 
     def removeProjo(self):
+        row = self.ProjoRow
         Value = self.projectilesModel.Projos[self.ProjoRow]["projectileType"]
         myquery = f"delete from projo where projectileType = '{Value}'"
         self.dbase.db_doQuery(myquery)
@@ -247,15 +226,6 @@ class MainWindow(QtWidgets.QMainWindow):
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_rangetableView_clicked(self, index):
         self.RangeRow = index.row()
-
-    # def removePowders(self):
-    #     Value = self.powdersModel.Powders[self.PowderRow]["powderType"]
-    #     myquery = f"delete from threatPowder where powderType = '{Value}'"
-    #     self.dbase.db_doQuery(myquery)
-    #     self.dbase.db_doQuery("Commit")
-    #         self.powdersModel.removeRows(self.PowderRow)
-
-
 
 
 app = QtWidgets.QApplication(sys.argv)

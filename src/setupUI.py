@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QAction, QHeaderView
+from PyQt5.QtWidgets import QAction, QHeaderView, QAbstractItemView
 
 
 def doSetup(caller):
@@ -74,6 +74,20 @@ def doSetup(caller):
     self.ProjectilesView = self.stacks.findChild(QtWidgets.QTableView, 'Projectiles_tableView')
     self.RangeView = self.stacks.findChild(QtWidgets.QTableView, 'Ranges_tableView')
     self.EnvironView = self.stacks.findChild(QtWidgets.QTableView, 'environ_tableView')
+
+
+    self.RangeView.verticalHeader().hide()  # Hide the Vertical Header in RangeView
+    self.ProjectilesView.verticalHeader().hide()  # Hide the Vertical Header in ProjectilesView
+    self.ProjectilesView.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select by entire row (not by individual cell)
+
+    self.RangeView.verticalHeader().hide()  # Hide the Vertical Header
+    RangesHeader = self.RangeView.horizontalHeader()  #
+    # RangesHeader.setSectionResizeMode(1, QHeaderView.Stretch)
+    # # RangesHeader.setSectionResizeMode(2, QHeaderView.Stretch)
+    # # RangesHeader.setSectionResizeMode(3, QHeaderView.Stretch)
+    # # RangesHeader.setSectionResizeMode(4, QHeaderView.Stretch)
+    RangesHeader.setDefaultSectionSize(20)
+
 
     # identify lineEdit fields
     self.grainsLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'Settings_AddGrain_lineEdit')

@@ -58,8 +58,9 @@ class database():
             dataShape = np.array(data).shape
             for i in range(dataShape[0]):
                 myself.model.insertRows(i)
-                index = myself.model.createIndex(i, 0)
-                myself.model.setData(index, data[i][myself.colIndex], Qt.EditRole)
+                for j in range(dataShape[1]):
+                    index = myself.model.createIndex(i, j)
+                    myself.model.setData(index, data[i][j], Qt.EditRole)
 
 
 def getRanges(caller):

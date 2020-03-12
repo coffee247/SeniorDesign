@@ -60,13 +60,13 @@ class RangeModel(QAbstractTableModel):
             elif section == 1:
                 return "Created"
             elif section == 2:
-                return "Scrn1 to Scrn2"
+                return " S1 to S2 "
             elif section == 3:
-                return "Scrn2 to Target"
+                return " S2 to Targ "
             elif section == 4:
-                return "Mid to Scrn2"
+                return " Mid to S2 "
             elif section == 5:
-                return "Muzzle to Mid"
+                return " Muz to Mid "
             return None
         if orientation == Qt.Vertical:
             if role == Qt.DisplayRole:

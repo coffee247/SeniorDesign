@@ -16,6 +16,7 @@ class ProjectilesModel(QAbstractTableModel):
     # Modal Warning Box
     def issueWarning(self, Message):
         QMessageBox.about(self, "Warning", Message)
+        data = list(('test', 'teste')[0].keys())
 
     def rowCount(self, index=QModelIndex()):
         """ Returns the number of rows the model holds """
@@ -60,9 +61,9 @@ class ProjectilesModel(QAbstractTableModel):
                 return "Drag Coef"
             return None
 
-        if orientation == Qt.Vertical:
-            if role == Qt.DisplayRole:
-                return " --> "
+        # if orientation == Qt.Vertical:
+        #     if role == Qt.DisplayRole:
+        #         return " --> "
 
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
@@ -85,42 +86,43 @@ class ProjectilesModel(QAbstractTableModel):
         self.dataChanged.emit(index, index)
         return True
 
-    def addData(self, projosVal, projoMass, projoDrag):
+    def addData(self, projectileType, projo_mass, projo_DragCoef):
         rowCount = self.rowCount()
-        for i in range(rowCount):  # for each row i the projectiles table
-            j = i+1
-            if projosVal < self.Projos[0]["projectileType"]:
+        for i in range(rowCount):
+            j = i + 1
+            if projectileType < self.Projos[0]["projectileType"]:
                 self.insertRow(0)
-                index = self.createIndex(0, 0)
-                if index.column() == 0:
-                    self.setData(index, projosVal, role=Qt.EditRole)
-                elif index.column() == 1:
-                    self.setData(index, projoMass, role=Qt.EditRole)
-                elif index.column() == 2:
-                    self.setData(index, projoDrag, role=Qt.EditRole)
-
-            elif projosVal > self.Projos[i]["projectileType"]:
+                for i in range(3):
+                    index = self.createIndex(j, i)
+                    if i == 0:
+                        self.setData(index, projectileType, role=Qt.EditRole)
+                    elif i == 1:
+                        self.setData(index, projo_mass, role=Qt.EditRole)
+                    elif i == 2:
+                        self.setData(index, projo_DragCoef, role=Qt.EditRole)
+            elif projectileType > self.Projos[i]["projectileType"]:
                 try:
-                    if i < self.rowCount()-1:
-                        if projosVal < self.Projos[j]["projectileType"]:
+                    if i < self.rowCount() - 1:
+                        if projectileType < self.Projos[j]["projectileType"]:
                             self.insertRow(j)
-                            index = self.createIndex(j, 0)
-                            if index.column() == 0:
-                                self.setData(index, projosVal, role=Qt.EditRole)
-                            elif index.column() == 1:
-                                self.setData(index, projoMass, role=Qt.EditRole)
-                            elif index.column() == 2:
-                                self.setData(index, projoDrag, role=Qt.EditRole)
+                            for i in range(3):
+                                index = self.createIndex(j, i)
+                                if i == 0:
+                                    self.setData(index, projectileType, role=Qt.EditRole)
+                                elif i == 1:
+                                    self.setData(index,projo_mass, role=Qt.EditRole)
+                                elif i == 2:
+                                    self.setData(index, projo_DragCoef, role=Qt.EditRole)
                     else:
                         self.insertRow(j)
-                        index = self.createIndex(j, 0)
-                        if index.column() == 0:
-                            self.setData(index, projosVal, role=Qt.EditRole)
-                        elif index.column() == 1:
-                            self.setData(index, projoMass, role=Qt.EditRole)
-                        elif index.column() == 2:
-                            self.setData(index, projoDrag, role=Qt.EditRole)
-                        self.setData(index, projosVal, role=Qt.EditRole)
+                        for i in range(3):
+                            index = self.createIndex(j, i)
+                            if i == 0:
+                                self.setData(index, projectileType, role=Qt.EditRole)
+                            elif i == 1:
+                                self.setData(index, projo_mass, role=Qt.EditRole)
+                            elif i == 2:
+                                self.setData(index, projo_DragCoef, role=Qt.EditRole)
                 except:
                     pass
 
