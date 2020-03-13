@@ -186,7 +186,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.issueWarning("No value was entered for Grains")
             self.grainsLineEdit.setFocus()
 
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def populateProjoForm(self, index):
+        self.ProjoRow = index.row()
 
+        self.projosLineEdit.setFocus()
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_grainslistView_clicked(self, index):
@@ -210,6 +214,39 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.db_doQuery(myquery)
         self.dbase.db_doQuery("Commit")
         self.projectilesModel.removeRows(self.ProjoRow)
+
+    def saveRange(self):
+        S1S2 = self.S1S2LineEdit.text()
+        S2Targ = self.S2TargLineEdit.text()
+        MidS2 = self.MidS2LineEdit.text()
+        MuzMid = self.MuzMidLineEdit.text()
+        myquery = f"insert into BimsRange (scrn1_to_scrn2, scrn2_to_target, mid_to_scrn2, muz_to_mid) " \
+                  f"values ({S1S2},{S2Targ},{MidS2},{MuzMid})"
+        try:
+            self.dbase.db_doQuery(myquery)
+            self.dbase.db_doQuery("Commit")
+            mquery = f"Select RangeID, dateCreated from BimsRange where dateCreated = (Select max(dateCreated) from BimsRange)"
+            try:
+                data = self.dbase.db_doQuery(mquery)
+                ID = data[0][0]
+                created = data[0][1]
+                self.rangeModel.addData(ID,created,S1S2, S2Targ, MidS2, MuzMid)
+            except:
+                pass
+            # self.grainsModel.addData(grainsVal)
+            # self.grainsLineEdit.setText("")
+        except pymysql.err.IntegrityError as e:
+            if e.args[0] == 1062:
+                pass
+                # self.issueWarning(
+                #     f"Duplicate Entry for {grainsVal} ---> (already exists.)\n\nTry again!")
+                # self.grainsLineEdit.setText("")
+                # self.grainsLineEdit.setFocus()
+        except pymysql.err.InternalError:
+            pass
+        finally:
+            pass
+
 
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)

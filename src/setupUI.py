@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QAction, QHeaderView, QAbstractItemView
+from PyQt5.QtWidgets import QAction, QHeaderView, QAbstractItemView, QDataWidgetMapper
 
 
 def doSetup(caller):
@@ -25,11 +25,14 @@ def doSetup(caller):
     self.SaveRangeButton = self.findChild(QtWidgets.QPushButton, 'SaveRange_pushButton')
 
 
-    # identify Settings Page LineEdits and Labels
-    self.S1S2LineEdit = self.stacks.findChild(QtWidgets.QLabel, 'lineEdit_S1S2')
-    self.S2TargLineEdit = self.stacks.findChild(QtWidgets.QLabel, 'lineEdit_S2Targ')
-    self.MidS2LineEdit = self.stacks.findChild(QtWidgets.QLabel, 'lineEdit_MidS2')
-    self.MuzMidLineEdit = self.stacks.findChild(QtWidgets.QLabel, 'lineEdit_MuzMid')
+    # identify Settings Page LineEdits
+    self.S1S2LineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_S1S2')
+    self.S2TargLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_S2Targ')
+    self.MidS2LineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MidS2')
+    self.MuzMidLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MuzMid')
+    self.SDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_SDevice')
+    self.MDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MDevice')
+    self.TimeoutLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_Timeout')
 
     # identify Measure Page UI elements
     self.grainsComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Grains_comboBox')
@@ -63,6 +66,7 @@ def doSetup(caller):
     self.rmvPowdersButton.clicked.connect(self.removePowders)
     self.addProjosButton.clicked.connect(self.addProjos)
     self.rmvProjosButton.clicked.connect(self.removeProjo)
+    self.SaveRangeButton.clicked.connect(self.saveRange)
 
     # connect measure page buttons
     self.shootButton.clicked.connect(self.shoot)
@@ -77,8 +81,10 @@ def doSetup(caller):
 
 
     self.RangeView.verticalHeader().hide()  # Hide the Vertical Header in RangeView
+
     self.ProjectilesView.verticalHeader().hide()  # Hide the Vertical Header in ProjectilesView
     self.ProjectilesView.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select by entire row (not by individual cell)
+
 
     self.RangeView.verticalHeader().hide()  # Hide the Vertical Header
     RangesHeader = self.RangeView.horizontalHeader()  #
@@ -96,6 +102,13 @@ def doSetup(caller):
     self.projosMassLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'ProjoMass_lineEdit')
     self.projosDragLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'DragCoef_lineEdit')
 
+    mapper = QDataWidgetMapper(self)
+    mapper.setModel(self.projectilesModel)
+    mapper.addMapping(self.projosLineEdit, 0)
+    mapper.addMapping(self.projosMassLineEdit, 1)
+    mapper.addMapping(self.projosDragLineEdit, 2)
+    # mapper.connect(self.projectilesModel.selectionModel(), SIGNAL("currentRowChanged(QModelIndex,QModelIndex)"),
+    #         mapper, SLOT(setCurrentModelIndex(QModelIndex)))
 
     # set up grainsView
     self.GrainsView.setModel(self.grainsModel)

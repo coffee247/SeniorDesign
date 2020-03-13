@@ -93,7 +93,7 @@ class ProjectilesModel(QAbstractTableModel):
             if projectileType < self.Projos[0]["projectileType"]:
                 self.insertRow(0)
                 for i in range(3):
-                    index = self.createIndex(j, i)
+                    index = self.createIndex(0, i)
                     if i == 0:
                         self.setData(index, projectileType, role=Qt.EditRole)
                     elif i == 1:

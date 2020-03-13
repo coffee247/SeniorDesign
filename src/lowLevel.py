@@ -23,7 +23,7 @@ from time import time
 # End project imports.
 
 INFRARED_COUNTER_STR = 'Dev1/ctr0'
-MAGNETIC_COUNTER_STR = 'Dev1/ct1'
+MAGNETIC_COUNTER_STR = 'Dev1/ctr1'
 DEFAULT_TIMEOUT_SEC_FLOAT = 120.0  # 2 minutes.
 
 

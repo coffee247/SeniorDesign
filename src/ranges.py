@@ -72,6 +72,64 @@ class RangeModel(QAbstractTableModel):
             if role == Qt.DisplayRole:
                 return " --> "
 
+    def addData(self, ID, date, s1s2, s2Targ, midS2, muzMid):
+        rowCount = self.rowCount()
+        for i in range(rowCount):
+            j = i + 1
+            if int(ID) < int(self.ranges[0]["ID"]):
+                self.insertRow(0)
+                for i in range(6):
+                    index = self.createIndex(0, i)
+                    if i == 0:
+                        self.setData(index, ID, role=Qt.EditRole)
+                    elif i == 1:
+                        self.setData(index, date, role=Qt.EditRole)
+                    elif i == 2:
+                        self.setData(index, s1s2, role=Qt.EditRole)
+                    elif i == 3:
+                        self.setData(index, s2Targ, role=Qt.EditRole)
+                    elif i == 4:
+                        self.setData(index, midS2, role=Qt.EditRole)
+                    elif i == 5:
+                        self.setData(index, muzMid, role=Qt.EditRole)
+            elif int(ID) > int(self.ranges[i]["ID"]):
+                try:
+                    if i < self.rowCount() - 1:
+                        if int(ID) < int(self.Projos[j]["ID"]):
+                            self.insertRow(j)
+                            for i in range(6):
+                                index = self.createIndex(j, i)
+                                if i == 0:
+                                    self.setData(index, ID, role=Qt.EditRole)
+                                elif i == 1:
+                                    self.setData(index, date, role=Qt.EditRole)
+                                elif i == 2:
+                                    self.setData(index, s1s2, role=Qt.EditRole)
+                                elif i == 3:
+                                    self.setData(index, s2Targ, role=Qt.EditRole)
+                                elif i == 4:
+                                    self.setData(index, midS2, role=Qt.EditRole)
+                                elif i == 5:
+                                    self.setData(index, muzMid, role=Qt.EditRole)
+                    else:
+                        self.insertRow(j)
+                        for i in range(6):
+                            index = self.createIndex(j, i)
+                            if i == 0:
+                                self.setData(index, ID, role=Qt.EditRole)
+                            elif i == 1:
+                                self.setData(index, date, role=Qt.EditRole)
+                            elif i == 2:
+                                self.setData(index, s1s2, role=Qt.EditRole)
+                            elif i == 3:
+                                self.setData(index, s2Targ, role=Qt.EditRole)
+                            elif i == 4:
+                                self.setData(index, midS2, role=Qt.EditRole)
+                            elif i == 5:
+                                self.setData(index, muzMid, role=Qt.EditRole)
+                except:
+                    pass
+
     def insertRows(self, position, rows=1, index=QModelIndex()):
         """Insert a row of range data into RangeModel. """
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
@@ -105,13 +163,13 @@ class RangeModel(QAbstractTableModel):
             elif index.column() == 1:
                 arange["Date"] = f"{value}"
             elif index.column() == 2:
-                arange["scr1_scr2"] = value
+                arange["scr1_scr2"] = f"{value}"
             elif index.column() == 3:
-                arange["scr2_targ"] = value
+                arange["scr2_targ"] = f"{value}"
             elif index.column() == 4:
-                arange["mid_scr2"] = value
+                arange["mid_scr2"] = f"{value}"
             elif index.column() == 5:
-                arange["muz_mid"] = value
+                arange["muz_mid"] = f"{value}"
             else:
                 return False
 
