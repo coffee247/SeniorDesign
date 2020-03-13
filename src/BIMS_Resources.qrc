@@ -10,6 +10,5 @@
   </qresource>
   <qresource>
     <file>HomePageText.html</file>
-    <file>AboutPageText.html</file>
   </qresource>
 </RCC>
