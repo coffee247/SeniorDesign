@@ -4,6 +4,8 @@ import sys
 
 import pymysql
 from PyQt5 import uic, QtWidgets, QtCore
+from PyQt5.QtCore import QLocale, QLibraryInfo
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QMessageBox
 
 import src.BIMSresources
@@ -21,6 +23,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(MainWindow, self).__init__()
+
+        # Internationalization support
+        self.translator = QtCore.QTranslator()
+        self.translator.load("Dupont_BIMS_pt.qm")
+
+        # install translator to the app
+        app.installTranslator(self.translator)
+
         uic.loadUi("mainwindow.ui", self)
         self.GrainsRow = 0
         self.ProjoRow = 0
@@ -42,6 +52,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         src.setupUI.doSetup(self)
         self.createMenus()
+
+        self.langCombo.addItem(QIcon('images/Flag-us.svg'),'English')
+        self.langCombo.addItem(QIcon('images/Brazilian_flag.png'), 'Portuguese')
+        self.langCombo.setItemData(0, '')
+        self.langCombo.setItemData(1, 'eng-pt')
 
         self.dbase.populateListView(self, "projo", "projectileType", 0, self.projectilesModel)
         self.dbase.populateListView(self, "threatGrain", "grain", 0, self.grainsModel)
@@ -89,8 +104,20 @@ class MainWindow(QtWidgets.QMainWindow):
     def goSettings(self):
         self.stacks.setCurrentIndex(3)
 
+    def goProjects(self):
+        self.stacks.setCurrentIndex(4)
+
     def doQuit(self):
         sys.exit()
+
+    @QtCore.pyqtSlot(int)
+    def langChange(self, index):
+        data = self.langCombo.itemData(index)
+        if data:
+            self.translator.load(data)
+            QtWidgets.QApplication.instance().installTranslator(self.translator)
+        else:
+            QtWidgets.QApplication.instance().removeTranslator(self.translator)
 
     # set up the application menuBar
     def createMenus(self):

@@ -1,7 +1,7 @@
 
 
 SOURCES += \
-        Dupont_BIMS.py \
+        main.py \
 
 TRANSLATIONS += \
         Dupont_BIMS_pt.ts

@@ -13,6 +13,7 @@ def doSetup(caller):
     self.measureButton = self.findChild(QtWidgets.QPushButton, 'measureButton')
     self.historyButton = self.findChild(QtWidgets.QPushButton, 'historyButton')
     self.settingsButton = self.findChild(QtWidgets.QPushButton, 'settingsButton')
+    self.projectsButton = self.findChild(QtWidgets.QPushButton, 'projectsButton')
     self.quitButton = self.findChild(QtWidgets.QPushButton, 'quitButton')
 
     # identify Settings Page Buttons
@@ -24,6 +25,9 @@ def doSetup(caller):
     self.rmvProjosButton = self.findChild(QtWidgets.QPushButton, 'rmvProjectiles_pushButton')
     self.SaveRangeButton = self.findChild(QtWidgets.QPushButton, 'SaveRange_pushButton')
 
+    # Set up language support button
+    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'combo')
+    self.langCombo.currentIndexChanged.connect(self.langChange)
 
     # identify Settings Page LineEdits
     self.S1S2LineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_S1S2')
@@ -57,6 +61,7 @@ def doSetup(caller):
     self.historyButton.clicked.connect(self.goHistory)
     self.measureButton.clicked.connect(self.goMeasure)
     self.settingsButton.clicked.connect(self.goSettings)
+    self.projectsButton.clicked.connect(self.goProjects)
     self.quitButton.clicked.connect(self.doQuit)
 
     # connect settings page buttons
