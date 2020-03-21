@@ -4,33 +4,33 @@ from PyQt5.QtGui import QPixmap
 """ Reference https://github.com/pyside/pyside2-examples/blob/dev/examples/widgets/itemviews/addressbook """
 
 
-class BalisticainsModel(QAbstractTableModel):
-    def __init__(self, Balisticians=None, parent=None):
-        super(BalisticainsModel, self).__init__(parent)
+class BallisticiansModel(QAbstractTableModel):
+    def __init__(self, Ballisticians=None, parent=None):
+        super(BallisticiansModel, self).__init__(parent)
         # set up grains attributes
-        if Balisticians is None:
-            self.Balisticians = []
+        if Ballisticians is None:
+            self.BallisticiansList = []
         else:
-            self.Balisticians = Balisticians
+            self.BallisticiansList = Ballisticians
 
 
-    def rowCount(self, index=QModelIndex()):
+    def rowCount(self, index=QModelIndex(), **kwargs):
         """ Returns the number of rows the model holds """
-        return len(self.Balisticians)
+        return len(self.BallisticiansList)
 
-    def columnCount(self, index=QModelIndex()):
-        return 1    #  fields:  balisticians
+    def columnCount(self, index=QModelIndex(), **kwargs):
+        return 1    #  fields:  grains
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
             return None
 
-        if not 0 <= index.row() < len(self.Balisticians):
+        if not 0 <= index.row() < len(self.BallisticiansList):
             return None
 
         if role == Qt.DisplayRole:
-            balisticanval = self.Balisticians[index.row()]["balisticiansValue"]
-            return balisticanval
+            ballisticianval = self.BallisticiansList[index.row()]["ballistician"]
+            return ballisticianval
 
 
 
@@ -40,53 +40,49 @@ class BalisticainsModel(QAbstractTableModel):
 
         if orientation == Qt.Horizontal:
             if section == 0:
-                return "Balistician"
+                return "Ballistician"
             return None
-        if orientation == Qt.Vertical:
-            if role == Qt.DisplayRole:
-                return " --> "
 
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
-        """Insert a row of balistician data into BalisticiansModel. """
+        '''Insert a row of ballistician data into ballisticaianModel. '''
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
-            self.Balisticians.insert(position + row, {"ID":"", "balisticiansValue":""})
+            self.BallisticiansList.insert(position + row, {"ballistician": ""})
 
         self.endInsertRows()
         return True
 
     def removeRows(self, position, rows=1, index=QModelIndex()):
-        """ Remove a row from  BalisticiansModel. """
+        """ Remove a row from  ballisticaianModel. """
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
 
-        del self.Balisticians[position:position+rows]
+        del self.BallisticiansList[position:position + rows]
 
         self.endRemoveRows()
-        self.dataChanged.emit(index, index)   
         return True
 
-    def addData(self, balisticianValue):
+    def addData(self, ballisticianToAdd):
         rowCount = self.rowCount()
         for i in range(rowCount):
             j = i+1
-            if int(balisticianValue) < int(self.Balisticians[0]["balisticiansValue"]):
+            if ballisticianToAdd < self.BallisticiansList[0]["ballistician"]:
                 self.insertRow(0)
                 index = self.createIndex(0, 0)
-                self.setData(index, balisticianValue, role=Qt.EditRole)
+                self.setData(index, ballisticianToAdd, role=Qt.EditRole)
 
-            elif int(balisticianValue) > int(self.Balisticians[i]["balisticiansValue"]):
+            elif ballisticianToAdd > self.BallisticiansList[i]["ballistician"]:
                 try:
-                    if i < self.rowCount()-1:
-                        if int(balisticianValue) < int(self.Balisticians[j]["balisticiansValue"]):
+                    if i < self.rowCount() -1:
+                        if ballisticianToAdd < self.BallisticiansList[j]["ballistician"]:
                             self.insertRow(j)
                             index = self.createIndex(j, 0)
-                            self.setData(index, balisticianValue, role=Qt.EditRole)
+                            self.setData(index, ballisticianToAdd, role=Qt.EditRole)
                     else:
                         self.insertRow(j)
                         index = self.createIndex(j, 0)
-                        self.setData(index, balisticianValue, role=Qt.EditRole)
+                        self.setData(index, ballisticianToAdd, role=Qt.EditRole)
                 except:
                     pass
 
@@ -98,9 +94,9 @@ class BalisticainsModel(QAbstractTableModel):
         if role != Qt.EditRole:
             return False
 
-        if index.isValid() and 0 <= index.row() < len(self.Grains):
-            aBalistician = self.Balisticians[index.row()]
-            aBalistician["balisticianValue"] = f"{value}"
+        if index.isValid() and 0 <= index.row() < len(self.BallisticiansList):
+            aBallistician = self.BallisticiansList[index.row()]
+            aBallistician["ballistician"] = f"{value}"
             self.dataChanged.emit(index, index)
             return True
         return False

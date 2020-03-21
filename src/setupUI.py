@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QAction, QHeaderView, QAbstractItemView, QDataWidgetMapper
+from PyQt5.QtWidgets import QAbstractItemView
 
 
 def doSetup(caller):
@@ -24,10 +24,16 @@ def doSetup(caller):
     self.addProjosButton = self.findChild(QtWidgets.QPushButton, 'addProjectiles_pushButton')
     self.rmvProjosButton = self.findChild(QtWidgets.QPushButton, 'rmvProjectiles_pushButton')
     self.SaveRangeButton = self.findChild(QtWidgets.QPushButton, 'SaveRange_pushButton')
+    self.rmvBallisticianButton = self.findChild(QtWidgets.QPushButton, 'rmv_Ballistician_pushButton')
+    self.addBallisticianButton = self.findChild(QtWidgets.QPushButton, 'add_Ballistician_pushButton')
+    self.editProjosButton = self.findChild(QtWidgets.QPushButton, 'editProjosButton')
 
     # Set up language support button
     self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'combo')
-    self.langCombo.currentIndexChanged.connect(self.langChange)
+    self.langCombo.setToolTip('<html><head><style> body {background-color: white;} </style></head>'
+                              '<body><p>Set language then re-start application</p></body></html>')
+    self.langCombo.setToolTipDuration(5000)
+
 
     # identify Settings Page LineEdits
     self.S1S2LineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_S1S2')
@@ -37,6 +43,10 @@ def doSetup(caller):
     self.SDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_SDevice')
     self.MDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MDevice')
     self.TimeoutLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_Timeout')
+    self.HWscreenEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'scrDev_LineEdit')
+    self.HWmagEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'magDev_LineEdit')
+    self.TimeoutEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'timeout_LineEdit')
+
 
     # identify Measure Page UI elements
     self.grainsComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Grains_comboBox')
@@ -45,6 +55,7 @@ def doSetup(caller):
     self.standbyLabel = self.findChild(QtWidgets.QLabel, 'Standby_label_5')
     self.velocityDataLabel = self.findChild(QtWidgets.QLabel, 'VelocityDataLabel')
     self.shootButton = self.findChild(QtWidgets.QPushButton, 'FIRE_shot_pushButton')
+    self.ballisticianComboBox = self.findChild(QtWidgets.QComboBox, 'ballistician_comboBox')
 
     # identify History Page UI elements
     self.HistProjectilesComboBox = self.findChild(QtWidgets.QComboBox, 'History_Projo_comboBox')
@@ -54,6 +65,8 @@ def doSetup(caller):
     self.projoComboBox.setModel(self.projectilesModel)
     self.powdersComboBox.setModel(self.powdersModel)
     self.HistProjectilesComboBox.setModel(self.projectilesModel)
+    self.ballisticianComboBox.setModel(self.ballModel)
+
 
 
     # connect left menubar buttons
@@ -72,6 +85,9 @@ def doSetup(caller):
     self.addProjosButton.clicked.connect(self.addProjos)
     self.rmvProjosButton.clicked.connect(self.removeProjo)
     self.SaveRangeButton.clicked.connect(self.saveRange)
+    self.addBallisticianButton.clicked.connect(self.addBallistician)
+    self.rmvBallisticianButton.clicked.connect(self.removeBallistician)
+    self.editProjosButton.clicked.connect(self.editProjos)
 
     # connect measure page buttons
     self.shootButton.clicked.connect(self.shoot)
@@ -79,6 +95,7 @@ def doSetup(caller):
 
     # identify views
     self.GrainsView = self.stacks.findChild(QtWidgets.QListView, 'Grains_listView')
+    self.BallisticiansView = self.stacks.findChild(QtWidgets.QListView, 'Ballisticians_listView')
     self.PowdersView = self.stacks.findChild(QtWidgets.QListView, 'Powders_listView')
     self.ProjectilesView = self.stacks.findChild(QtWidgets.QTableView, 'Projectiles_tableView')
     self.RangeView = self.stacks.findChild(QtWidgets.QTableView, 'Ranges_tableView')
@@ -92,11 +109,7 @@ def doSetup(caller):
 
 
     self.RangeView.verticalHeader().hide()  # Hide the Vertical Header
-    RangesHeader = self.RangeView.horizontalHeader()  #
-    # RangesHeader.setSectionResizeMode(1, QHeaderView.Stretch)
-    # # RangesHeader.setSectionResizeMode(2, QHeaderView.Stretch)
-    # # RangesHeader.setSectionResizeMode(3, QHeaderView.Stretch)
-    # # RangesHeader.setSectionResizeMode(4, QHeaderView.Stretch)
+    RangesHeader = self.RangeView.horizontalHeader()
     RangesHeader.setDefaultSectionSize(20)
 
 
@@ -106,14 +119,10 @@ def doSetup(caller):
     self.projosLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'Settings_AddProjectile_lineEdit')
     self.projosMassLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'ProjoMass_lineEdit')
     self.projosDragLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'DragCoef_lineEdit')
+    self.ballisticianLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'Ballistician_lineEdit')
+    self.grainsLabel = self.stacks.findChild(QtWidgets.QLabel, 'grainsLabel')
 
-    mapper = QDataWidgetMapper(self)
-    mapper.setModel(self.projectilesModel)
-    mapper.addMapping(self.projosLineEdit, 0)
-    mapper.addMapping(self.projosMassLineEdit, 1)
-    mapper.addMapping(self.projosDragLineEdit, 2)
-    # mapper.connect(self.projectilesModel.selectionModel(), SIGNAL("currentRowChanged(QModelIndex,QModelIndex)"),
-    #         mapper, SLOT(setCurrentModelIndex(QModelIndex)))
+    self.langCombo.currentIndexChanged.connect(self.dolanguageChangeRequest)
 
     # set up grainsView
     self.GrainsView.setModel(self.grainsModel)
@@ -130,3 +139,14 @@ def doSetup(caller):
     # set up RangeView
     self.RangeView.setModel(self.rangeModel)
     self.RangeView.clicked.connect(self.on_rangetableView_clicked)
+
+    # set up BallisticiansView
+    self.BallisticiansView.setModel(self.ballModel)
+    self.BallisticiansView.clicked.connect(self.on_BallisticiansModel_clicked)
+
+    # connect Hardware LineEdits to Harware setting functions
+    self.HWscreenEdit.editingFinished.connect(self.ScreensChanged)
+    self.HWmagEdit.editingFinished.connect(self.MagChanged)
+    self.TimeoutEdit.editingFinished.connect(self.TimoutChanged)
+    self.HWchangeLabel = self.stacks.findChild(QtWidgets.QLabel,'HWchangeLabel')
+    self.HWchangeLabel.setText("")

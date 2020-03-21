@@ -972,7 +972,7 @@ class Ui_MainWindow(object):
         self.label_23.setText(_translate("MainWindow", "cm"))
         self.label_10.setText(_translate("MainWindow", "Range Distances"))
         self.label_25.setToolTip(_translate("MainWindow", "Change these values in Settings page"))
-        self.label.setText(_translate("MainWindow", "Grains"))
+        self.label.setText(_translate("MainWindow", "Ballisticians"))
         self.label_4.setText(_translate("MainWindow", "Projectile"))
         self.label_3.setText(_translate("MainWindow", "Threat Variables"))
         self.label_5.setText(_translate("MainWindow", "Powder"))

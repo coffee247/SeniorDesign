@@ -28,8 +28,9 @@ DEFAULT_TIMEOUT_SEC_FLOAT = 120.0  # 2 minutes.
 
 
 class Counter:
-    def __init__(self, counterStr: str, timeoutFloat: float = DEFAULT_TIMEOUT_SEC_FLOAT):
+    def __init__(self, counterStr: str, magStr: str, timeoutFloat: float):
         self.counterStr: str = counterStr
+        self.magStr: str = magStr
         self.timeoutFloat: float = timeoutFloat
         self.lastReadFloat: float = float()
         self.lastReadTimeFloat: float = float()

@@ -1,36 +1,40 @@
 from PyQt5.QtCore import QAbstractTableModel, Qt, QModelIndex
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QMessageBox
 
 """ Reference https://github.com/pyside/pyside2-examples/blob/dev/examples/widgets/itemviews/addressbook """
 
 
-class GrainsModel(QAbstractTableModel):
-    def __init__(self, Grains=None, parent=None):
-        super(GrainsModel, self).__init__(parent)
+class ManufacturersModel(QAbstractTableModel):
+    def __init__(self, Makers=None, parent=None):
+        super(ManufacturersModel, self).__init__(parent)
         # set up grains attributes
-        if Grains is None:
-            self.Grains = []
+        self.caller = object
+        if Makers is None:
+            self.Makers = []
         else:
-            self.Grains = Grains
+            self.Makers = Makers
 
+    # Modal Warning Box
+    def issueWarning(self, Message):
+        QMessageBox.about(self, "Warning", Message)
 
     def rowCount(self, index=QModelIndex()):
         """ Returns the number of rows the model holds """
-        return len(self.Grains)
+        return len(self.Makers)
 
     def columnCount(self, index=QModelIndex()):
-        return 1    #  fields:  grains
+        return 1    #  fields:  MakerName
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
             return None
 
-        if not 0 <= index.row() < len(self.Grains):
+        if not 0 <= index.row() < len(self.Makers):
             return None
 
         if role == Qt.DisplayRole:
-            grainval = self.Grains[index.row()]["grainsValue"]
-            return grainval
+            makerVal = self.Fabrics[index.row()]["makerName"]
+            return makerVal
 
 
 
@@ -40,56 +44,53 @@ class GrainsModel(QAbstractTableModel):
 
         if orientation == Qt.Horizontal:
             if section == 0:
-                return "Ballisticians"
+                return "makerName"
             return None
-        if orientation == Qt.Vertical:
-            if role == Qt.DisplayRole:
-                return " --> "
+
 
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
-        """Insert a row of range data into RangeModel. """
+        """Insert a row of range data into ManufacturersModel. """
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
-            self.Grains.insert(position + row, {"ID":"", "grainsValue":""})
+            self.Makers.insert(position + row, {"makerName": ""})
 
         self.endInsertRows()
         return True
 
     def removeRows(self, position, rows=1, index=QModelIndex()):
-        """ Remove a row from  GrainsModel. """
+        """ Remove a row from  ProjectilesModel. """
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
 
-        del self.Grains[position:position+rows]
+        del self.Makers[position:position + rows]
 
         self.endRemoveRows()
-        self.dataChanged.emit(index, index)   
+        self.dataChanged.emit(index, index)
         return True
 
-    def addData(self, grainsVal):
+    def addData(self, makersVal):
         rowCount = self.rowCount()
         for i in range(rowCount):
             j = i+1
-            if int(grainsVal) < int(self.Grains[0]["grainsValue"]):
+            if makersVal < self.Makers[0]["makerName"]:
                 self.insertRow(0)
                 index = self.createIndex(0, 0)
-                self.setData(index, grainsVal, role=Qt.EditRole)
+                self.setData(index, makersVal, role=Qt.EditRole)
 
-            elif int(grainsVal) > int(self.Grains[i]["grainsValue"]):
+            elif makersVal > self.Makers[i]["makerName"]:
                 try:
                     if i < self.rowCount()-1:
-                        if int(grainsVal) < int(self.Grains[j]["grainsValue"]):
+                        if makersVal < self.Powders[j]["makerName"]:
                             self.insertRow(j)
                             index = self.createIndex(j, 0)
-                            self.setData(index, grainsVal, role=Qt.EditRole)
+                            self.setData(index, makersVal, role=Qt.EditRole)
                     else:
                         self.insertRow(j)
                         index = self.createIndex(j, 0)
-                        self.setData(index, grainsVal, role=Qt.EditRole)
+                        self.setData(index, makersVal, role=Qt.EditRole)
                 except:
                     pass
-
 
     def setData(self, index, value, role=Qt.EditRole):
         """ Adjust the data (set it to <value>) depending on the given
@@ -98,9 +99,14 @@ class GrainsModel(QAbstractTableModel):
         if role != Qt.EditRole:
             return False
 
-        if index.isValid() and 0 <= index.row() < len(self.Grains):
-            aGrain = self.Grains[index.row()]
-            aGrain["grainsValue"] = f"{value}"
+        if index.isValid() and 0 <= index.row() < len(self.Fabrics):
+            aMaker = self.Makers[index.row()]
+            if index.column() == 0:
+                aMaker["makerName"] = f"{value}"
+            else:
+                return False
+
             self.dataChanged.emit(index, index)
             return True
+
         return False

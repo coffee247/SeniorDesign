@@ -4,7 +4,7 @@ SOURCES += \
         main.py \
 
 TRANSLATIONS += \
-        Dupont_BIMS_pt.ts
+        Dupont_BIMS2_pt.ts
 
 FORMS += \
         mainwindow.ui

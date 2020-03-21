@@ -16,8 +16,9 @@ class ProjectilesModel(QAbstractTableModel):
     # Modal Warning Box
     def issueWarning(self, Message):
         QMessageBox.about(self, "Warning", Message)
-        data = list(('test', 'teste')[0].keys())
 
+
+ #   def rowCount(self, index=QModelIndex()):
     def rowCount(self, index=QModelIndex()):
         """ Returns the number of rows the model holds """
         return len(self.Projos)
@@ -72,7 +73,7 @@ class ProjectilesModel(QAbstractTableModel):
 
         for row in range(rows):
             self.Projos.insert(position + row, {"projectileType": "", "projo_mass": "", "projo_DragCoef": ""})
-
+            self.dataChanged.emit(index, index)
         self.endInsertRows()
         return True
 
@@ -96,10 +97,13 @@ class ProjectilesModel(QAbstractTableModel):
                     index = self.createIndex(0, i)
                     if i == 0:
                         self.setData(index, projectileType, role=Qt.EditRole)
+                        self.dataChanged.emit(index, index)
                     elif i == 1:
                         self.setData(index, projo_mass, role=Qt.EditRole)
+                        self.dataChanged.emit(index, index)
                     elif i == 2:
                         self.setData(index, projo_DragCoef, role=Qt.EditRole)
+                        self.dataChanged.emit(index, index)
             elif projectileType > self.Projos[i]["projectileType"]:
                 try:
                     if i < self.rowCount() - 1:
@@ -109,22 +113,30 @@ class ProjectilesModel(QAbstractTableModel):
                                 index = self.createIndex(j, i)
                                 if i == 0:
                                     self.setData(index, projectileType, role=Qt.EditRole)
+                                    self.dataChanged.emit(index, index)
                                 elif i == 1:
                                     self.setData(index,projo_mass, role=Qt.EditRole)
+                                    self.dataChanged.emit(index, index)
                                 elif i == 2:
                                     self.setData(index, projo_DragCoef, role=Qt.EditRole)
+                                    self.dataChanged.emit(index, index)
+
                     else:
                         self.insertRow(j)
                         for i in range(3):
                             index = self.createIndex(j, i)
                             if i == 0:
                                 self.setData(index, projectileType, role=Qt.EditRole)
+                                self.dataChanged.emit(index, index)
                             elif i == 1:
                                 self.setData(index, projo_mass, role=Qt.EditRole)
+                                self.dataChanged.emit(index, index)
                             elif i == 2:
                                 self.setData(index, projo_DragCoef, role=Qt.EditRole)
+                                self.dataChanged.emit(index, index)
                 except:
                     pass
+
 
     def setData(self, index, value, role=Qt.EditRole):
         """ Adjust the data (set it to <value>) depending on the given

@@ -13,7 +13,7 @@ class database():
 
     ''' Method to initialize a database at first run or just use it if existed already '''
     def Connect(self):
-        config = json.loads(open('config.json').read())  # load database connection parameters from config.json
+        config = json.loads(open('configs/dbconfig.json').read())  # load database connection parameters from config.json
         try:
             self.conn = pymysql.connect(host=config["db_Host"], port=config["db_Port"], user=config["db_root_User"],
                                    password=config["db_root_PWD"], db=config["db_Name"])

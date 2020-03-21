@@ -18,9 +18,9 @@ create TABLE threatGrain (grain int(6) primary key);
 
 INSERT INTO threatGrain(grain) VALUES (240),(147),(61),(124),(158),(125),(180);
 
-create TABLE curDefaults (grain int(6), powder varchar(30), projectile varchar(20));
+create TABLE ballisticians (ballistician varchar(20) primary key);
 
-insert into curDefaults(grain, powder, projectile) VALUES (158, 'Accurate #9', '44 mag');
+INSERT INTO ballisticians(ballistician) VALUES ('Luke Jeter'),('James Stallings'),('Micah Parks');
 
 create TABLE threatPowder (powderType varchar(30) primary key);
 
@@ -28,7 +28,12 @@ INSERT INTO threatPowder(powderType) VALUES ('Accurate #2'),('Accurate #1'),('Ac
 
 CREATE TABLE projo (projectileType varchar(20) primary key, projo_mass float, projo_DragCoef float);
 
-INSERT INTO projo(projectileType, projo_mass, projo_DragCoef) VALUES ('44 mag', 0.0, 0.0),('9mm Luger', 0.0, 0.0),('7.62 AP', 0.0, 0.0),('0.44 Rem Mag', 0.0, 0.0),('5.56 AP', 0.0, 0.0),('.357 SIG', 0.0, 0.0),('0.357 MAG', 0.0, 0.0),('40 S&W', 0.0, 0.0);
+INSERT INTO projo(projectileType, projo_mass, projo_DragCoef) VALUES ('44 mag', 8.1, 0.023),('9mm Luger', 5.6, 0.0005),('7.62 AP', 7.75, 0.003),('0.44 Rem Mag', 0.0, 0.0),('5.56 AP', 0.0, 0.0),('.357 SIG', 0.0, 0.0),('0.357 MAG', 0.0, 0.0),('40 S&W', 0.0, 0.0);
+
+CREATE TABLE fabrics (fabricType varchar(30) primary key);
+
+INSERT INTO fabrics (fabricType) VALUES ('Kevlar Ballistic Fiber');
 
 UPDATE user SET firstName = 'Jimmy' where loginID = 'coffee247'
+
 
