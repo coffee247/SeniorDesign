@@ -104,10 +104,11 @@ class ProjectilesModel(QAbstractTableModel):
                     elif i == 2:
                         self.setData(index, projo_DragCoef, role=Qt.EditRole)
                         self.dataChanged.emit(index, index)
+                        return None
             elif projectileType > self.Projos[i]["projectileType"]:
                 try:
                     if i < self.rowCount() - 1:
-                        if projectileType < self.Projos[j]["projectileType"]:
+                        if projectileType <= self.Projos[j]["projectileType"]:
                             self.insertRow(j)
                             for i in range(3):
                                 index = self.createIndex(j, i)
@@ -120,7 +121,7 @@ class ProjectilesModel(QAbstractTableModel):
                                 elif i == 2:
                                     self.setData(index, projo_DragCoef, role=Qt.EditRole)
                                     self.dataChanged.emit(index, index)
-
+                            return None
                     else:
                         self.insertRow(j)
                         for i in range(3):
@@ -134,6 +135,7 @@ class ProjectilesModel(QAbstractTableModel):
                             elif i == 2:
                                 self.setData(index, projo_DragCoef, role=Qt.EditRole)
                                 self.dataChanged.emit(index, index)
+                        return None
                 except:
                     pass
 

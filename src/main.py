@@ -2,11 +2,13 @@
 import json
 import random
 import sys
+from time import time
 
 import pymysql
 from PyQt5 import uic, QtWidgets, QtCore
 from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication
 from PyQt5.QtGui import QIcon
+from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QAction, QMessageBox
 from PyQt5.uic.Compiler.qtproxies import QtGui
 
@@ -19,9 +21,11 @@ import src.powders
 import src.projectiles
 import src.ballisticians
 import src.ranges
+import src.querries
 import src.setupUI
 import src.lowLevel
 import logging
+
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -66,11 +70,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.powdersModel = src.powders.PowdersModel()
         self.projectilesModel = src.projectiles.ProjectilesModel()
         self.ballModel = src.ballisticians.BallisticiansModel()
+        self.QuerriesModel = src.querries.QuerriesModel()
+        self.HistoryModel = QSqlQueryModel()
+
 
 
         src.setupUI.doSetup(self)
         self.createMenus()
 
+
+        self.HistView.setModel(self.HistoryModel)
 
 
         self.langCombo.addItem(QIcon('images/Flag-us.svg'),'English', 'en')
@@ -82,6 +91,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, "threatPowder", "powderType", 0, self.powdersModel)
         self.dbase.populateListView(self, "BimsRange", "RangeID", 0, self.rangeModel)
         self.dbase.populateListView(self, "ballisticians", "ballistician", 0, self.ballModel)
+        self.dbase.populateListView(self, "querries", "Descr", 0, self.QuerriesModel)
 
         db.getRanges(self)
         header = self.RangeView.horizontalHeader()
@@ -90,13 +100,18 @@ class MainWindow(QtWidgets.QMainWindow):
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(4, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
-        db.getEnvirons(self)
 
         db.getProjos(self)
         projoheader = self.ProjectilesView.horizontalHeader()
         self.ProjectilesView.setColumnWidth(0,150)
         projoheader.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         projoheader.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+
+        db.getQuerries(self)
+        querryHeader = self.QuerySelView.horizontalHeader()
+        querryHeader.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        querryHeader.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+
 
         if config["lang"] != "en":
             self.langCombo.setCurrentIndex(1)
@@ -160,11 +175,14 @@ class MainWindow(QtWidgets.QMainWindow):
                                                                                                       self.counter.timeoutFloat))
 
     def takeShot(self):
-#
- #       fps = (36 / 12) / counter.read()
-        fps = random.random()
-        self.velocityDataLabel.setText(f"Shot fired! {fps}")
-        self.standbyLabel.setText("")
+        try:
+            hwCounter = src.lowLevel.counter()
+            hwCounter.read()
+        except:
+            fps = random.random()
+            logging.warning("Shot detected at {}... Raw data =  {}.".format(time(), fps))
+            self.velocityDataLabel.setText(f"Shot fired! {fps}")
+            self.standbyLabel.setText("")
 
     def goHome(self):
         self.stacks.setCurrentIndex(0)
@@ -184,17 +202,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def doQuit(self):
         sys.exit()
 
-    # def langChange(self, index):
-    #     if self.langCombo.currentData() == "en":
-    #         app = QtGui.QApplication.instance()
-    #         app.removeTranslator(self.translator)
-    #         self.retranslateUi(MainWindow())
-    #     else:
-    #         app = QtGui.QApplication.instance()
-    #         app.installTranslator(self.translator)
-    #         self.retranslateUi(MainWindow())
-
-    # set up the application menuBar
 
     def createMenus(self):
         # Create the main menuBar menu items
@@ -227,7 +234,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
                 self.projectilesModel.addData(projoVal, projoMass, projoDrag)
-
             except pymysql.err.IntegrityError as e:
                 if e.args[0] == 1062:
                     self.issueWarning(f"Duplicate Entry for {projoVal} ---> (already exists.)\n\nTry again!")
@@ -240,11 +246,12 @@ class MainWindow(QtWidgets.QMainWindow):
             self.issueWarning("No value was entered for Projectile")
             self.projosLineEdit.setFocus()
 
+    ''' a function to clear all projectiles lineEdit fields '''
     def clearProjoEdits(self):
         self.projosLineEdit.setText("")
         self.projosMassLineEdit.setText("")
         self.projosDragLineEdit.setText("")
-        self.projosLineEdit.setFocus()
+        self.projosLineEdit.setFocus()  # put the cursor back in the first projosLineEdit field.
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_projoslistView_clicked(self, index):
@@ -259,9 +266,43 @@ class MainWindow(QtWidgets.QMainWindow):
         self.projoComboBox.setCurrentIndex(ProjoRow[0].row())
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def doQuerySelect_clicked(self, index):
+        self.QueryRow = index.row()
+        QueryRow = self.QuerySelView.selectedIndexes()
+        itemData = self.QuerriesModel.itemData(QueryRow[1])
+        self.QuerryTextLabel.setText(itemData[0])
+
+    def DoHistoryQuery(self):
+        HistQuery = self.QuerryTextLabel.text()
+        text = ""
+        if HistQuery != "":
+             try:
+                 data = self.dbase.db_doQuery(HistQuery)
+                 for a in range(len(data)):
+                    text = text + "\n" +(str((data[a])))
+                 self.TempResult.setText(text)
+             except:
+                 pass
+             finally:
+                try:
+                    self.conn = self.dbase.getConn()
+                    with self.conn:
+                        self.HistoryModel.setQuery(HistQuery)
+                        if self.HistoryModel.lastError().isValid():
+                            print(self.HistoryModel.lastError())
+                        self.HistView.show()
+                except:
+                    pass
+
+
+
+
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
     def populateProjoForm(self, index):
         self.ProjoRow = index.row()
         self.projosLineEdit.setFocus()
+
+
 
     def editProjos(self):
         # ToDo implement EditPRojos

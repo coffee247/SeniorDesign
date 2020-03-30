@@ -18,6 +18,14 @@ create TABLE threatGrain (grain int(6) primary key);
 
 INSERT INTO threatGrain(grain) VALUES (240),(147),(61),(124),(158),(125),(180);
 
+create Table shot (SHOTID int AUTO_INCREMENT primary key, ShotDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, scrset1rawdat float, scrset2rawdat float, magrawdat float);
+
+insert into shot(ShotDate, scrset1rawdat, scrset2rawdat, magrawdat) values ('2020-03-29 19:56:42', 0.023453456, 0.023453441, 0.023423457),('2020-03-30 14:30:42', 0.523453456, 0.623453441, 0.723423457);
+
+create Table querries (Descr varchar(256) primary key, TheQuery varchar(512));
+
+insert into querries(Descr, TheQuery) values ('Show all shots (order by date)', 'select * from shot order by ShotDate ASC'), ('Show all shots (order by descending date)', 'select * from shot order by ShotDate DESC'),('List 44 mag (order by mass ASC)', 'select * from projo where projectileType like \'%44%ag%\' order by projo_mass asc');
+
 create TABLE ballisticians (ballistician varchar(20) primary key);
 
 INSERT INTO ballisticians(ballistician) VALUES ('Luke Jeter'),('James Stallings'),('Micah Parks');

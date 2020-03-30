@@ -58,13 +58,15 @@ def doSetup(caller):
     self.ballisticianComboBox = self.findChild(QtWidgets.QComboBox, 'ballistician_comboBox')
 
     # identify History Page UI elements
-    self.HistProjectilesComboBox = self.findChild(QtWidgets.QComboBox, 'History_Projo_comboBox')
+    self.QuerryTextLabel = self.stacks.findChild(QtWidgets.QLabel, 'QueryText_Label')
+    self.HistExecuteButton = self.stacks.findChild(QtWidgets.QPushButton, 'HistoryExecute_Button')
+    self.TempResult = self.stacks.findChild(QtWidgets.QLabel, 'label_15')
 
     # link Models to Measure Page ComboBoxes
     self.grainsComboBox.setModel(self.grainsModel)
     self.projoComboBox.setModel(self.projectilesModel)
     self.powdersComboBox.setModel(self.powdersModel)
-    self.HistProjectilesComboBox.setModel(self.projectilesModel)
+ #   self.HistProjectilesComboBox.setModel(self.projectilesModel)
     self.ballisticianComboBox.setModel(self.ballModel)
 
 
@@ -92,6 +94,9 @@ def doSetup(caller):
     # connect measure page buttons
     self.shootButton.clicked.connect(self.shoot)
 
+    # connect history page buttons
+    self.HistExecuteButton.clicked.connect(self.DoHistoryQuery)
+
 
     # identify views
     self.GrainsView = self.stacks.findChild(QtWidgets.QListView, 'Grains_listView')
@@ -100,6 +105,9 @@ def doSetup(caller):
     self.ProjectilesView = self.stacks.findChild(QtWidgets.QTableView, 'Projectiles_tableView')
     self.RangeView = self.stacks.findChild(QtWidgets.QTableView, 'Ranges_tableView')
     self.EnvironView = self.stacks.findChild(QtWidgets.QTableView, 'environ_tableView')
+    self.QuerySelView = self.stacks.findChild(QtWidgets.QTableView, 'QuerySelector_tableView')
+    self.HistView = self.stacks.findChild(QtWidgets.QTableView, 'History_tableView')
+
 
 
     self.RangeView.verticalHeader().hide()  # Hide the Vertical Header in RangeView
@@ -107,6 +115,8 @@ def doSetup(caller):
     self.ProjectilesView.verticalHeader().hide()  # Hide the Vertical Header in ProjectilesView
     self.ProjectilesView.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select by entire row (not by individual cell)
 
+    self.QuerySelView.verticalHeader().hide()  # Hide the Vertical Header in ProjectilesView
+    self.QuerySelView.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select by entire row (not by individual cell)
 
     self.RangeView.verticalHeader().hide()  # Hide the Vertical Header
     RangesHeader = self.RangeView.horizontalHeader()
@@ -123,6 +133,10 @@ def doSetup(caller):
     self.grainsLabel = self.stacks.findChild(QtWidgets.QLabel, 'grainsLabel')
 
     self.langCombo.currentIndexChanged.connect(self.dolanguageChangeRequest)
+
+    # set up QuerySelectorView (on History page)
+    self.QuerySelView.setModel(self.QuerriesModel)
+    self.QuerySelView.clicked.connect(self.doQuerySelect_clicked)
 
     # set up grainsView
     self.GrainsView.setModel(self.grainsModel)

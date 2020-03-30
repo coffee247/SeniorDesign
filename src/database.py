@@ -85,20 +85,22 @@ def getProjos(caller):
         dataShape = np.array(data).shape
         for i in range(dataShape[0]):
             for j in range(dataShape[1]):
-                index = self.rangeModel.createIndex(i, j)
+                index = self.projectilesModel.createIndex(i, j)
                 self.projectilesModel.setData(index, data[i][j], Qt.EditRole)
     self.ProjectilesView.setColumnHidden(0, False)
 
 
-def getEnvirons(caller):
+def getQuerries(caller):
     self = caller
-    # Fetch list of environs
+    # Fetch list of Querries
     with self.conn:
-        query = f"select * from Environment"
+        query = f"select * from querries"
         data = self.dbase.db_doQuery(query)
         dataShape = np.array(data).shape
         for i in range(dataShape[0]):
-            self.environModel.insertRows(i)
             for j in range(dataShape[1]):
-                index = self.environModel.createIndex(i ,j)
-                self.environModel.setData(index ,data[i][j], Qt.EditRole)
+                index = self.QuerriesModel.createIndex(i, j)
+                self.QuerriesModel.setData(index, data[i][j], Qt.EditRole)
+    self.QuerySelView.setColumnHidden(0, False)
+
+
