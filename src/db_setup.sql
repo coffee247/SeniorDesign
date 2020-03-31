@@ -34,7 +34,7 @@ create TABLE threatPowder (powderType varchar(30) primary key);
 
 INSERT INTO threatPowder(powderType) VALUES ('Accurate #2'),('Accurate #1'),('Accurate #7'),('Accurate #9'),('Accurate 4100'),('Accurate 11FS'),('Accurate TCM');
 
-CREATE TABLE projo (projectileType varchar(20) primary key, projo_mass float, projo_DragCoef float);
+CREATE TABLE projo (projectileType varchar(20), projo_mass float, projo_DragCoef float, primary key(projectileType, projo_mass, projo_DragCoef));
 
 INSERT INTO projo(projectileType, projo_mass, projo_DragCoef) VALUES ('44 mag', 8.1, 0.023),('9mm Luger', 5.6, 0.0005),('7.62 AP', 7.75, 0.003),('0.44 Rem Mag', 0.0, 0.0),('5.56 AP', 0.0, 0.0),('.357 SIG', 0.0, 0.0),('0.357 MAG', 0.0, 0.0),('40 S&W', 0.0, 0.0);
 
