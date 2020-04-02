@@ -1,4 +1,5 @@
-CREATE TABLE user (userID int, loginID varchar(256) PRIMARY KEY, loginPWD varchar(256), firstName varchar(20), lastName varchar(20), lastModified DATETIME);
+CREATE TABLE user (userID int, loginID varchar(256) PRIMARY KEY, loginPWD varchar(256),
+firstName varchar(20), lastName varchar(20), lastModified DATETIME);
 
 INSERT INTO user(userID, loginID, loginPWD, firstName, lastName) VALUES (1, 'admin', 'password', 'Admin', 'User'),(2, 'coffee247', 'clearpass', 'James', 'Stallings');
 
@@ -18,7 +19,17 @@ create TABLE threatGrain (grain int(6) primary key);
 
 INSERT INTO threatGrain(grain) VALUES (240),(147),(61),(124),(158),(125),(180);
 
-create Table shot (SHOTID int AUTO_INCREMENT primary key, ShotDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, scrset1rawdat float, scrset2rawdat float, magrawdat float);
+create Table shot (SHOTID int(9) AUTO_INCREMENT primary key, ShotDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, scrset1rawdat float, scrset2rawdat float, magrawdat float);
+
+create Table shot_powder (shot_ID int(9) NOT NULL, powder varchar(30) NOT NULL,
+PRIMARY KEY (shot_ID, powder), KEY shot_ID(shot_ID), KEY powder(powder),
+CONSTRAINT shot_powder_fk1 FOREIGN KEY (shot_ID) references shot(shotid),
+CONSTRAINT shot_powder_fk2 FOREIGN KEY (powder) references threatPowder(powderType))
+ENGINE=InnoDB;
+
+CREATE TRIGGER `Shot_Fired_Trigger` After insert ON `shot_powder` FOR EACH ROW BEGIN
+    INSERT into shot (shot_ID, powder);
+end;
 
 insert into shot(ShotDate, scrset1rawdat, scrset2rawdat, magrawdat) values ('2020-03-29 19:56:42', 0.023453456, 0.023453441, 0.023423457),('2020-03-30 14:30:42', 0.523453456, 0.623453441, 0.723423457);
 
