@@ -10,7 +10,7 @@
 * CREATE TRIGGER `User_Modified_Trigger` BEFORE UPDATE ON `user` FOR EACH ROW SET new.lastmodified = CURRENT_TIMESTAMP;
 */
 
-create Table BimsRange (RangeID int AUTO_INCREMENT primary key,
+create Table BimsRange (RangeID int(11) AUTO_INCREMENT primary key,
 dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 scrn1_to_scrn2 float,
 scrn2_to_target float,
@@ -20,7 +20,7 @@ scrn2_to_target float,
 insert into BimsRange (scrn1_to_scrn2, scrn2_to_target,  mid_to_scrn2,  muz_to_mid)
 values (36, 20, 18, 72), (38, 20, 19, 96);
 
-create Table Environment (EnvID int AUTO_INCREMENT primary key,
+create Table Environment (EnvID int(11) AUTO_INCREMENT primary key,
 humidityPercent float,
 tempFloat float,
 barroPressFloat float);
@@ -37,7 +37,12 @@ create Table shot (SHOTID int(9) AUTO_INCREMENT primary key,
 ShotDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 scrset1rawdat float,
 scrset2rawdat float,
-magrawdat float);
+magrawdat float,
+range_ID int(11),
+Env_ID int(11),
+ballistician varchar(20),
+CONSTRAINT shot_range_fk1 FOREIGN KEY (range_ID) references BimsRange(RangeID)
+);
 
 insert into shot(ShotDate, scrset1rawdat, scrset2rawdat, magrawdat)
 values ('2020-03-29 19:56:42', 0.023453456, 0.023453441, 0.023423457),

@@ -2,7 +2,8 @@
 import json
 import random
 import sys
-from time import time
+import threading
+import time
 
 import pymysql
 from PyQt5 import uic, QtWidgets, QtCore
@@ -12,8 +13,8 @@ from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QAction, QMessageBox
 from PyQt5.uic.Compiler.qtproxies import QtGui
 
-import src.BIMSresources
-import src.database as db
+import src.BIMSresources  # This file contains links to images used as icons and the HTML doc used as hime page.
+import src.database as db  # This file contains code to connect to database and run SQL querries
 import src.environs
 import src.grains
 import src.objects
@@ -58,33 +59,29 @@ class MainWindow(QtWidgets.QMainWindow):
 
         ''' Create a connection to the database '''
         self.dbase = db.database()  # Create an instance of the database as self.dbase
-
-        '''call the  Connect method defined in database.py '''
-        self.dbase.Connect()
-        self.conn = self.dbase.getConn()
+        self.dbase.Connect() # connect
+        self.conn = self.dbase.getConn() # self.conn is a reference to the dbase connection
 
         ''' Create necessary instances of data models '''
-        self.rangeModel = src.ranges.RangeModel()
         self.environModel = src.environs.EnvironModel()
+        self.rangeModel = src.ranges.RangeModel()
         self.grainsModel = src.grains.GrainsModel()
         self.powdersModel = src.powders.PowdersModel()
         self.projectilesModel = src.projectiles.ProjectilesModel()
         self.ballModel = src.ballisticians.BallisticiansModel()
-        self.QuerriesModel = src.querries.QuerriesModel()
+        self.QuerriesModel = src.querries.QuerriesModel() 
         self.HistoryModel = QSqlQueryModel()
-
 
 
         src.setupUI.doSetup(self)
         self.createMenus()
 
 
-        self.HistView.setModel(self.HistoryModel)
 
-
+        ''' add flag icons to language selection comboBox '''
         self.langCombo.addItem(QIcon('images/Flag-us.svg'),'English', 'en')
         self.langCombo.addItem(QIcon('images/Brazilian_flag.png'), 'Portuguese', 'eng-pt')
-        # print(self.langCombo.currentText(), self.langCombo.currentData())
+
 
         self.dbase.populateListView(self, "projo", "projectileType", 0, self.projectilesModel)
         self.dbase.populateListView(self, "threatGrain", "grain", 0, self.grainsModel)
@@ -122,67 +119,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.langCombo.setFocus()
 
 
-    def shoot(self):
-        # shot = threading.Thread(target=self.takeShot)
-        # shot.start()
-        # self.velocityDataLabel.setText("")
-        # self.standbyLabel.setText("Waiting for shot!")
-        self.takeShot()
-
-    def LoadLastUsedRangeData(self):
-        with open('configs/HWconfig.json', 'r') as HWconfig:
-            data = json.load(HWconfig)
-            self.HWscreenEdit.setText(data['HWscreen'])
-            self.TimeoutEdit.setText(data['HWtimeout'])
-            self.HWmagEdit.setText(data['HWmag'])
-
-    def ScreensChanged(self):
-        oldsetting = self.counter.counterStr
-        self.counter.counterStr = self.HWscreenEdit.text()  # change the value (in the counter object) immediately
-        with open('configs/HWconfig.json', 'r') as HWconfig:
-            data = json.load(HWconfig)
-            data['HWscreen'] = self.counter.counterStr  # memorialize the change in the json file
-        with open('configs/HWconfig.json', 'w') as HWconfig:
-            HWconfig.write(json.dumps(data))  # write the json file back to disk
-            if oldsetting != self.counter.counterStr:
-                self.HWchangeLabel.setText("Screens Device and type changed\nPrev value {}.  New value: {}".format(oldsetting, self.counter.counterStr))
-                logging.warning("Screens Device and type changed ... Prev value {}.  New value: {}".format(oldsetting, self.counter.counterStr))
-
-    def MagChanged(self):
-        oldsetting = self.counter.magStr
-        self.counter.magStr = self.HWmagEdit.text()  # change the value (in the counter object) immediately
-        with open('configs/HWconfig.json', 'r') as HWconfig:
-            data = json.load(HWconfig)
-            data['HWmag'] = self.counter.magStr  # memorialize the change in the json file
-        with open('configs/HWconfig.json', 'w') as HWconfig:
-            HWconfig.write(json.dumps(data))  # write the json file back to disk
-            if oldsetting != self.counter.magStr:
-                self.HWchangeLabel.setText("Magnet Device and type changed\nPrev value {}.  New value: {}".format(oldsetting, self.counter.magStr))
-                logging.warning("Magnet Device and type changed ... Prev value {}.  New value: {}".format(oldsetting,
-                                                                                                       self.counter.magStr))
-
-    def TimoutChanged(self):
-        oldsetting = self.counter.timeoutFloat
-        self.counter.timeoutFloat = self.TimeoutEdit.text()  # change the value (in the counter object) immediately
-        with open('configs/HWconfig.json', 'r') as HWconfig:
-            data = json.load(HWconfig)
-            data['HWtimeout'] = self.counter.timeoutFloat  # memorialize the change in the json file
-        with open('configs/HWconfig.json', 'w') as HWconfig:
-            HWconfig.write(json.dumps(data))  # write the json file back to disk
-            if oldsetting != self.counter.timeoutFloat:
-                self.HWchangeLabel.setText("Hardware Timeout changed\nPrev value {}.  New value: {}".format(oldsetting, self.counter.timeoutFloat))
-                logging.warning("Hardware Timeout changed ... Prev value {}.  New value: {}".format(oldsetting,
-                                                                                                      self.counter.timeoutFloat))
-
-    def takeShot(self):
-        try:
-            hwCounter = src.lowLevel.counter()
-            hwCounter.read()
-        except:
-            fps = random.random()
-            logging.warning("Shot detected at {}... Raw data =  {}.".format(time(), fps))
-            self.velocityDataLabel.setText(f"Shot fired! {fps}")
-            self.standbyLabel.setText("")
 
     def goHome(self):
         self.stacks.setCurrentIndex(0)
@@ -223,6 +159,78 @@ class MainWindow(QtWidgets.QMainWindow):
     # Modal Warning Box
     def issueWarning(self, Message):
         QMessageBox.about(self, "Warning", Message)
+
+    def shoot(self):
+        shot = threading.Thread(target=self.takeShot)
+        shot.start()
+        self.velocityDataLabel.setText("")
+        self.standbyLabel.setText("Waiting for shot!")
+        self.takeShot()
+
+    def takeShot(self):
+        try:
+            hwCounter = src.lowLevel.counter()
+            hwCounter.read()
+        except:
+            fps = random.random()
+            from time import time
+            logging.warning("Shot detected at {}... Raw data =  {}.".format(time(), fps))
+            self.velocityDataLabel.setText(f"Shot fired! {fps}")
+            self.standbyLabel.setText("")
+
+    def LoadLastUsedRangeData(self):
+        with open('configs/HWconfig.json', 'r') as HWconfig:
+            data = json.load(HWconfig)
+            self.HWscreenEdit.setText(data['HWscreen'])
+            self.TimeoutEdit.setText(data['HWtimeout'])
+            self.HWmagEdit.setText(data['HWmag'])
+
+    def ScreensChanged(self):
+        oldsetting = self.counter.counterStr
+        self.counter.counterStr = self.HWscreenEdit.text()  # change the value (in the counter object) immediately
+        with open('configs/HWconfig.json', 'r') as HWconfig:
+            data = json.load(HWconfig)
+            data['HWscreen'] = self.counter.counterStr  # memorialize the change in the json file
+        with open('configs/HWconfig.json', 'w') as HWconfig:
+            HWconfig.write(json.dumps(data))  # write the json file back to disk
+            if oldsetting != self.counter.counterStr:
+                self.HWchangeLabel.setText(
+                    "Screens Device and type changed\nPrev value {}.  New value: {}".format(oldsetting,
+                                                                                            self.counter.counterStr))
+                logging.warning(
+                    "Screens Device and type changed ... Prev value {}.  New value: {}".format(oldsetting,
+                                                                                               self.counter.counterStr))
+
+    def MagChanged(self):
+        oldsetting = self.counter.magStr
+        self.counter.magStr = self.HWmagEdit.text()  # change the value (in the counter object) immediately
+        with open('configs/HWconfig.json', 'r') as HWconfig:
+            data = json.load(HWconfig)
+            data['HWmag'] = self.counter.magStr  # memorialize the change in the json file
+        with open('configs/HWconfig.json', 'w') as HWconfig:
+            HWconfig.write(json.dumps(data))  # write the json file back to disk
+            if oldsetting != self.counter.magStr:
+                self.HWchangeLabel.setText(
+                    "Magnet Device and type changed\nPrev value {}.  New value: {}".format(oldsetting,
+                                                                                           self.counter.magStr))
+                logging.warning(
+                    "Magnet Device and type changed ... Prev value {}.  New value: {}".format(oldsetting,
+                                                                                              self.counter.magStr))
+
+    def TimoutChanged(self):
+        oldsetting = self.counter.timeoutFloat
+        self.counter.timeoutFloat = self.TimeoutEdit.text()  # change the value (in the counter object) immediately
+        with open('configs/HWconfig.json', 'r') as HWconfig:
+            data = json.load(HWconfig)
+            data['HWtimeout'] = self.counter.timeoutFloat  # memorialize the change in the json file
+        with open('configs/HWconfig.json', 'w') as HWconfig:
+            HWconfig.write(json.dumps(data))  # write the json file back to disk
+            if oldsetting != self.counter.timeoutFloat:
+                self.HWchangeLabel.setText(
+                    "Hardware Timeout changed\nPrev value {}.  New value: {}".format(oldsetting,
+                                                                                     self.counter.timeoutFloat))
+                logging.warning("Hardware Timeout changed ... Prev value {}.  New value: {}".format(oldsetting,
+                                                                                                    self.counter.timeoutFloat))
 
     def addProjos(self):
         projoVal = self.projosLineEdit.text()
@@ -280,7 +288,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def editProjos(self):
-        # ToDo implement EditPRojos
         projoVal = self.projosLineEdit.text()
         try:
             projoMass = float(self.projosMassLineEdit.text())

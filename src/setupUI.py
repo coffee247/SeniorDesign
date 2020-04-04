@@ -132,6 +132,7 @@ def doSetup(caller):
     self.ballisticianLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'Ballistician_lineEdit')
     self.grainsLabel = self.stacks.findChild(QtWidgets.QLabel, 'grainsLabel')
 
+    # connect language selection comboBox (selection changed behavior) to mainwindow's dolanguageChangeRequest method
     self.langCombo.currentIndexChanged.connect(self.dolanguageChangeRequest)
 
     # set up QuerySelectorView (on History page)
@@ -157,6 +158,9 @@ def doSetup(caller):
     # set up BallisticiansView
     self.BallisticiansView.setModel(self.ballModel)
     self.BallisticiansView.clicked.connect(self.on_BallisticiansModel_clicked)
+
+    # set up HistoryView
+    self.HistView.setModel(self.HistoryModel)
 
     # connect Hardware LineEdits to Harware setting functions
     self.HWscreenEdit.editingFinished.connect(self.ScreensChanged)

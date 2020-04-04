@@ -39,12 +39,13 @@ class Counter:
         """
         Read from the DAQ with a timeout. Set the appropriate instance variables.
         """
-        # TODO try/except clause that catches only timeout error and reports back None if except.
         readFloat = read_from_daq(counterStr=self.counterStr, timeoutSecFloat=self.timeoutFloat)
         self.logging.warning("Shot detected at {}... Raw data =  {}.".format(time(), readFloat))
         self.lastReadTimeFloat = time()
         self.lastReadFloat = readFloat
         return readFloat
+
+
 
 
 def read_from_daq(counterStr: str, timeoutSecFloat: float) -> float:
