@@ -457,7 +457,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -2884,7 +2884,7 @@ selection-color: red;</string>
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>60</height>
+                   <height>0</height>
                   </size>
                  </property>
                  <property name="font">
@@ -2904,238 +2904,6 @@ selection-color: red;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="5" column="2">
-             <widget class="QFrame" name="frame_2">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>180</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 1px solid;background-color: #A1EAF0;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QFormLayout" name="formLayout_2">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_8">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">border: none</string>
-                 </property>
-                 <property name="text">
-                  <string>Fabric Style</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QListView" name="fabricStyle_listView">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>100</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>80</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: white;</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" colspan="2">
-                <widget class="QLineEdit" name="lineEdit_4">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: white;</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QPushButton" name="pushButton">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: #F9CEA5;</string>
-                 </property>
-                 <property name="text">
-                  <string>Remove</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QPushButton" name="pushButton_2">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: #A5F9AD ;</string>
-                 </property>
-                 <property name="text">
-                  <string>Add new</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0" colspan="2">
-                <widget class="QLabel" name="label_11">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">border: none</string>
-                 </property>
-                 <property name="text">
-                  <string>Add new fabric</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="5" column="3">
-             <widget class="QFrame" name="frame_8">
-              <property name="styleSheet">
-               <string notr="true">border: 1px solid;background-color: #A1EAF0;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QFormLayout" name="formLayout_4">
-               <item row="0" column="0" colspan="2">
-                <widget class="QLabel" name="label_10">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">border: none</string>
-                 </property>
-                 <property name="text">
-                  <string>Fabric Manufacturers</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QListView" name="fabricMaker_listView">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>100</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>60</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: white;</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" colspan="2">
-                <widget class="QLineEdit" name="lineEdit_5">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: white;</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QPushButton" name="pushButton_3">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: #F9CEA5;</string>
-                 </property>
-                 <property name="text">
-                  <string>Remove</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QPushButton" name="pushButton_4">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: #A5F9AD ;</string>
-                 </property>
-                 <property name="text">
-                  <string>Add new</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0" colspan="2">
-                <widget class="QLabel" name="label_12">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">border: none</string>
-                 </property>
-                 <property name="text">
-                  <string>Add manufacturer </string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
                </item>
@@ -3197,8 +2965,6 @@ selection-color: red;</string>
            <zorder>frame_9</zorder>
            <zorder>frame_12</zorder>
            <zorder>combo</zorder>
-           <zorder>frame_2</zorder>
-           <zorder>frame_8</zorder>
           </widget>
           <widget class="QWidget" name="page">
            <widget class="Line" name="line_10">

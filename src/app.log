@@ -5,3 +5,8 @@
 2020-04-02 10:33:48,233 - Shot detected at 1585838028.2335684... Raw data =  0.207768624677525.
 2020-04-02 10:34:02,613 - Shot detected at 1585838042.613377... Raw data =  0.6007297428214677.
 2020-04-02 12:05:20,046 - Shot detected at 1585843520.0467045... Raw data =  0.5275504699063233.
+2020-04-03 12:20:37,649 - Shot detected at 1585930837.6490707... Raw data =  0.21557373091185084.
+2020-04-03 12:40:43,893 - Screens Device and type changed ... Prev value Dev1/ctr0.  New value: Dev1/ctr1
+2020-04-03 12:40:46,966 - Screens Device and type changed ... Prev value Dev1/ctr1.  New value: Dev1/ctr0
+2020-04-03 12:40:50,177 - Magnet Device and type changed ... Prev value Dev1/ctr2.  New value: Dev1/ctr4
+2020-04-03 12:40:53,420 - Hardware Timeout changed ... Prev value 120.  New value: 122

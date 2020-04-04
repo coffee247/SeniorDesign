@@ -226,8 +226,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def addProjos(self):
         projoVal = self.projosLineEdit.text()
-        projoMass = self.projosMassLineEdit.text()
-        projoDrag = self.projosDragLineEdit.text()
+        try:
+            projoMass = float(self.projosMassLineEdit.text())
+            projoDrag = float(self.projosDragLineEdit.text())
+        except:
+            self.issueWarning("Mass and Drag must both be floating point numerals. EX: 0.03")
+            return 0
         if projoVal != "":
             myquery = f"insert into projo (projectileType, projo_mass, projo_DragCoef) values ('{projoVal}', '{projoMass}', '{projoDrag}')"
             try:
@@ -265,6 +269,40 @@ class MainWindow(QtWidgets.QMainWindow):
         self.projosDragLineEdit.setText(self.Drag[0])
         self.projoComboBox.setCurrentIndex(ProjoRow[0].row())
 
+
+
+
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def populateProjoForm(self, index):
+        self.ProjoRow = index.row()
+        self.projosLineEdit.setFocus()
+
+
+
+    def editProjos(self):
+        # ToDo implement EditPRojos
+        projoVal = self.projosLineEdit.text()
+        try:
+            projoMass = float(self.projosMassLineEdit.text())
+            projoDrag = float(self.projosDragLineEdit.text())
+        except:
+            self.issueWarning("Mass and Drag must both be floating point numerals. EX: 0.03")
+            return 0
+        self.removeProjo()
+        self.projosLineEdit.setText(projoVal)
+        self.projosMassLineEdit.setText(str(projoMass))
+        self.projosDragLineEdit.setText(str(projoDrag))
+        self.addProjos()
+
+    def removeProjo(self):
+        if self.ProjectilesView.selectedIndexes() != [] and self.projosLineEdit.text() != "":
+            Value = self.projectilesModel.Projos[self.ProjoRow]["projectileType"]
+            myquery = f"delete from projo where projectileType = '{Value}'"
+            self.dbase.db_doQuery(myquery)
+            self.dbase.db_doQuery("Commit")
+            self.projectilesModel.removeRows(self.ProjoRow)
+            self.clearProjoEdits()
+
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def doQuerySelect_clicked(self, index):
         self.QueryRow = index.row()
@@ -297,32 +335,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    @QtCore.pyqtSlot(QtCore.QModelIndex)
-    def populateProjoForm(self, index):
-        self.ProjoRow = index.row()
-        self.projosLineEdit.setFocus()
 
-
-
-    def editProjos(self):
-        # ToDo implement EditPRojos
-        projoVal = self.projosLineEdit.text()
-        projoMass = self.projosMassLineEdit.text()
-        projoDrag = self.projosDragLineEdit.text()
-        self.removeProjo()
-        self.projosLineEdit.setText(projoVal)
-        self.projosMassLineEdit.setText(projoMass)
-        self.projosDragLineEdit.setText(projoDrag)
-        self.addProjos()
-
-    def removeProjo(self):
-        if self.ProjectilesView.selectedIndexes() != [] and self.projosLineEdit.text() != "":
-            Value = self.projectilesModel.Projos[self.ProjoRow]["projectileType"]
-            myquery = f"delete from projo where projectileType = '{Value}'"
-            self.dbase.db_doQuery(myquery)
-            self.dbase.db_doQuery("Commit")
-            self.projectilesModel.removeRows(self.ProjoRow)
-            self.clearProjoEdits()
 
 
 
@@ -367,7 +380,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def addGrains(self):
-        grainsVal = self.grainsLineEdit.text()
+        try:
+            grainsVal = int(self.grainsLineEdit.text())
+        except:
+            self.issueWarning("Grains must be an integer value")
+            return 0
         if grainsVal != "":
             myquery = f"insert into threatGrain (grain) values ({grainsVal})"
             try:
