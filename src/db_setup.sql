@@ -29,9 +29,14 @@ insert into Environment (humidityPercent, tempFloat, barroPressFloat)
 values (5.8, 72, 29.84), (15.2, 85.5, 29.83);
 
 create TABLE threatGrain (grain int(6) primary key);
-
 INSERT INTO threatGrain(grain)
 VALUES (240),(147),(61),(124),(158),(125),(180);
+
+create TABLE threat (threat_ID int(11) AUTO_INCREMENT primary key,
+grains_ID int(6),
+projectile_ID int(4),
+powderZType varchar(20)
+);
 
 create Table shot (SHOTID int(9) AUTO_INCREMENT primary key,
 ShotDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -41,6 +46,7 @@ magrawdat float,
 range_ID int(11),
 Env_ID int(11),
 ballistician varchar(20),
+threat_ID int(11),
 CONSTRAINT shot_range_fk1 FOREIGN KEY (range_ID) references BimsRange(RangeID)
 );
 
@@ -82,6 +88,8 @@ CREATE TABLE projo (projectileID int(4) key unique not null, projectileType varc
 projo_mass float,
 projo_DragCoef float,
 primary key(projectileType, projo_mass, projo_DragCoef));
+
+CREATE VIEW projov AS SELECT projectileType, projo_mass, projo_DragCoef AS value FROM projo;
 
 INSERT INTO projo(projectileType, projo_mass, projo_DragCoef)
 VALUES ('44 mag', 8.1, 0.023),

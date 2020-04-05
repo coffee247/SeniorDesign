@@ -13,7 +13,9 @@ class database():
 
     ''' Method to initialize a database at first run or just use it if existed already '''
     def Connect(self):
-        config = json.loads(open('configs/dbconfig.json').read())  # load database connection parameters from config.json
+        with open('configs/dbconfig.json', 'r') as dbconfig:
+            config = json.load(dbconfig)
+#        config = json.loads(open('configs/dbconfig.json').read())  # load database connection parameters from config.json
         try:
             self.conn = pymysql.connect(host=config["db_Host"], port=config["db_Port"], user=config["db_root_User"],
                                    password=config["db_root_PWD"], db=config["db_Name"])
@@ -49,7 +51,7 @@ class database():
         return rows
 
     def populateListView(self, caller, table, field, idx, model):
-        myself = caller
+        myself = caller # caller is reference to object that called this method
         with myself.conn:
             myself.colIndex = idx
             myself.model = model

@@ -17,7 +17,7 @@ import src.BIMSresources  # This file contains links to images used as icons and
 import src.database as db  # This file contains code to connect to database and run SQL querries
 import src.environs
 import src.grains
-import src.objects
+# import src.objects
 import src.powders
 import src.projectiles
 import src.ballisticians
@@ -31,6 +31,7 @@ import logging
 
 class MainWindow(QtWidgets.QMainWindow):
 
+    '''Do system startup work (Declare variables, make connections, etc...) '''
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
@@ -38,7 +39,8 @@ class MainWindow(QtWidgets.QMainWindow):
         logging.basicConfig(filename='app.log', filemode='a', format='%(asctime)s - %(message)s')
 
         # Internationalization support
-        config = json.loads(open('configs/lang_config.json').read())  # load database connection parameters from config.json
+        with open('configs/lang_config.json', 'r') as lang_config:
+            config = json.load(lang_config)
         self.translator = QtCore.QTranslator()
         if config["lang"] != "en":
             language = "Dupont_BIMS_{}.qm".format(config["lang"])
@@ -52,7 +54,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.GrainsRow = 0
         self.ProjoRow = 0
 
-        HWconfig = json.loads(open('configs/HWconfig.json').read())  # load database connection parameters from config.json
+        with open('configs/HWconfig.json', 'r') as HWconfig:
+            HWconfig = json.load(HWconfig)
         self.counter = src.lowLevel.Counter(HWconfig["HWscreen"], HWconfig["HWmag"], HWconfig["HWtimeout"])
 
 
@@ -69,7 +72,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.powdersModel = src.powders.PowdersModel()
         self.projectilesModel = src.projectiles.ProjectilesModel()
         self.ballModel = src.ballisticians.BallisticiansModel()
-        self.QuerriesModel = src.querries.QuerriesModel() 
+        self.QuerriesModel = src.querries.QuerriesModel()
         self.HistoryModel = QSqlQueryModel()
 
 
@@ -119,26 +122,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self.langCombo.setFocus()
 
 
-
+    ''' left menuBar on-click behaviors '''
     def goHome(self):
         self.stacks.setCurrentIndex(0)
-
     def goHistory(self):
         self.stacks.setCurrentIndex(1)
-
     def goMeasure(self):
         self.stacks.setCurrentIndex(2)
-
     def goSettings(self):
         self.stacks.setCurrentIndex(3)
-
     def goProjects(self):
         self.stacks.setCurrentIndex(4)
-
     def doQuit(self):
         sys.exit()
 
-
+    ''' set up menuBar & menubar behaviors '''
     def createMenus(self):
         # Create the main menuBar menu items
         fileMenu = self.menuBar().addMenu("&File")
@@ -146,7 +144,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Populate File menu
         self.createAction("E&xit", fileMenu, self.close)
 
-    # set up menuBar behavior
+
     def createAction(self, text, menu, slot):
         """ Helper function to save typing when populating menus
            with action.
@@ -156,17 +154,17 @@ class MainWindow(QtWidgets.QMainWindow):
         action.triggered.connect(slot)
         return action
 
-    # Modal Warning Box
+    ''' Modal Warning Box '''
     def issueWarning(self, Message):
         QMessageBox.about(self, "Warning", Message)
 
+    ''' Controllers for shot record '''
     def shoot(self):
         shot = threading.Thread(target=self.takeShot)
         shot.start()
         self.velocityDataLabel.setText("")
         self.standbyLabel.setText("Waiting for shot!")
         self.takeShot()
-
     def takeShot(self):
         try:
             hwCounter = src.lowLevel.counter()
@@ -177,14 +175,16 @@ class MainWindow(QtWidgets.QMainWindow):
             logging.warning("Shot detected at {}... Raw data =  {}.".format(time(), fps))
             self.velocityDataLabel.setText(f"Shot fired! {fps}")
             self.standbyLabel.setText("")
+    def saveShotData(self):
+        pass
 
+    '''Controllers for NI-DAQ Hardware settings'''
     def LoadLastUsedRangeData(self):
         with open('configs/HWconfig.json', 'r') as HWconfig:
             data = json.load(HWconfig)
             self.HWscreenEdit.setText(data['HWscreen'])
             self.TimeoutEdit.setText(data['HWtimeout'])
             self.HWmagEdit.setText(data['HWmag'])
-
     def ScreensChanged(self):
         oldsetting = self.counter.counterStr
         self.counter.counterStr = self.HWscreenEdit.text()  # change the value (in the counter object) immediately
@@ -200,7 +200,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 logging.warning(
                     "Screens Device and type changed ... Prev value {}.  New value: {}".format(oldsetting,
                                                                                                self.counter.counterStr))
-
     def MagChanged(self):
         oldsetting = self.counter.magStr
         self.counter.magStr = self.HWmagEdit.text()  # change the value (in the counter object) immediately
@@ -216,7 +215,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 logging.warning(
                     "Magnet Device and type changed ... Prev value {}.  New value: {}".format(oldsetting,
                                                                                               self.counter.magStr))
-
     def TimoutChanged(self):
         oldsetting = self.counter.timeoutFloat
         self.counter.timeoutFloat = self.TimeoutEdit.text()  # change the value (in the counter object) immediately
@@ -232,6 +230,36 @@ class MainWindow(QtWidgets.QMainWindow):
                 logging.warning("Hardware Timeout changed ... Prev value {}.  New value: {}".format(oldsetting,
                                                                                                     self.counter.timeoutFloat))
 
+
+    ''' Manage Projectiles '''
+
+    # a function to clear all projectiles lineEdit fields
+    def clearProjoEdits(self):
+        self.projosLineEdit.setText("")
+        self.projosMassLineEdit.setText("")
+        self.projosDragLineEdit.setText("")
+        self.projosLineEdit.setFocus()  # put the cursor back in the first projosLineEdit field.
+
+    # projectiles ListView click behavior
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def on_projoslistView_clicked(self, index):
+        self.ProjoRow = index.row()
+        ProjoRow = self.ProjectilesView.selectedIndexes()
+        self.Projo = self.projectilesModel.itemData(ProjoRow[0])
+        self.Mass = self.projectilesModel.itemData(ProjoRow[1])
+        self.Drag = self.projectilesModel.itemData(ProjoRow[2])
+        self.projosLineEdit.setText(self.Projo[0])
+        self.projosMassLineEdit.setText(self.Mass[0])
+        self.projosDragLineEdit.setText(self.Drag[0])
+        self.projoComboBox.setCurrentIndex(ProjoRow[0].row())
+
+    # projectiles populate form elements on projo ListView row clicked
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def populateProjoForm(self, index):
+        self.ProjoRow = index.row()
+        self.projosLineEdit.setFocus()
+
+    # projectiles add projo button clicked method
     def addProjos(self):
         projoVal = self.projosLineEdit.text()
         try:
@@ -258,13 +286,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.issueWarning("No value was entered for Projectile")
             self.projosLineEdit.setFocus()
 
-    ''' a function to clear all projectiles lineEdit fields '''
+    # a function to clear all projectiles lineEdit fields
     def clearProjoEdits(self):
         self.projosLineEdit.setText("")
         self.projosMassLineEdit.setText("")
         self.projosDragLineEdit.setText("")
         self.projosLineEdit.setFocus()  # put the cursor back in the first projosLineEdit field.
 
+    # projectiles ListView click behavior
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_projoslistView_clicked(self, index):
         self.ProjoRow = index.row()
@@ -277,16 +306,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.projosDragLineEdit.setText(self.Drag[0])
         self.projoComboBox.setCurrentIndex(ProjoRow[0].row())
 
-
-
-
+    # projectiles populate form elements on projo ListView row clicked
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def populateProjoForm(self, index):
         self.ProjoRow = index.row()
         self.projosLineEdit.setFocus()
 
-
-
+    # projectiles handle editButton clicked
     def editProjos(self):
         projoVal = self.projosLineEdit.text()
         try:
@@ -301,6 +327,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.projosDragLineEdit.setText(str(projoDrag))
         self.addProjos()
 
+    # projectiles handle remove button clicked
     def removeProjo(self):
         if self.ProjectilesView.selectedIndexes() != [] and self.projosLineEdit.text() != "":
             Value = self.projectilesModel.Projos[self.ProjoRow]["projectileType"]
@@ -508,7 +535,13 @@ class MainWindow(QtWidgets.QMainWindow):
         finally:
             pass
 
-
+    def loadDefaultRangeVals(self):
+        with open('configs/HWconfig.json', 'r') as HWconfig:
+            data = json.load(HWconfig)
+        self.S1S2LineEdit.setText(S1S2[0])
+        self.S2TargLineEdit.setText(S2Targ[0])
+        self.MidS2LineEdit.setText(MidS2[0])
+        self.MuzMidLineEdit.setText(MuzMid[0])
 
 
 

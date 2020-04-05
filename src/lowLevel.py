@@ -15,12 +15,10 @@ from time import time
 # End standard library imports.
 
 # Start third party imports.
-# from nidaqmx import Task
-# from nidaqmx.constants import Edge, TimeUnits
+from nidaqmx import Task
+from nidaqmx.constants import Edge, TimeUnits
 # End third party imports.
 
-# Start project imports.
-# End project imports.
 
 INFRARED_COUNTER_STR = 'Dev1/ctr0'
 MAGNETIC_COUNTER_STR = 'Dev1/ctr1'
