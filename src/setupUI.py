@@ -27,6 +27,8 @@ def doSetup(caller):
     self.rmvBallisticianButton = self.findChild(QtWidgets.QPushButton, 'rmv_Ballistician_pushButton')
     self.addBallisticianButton = self.findChild(QtWidgets.QPushButton, 'add_Ballistician_pushButton')
     self.editProjosButton = self.findChild(QtWidgets.QPushButton, 'editProjosButton')
+    self.addFabricsButton = self.findChild(QtWidgets.QPushButton, 'add_fabric_pushButton')
+    self.removeFabricsButton = self.findChild(QtWidgets.QPushButton, 'remove_fabric_pushButton')
 
     # Set up language support button
     self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'combo')
@@ -56,6 +58,7 @@ def doSetup(caller):
     self.velocityDataLabel = self.findChild(QtWidgets.QLabel, 'VelocityDataLabel')
     self.shootButton = self.findChild(QtWidgets.QPushButton, 'FIRE_shot_pushButton')
     self.ballisticianComboBox = self.findChild(QtWidgets.QComboBox, 'ballistician_comboBox')
+
 
     # identify History Page UI elements
     self.QuerryTextLabel = self.stacks.findChild(QtWidgets.QLabel, 'QueryText_Label')
@@ -91,6 +94,8 @@ def doSetup(caller):
     self.addBallisticianButton.clicked.connect(self.addBallistician)
     self.rmvBallisticianButton.clicked.connect(self.removeBallistician)
     self.editProjosButton.clicked.connect(self.editProjos)
+    self.removeFabricsButton.clicked.connect(self.removeFabric)
+    self.addFabricsButton.clicked.connect(self.addFabric)
 
     # connect measure page buttons
     self.shootButton.clicked.connect(self.shoot)

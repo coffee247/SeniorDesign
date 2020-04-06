@@ -44,7 +44,7 @@ class FabricsModel(QAbstractTableModel):
 
         if orientation == Qt.Horizontal:
             if section == 0:
-                return "fabricType"
+                return "fabric-Maker"
             return None
 
 
@@ -81,7 +81,7 @@ class FabricsModel(QAbstractTableModel):
             elif fabricsVal > self.fabric_objects_list[i]["fabricType"]:
                 try:
                     if i < self.rowCount()-1:
-                        if fabricsVal < self.Powders[j]["fabricType"]:
+                        if fabricsVal < self.fabric_objects_list[j]["fabricType"]:
                             self.insertRow(j)
                             index = self.createIndex(j, 0)
                             self.setData(index, fabricsVal, role=Qt.EditRole)

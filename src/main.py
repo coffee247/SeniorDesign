@@ -356,6 +356,36 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fabric_lineEdit.setText(fabric[0])
         self.fabricMaker_ComboBox.setCurrentIndex(self.FabricRow)
 
+    def addFabric(self):
+        fabricVal = self.fabric_lineEdit.text()
+        if fabricVal != "":
+            myquery = f"insert into fabrics (fabricType) values ('{fabricVal}')"
+            try:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.fabricModel.addData(fabricVal)
+                self.fabric_lineEdit.setText("")
+            except pymysql.err.IntegrityError as e:
+                if e.args[0] == 1062:
+                    self.issueWarning(
+                        f"Duplicate Entry for {fabricVal} ---> (already exists.)\n\nTry again!")
+                    self.fabric_lineEdit.setText("")
+                    self.fabric_lineEdit.setFocus()
+            except pymysql.err.InternalError:
+                pass
+            finally:
+                pass
+        else:
+            self.issueWarning("No value was entered for Fabric")
+            self.fabric_lineEdit.setFocus()
+
+    def removeFabric(self):
+        Value = self.fabricModel.fabric_objects_list[self.FabricRow]["fabricType"]
+        myquery = f"delete from fabrics where fabricType = '{Value}'"
+        self.dbase.db_doQuery(myquery)
+        self.dbase.db_doQuery("Commit")
+        self.fabricModel.removeRows(self.FabricRow)
+        self.fabric_lineEdit.setText("")
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def doQuerySelect_clicked(self, index):
@@ -454,7 +484,7 @@ class MainWindow(QtWidgets.QMainWindow):
             finally:
                 pass
         else:
-            self.issueWarning("No value was entered for Ballisticians")
+            self.issueWarning("No value was entered for Grains")
             self.grainsLineEdit.setFocus()
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
