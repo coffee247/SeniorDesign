@@ -3350,18 +3350,18 @@ selection-color: red;</string>
                  <property name="styleSheet">
                   <string notr="true">QSpinBox {
     padding-right: 15px; /* make room for the arrows */
-    border-width: 1;
-	background-color: white; color: black
+    background-color: white;
 }
-QSpinBox::down-arrow {
-    image: url(:src/images/Decrease_Neg.png);
-    width: 7px;
-    height: 7px;
+QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right; /* position at the top right corner */
+
+    width: 16px; /* 16 + 2*1px border-width = 15px padding + 3px parent border */
+    border-image: url(:/images/image/spinup.png) 1;
+    border-width: 1px;
 }
 QSpinBox::up-arrow {
-    image: url(:src/images/Increase_Pos.png);
-    width: 7px;
-    height: 7px;
+    image: url(:/images/images/up_arrow.png);
 }
 </string>
                  </property>
