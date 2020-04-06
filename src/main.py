@@ -17,7 +17,6 @@ import src.BIMSresources  # This file contains links to images used as icons and
 import src.database as db  # This file contains code to connect to database and run SQL querries
 import src.environs
 import src.grains
-# import src.objects
 import src.powders
 import src.projectiles
 import src.ballisticians
@@ -25,6 +24,7 @@ import src.ranges
 import src.querries
 import src.setupUI
 import src.lowLevel
+import src.fabrics
 import logging
 
 
@@ -62,18 +62,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
         ''' Create a connection to the database '''
         self.dbase = db.database()  # Create an instance of the database as self.dbase
-        self.dbase.Connect() # connect
-        self.conn = self.dbase.getConn() # self.conn is a reference to the dbase connection
+
+        '''call the  Connect method defined in database.py '''
+        self.dbase.Connect()
+        self.conn = self.dbase.getConn()
 
         ''' Create necessary instances of data models '''
-        self.environModel = src.environs.EnvironModel()
         self.rangeModel = src.ranges.RangeModel()
+        self.environModel = src.environs.EnvironModel()
         self.grainsModel = src.grains.GrainsModel()
         self.powdersModel = src.powders.PowdersModel()
         self.projectilesModel = src.projectiles.ProjectilesModel()
         self.ballModel = src.ballisticians.BallisticiansModel()
         self.QuerriesModel = src.querries.QuerriesModel()
         self.HistoryModel = QSqlQueryModel()
+        self.fabricModel = src.fabrics.FabricsModel()
 
 
         src.setupUI.doSetup(self)
@@ -92,6 +95,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, "BimsRange", "RangeID", 0, self.rangeModel)
         self.dbase.populateListView(self, "ballisticians", "ballistician", 0, self.ballModel)
         self.dbase.populateListView(self, "querries", "Descr", 0, self.QuerriesModel)
+        self.dbase.populateListView(self, "fabrics", "fabricType", 0, self.fabricModel)
 
         db.getRanges(self)
         header = self.RangeView.horizontalHeader()
@@ -103,8 +107,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         db.getProjos(self)
         projoheader = self.ProjectilesView.horizontalHeader()
-        self.ProjectilesView.setColumnWidth(0,150)
-        projoheader.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        self.ProjectilesView.setColumnWidth(0,170)
+        projoheader.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         projoheader.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
 
         db.getQuerries(self)
@@ -336,6 +340,15 @@ class MainWindow(QtWidgets.QMainWindow):
             self.dbase.db_doQuery("Commit")
             self.projectilesModel.removeRows(self.ProjoRow)
             self.clearProjoEdits()
+
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def on_fabriclistView_clicked(self, index):
+        self.FabricRow = index.row()
+        fabric = self.fabricModel.itemData(index)
+        self.fabric_lineEdit.setText(fabric[0])
+        self.fabricMaker_ComboBox.setCurrentIndex(self.FabricRow[0].row())
+        # self.grainsLabel.setText(grains[0])
+        #
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def doQuerySelect_clicked(self, index):

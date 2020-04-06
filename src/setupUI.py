@@ -69,7 +69,8 @@ def doSetup(caller):
  #   self.HistProjectilesComboBox.setModel(self.projectilesModel)
     self.ballisticianComboBox.setModel(self.ballModel)
 
-
+    # link Models to Projects page ComboBoxes
+    self.fabricMaker_ComboBox = self.stacks.findChild(QtWidgets.QComboBox, 'fabricMaker_comboBox')
 
     # connect left menubar buttons
     self.homeButton.clicked.connect(self.goHome)
@@ -107,6 +108,7 @@ def doSetup(caller):
     self.EnvironView = self.stacks.findChild(QtWidgets.QTableView, 'environ_tableView')
     self.QuerySelView = self.stacks.findChild(QtWidgets.QTableView, 'QuerySelector_tableView')
     self.HistView = self.stacks.findChild(QtWidgets.QTableView, 'History_tableView')
+    self.fabricsView = self.stacks.findChild(QtWidgets.QListView, 'fabrics_listView')
 
 
 
@@ -131,6 +133,7 @@ def doSetup(caller):
     self.projosDragLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'DragCoef_lineEdit')
     self.ballisticianLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'Ballistician_lineEdit')
     self.grainsLabel = self.stacks.findChild(QtWidgets.QLabel, 'grainsLabel')
+    self.fabric_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'fabric_lineEdit')
 
     # connect language selection comboBox (selection changed behavior) to mainwindow's dolanguageChangeRequest method
     self.langCombo.currentIndexChanged.connect(self.dolanguageChangeRequest)
@@ -150,6 +153,10 @@ def doSetup(caller):
     # set up ProjectilesView
     self.ProjectilesView.setModel(self.projectilesModel)
     self.ProjectilesView.clicked.connect(self.on_projoslistView_clicked)
+
+    # set up fabricsView
+    self.fabricsView.setModel(self.fabricModel)
+    self.fabricsView.clicked.connect(self.on_fabriclistView_clicked)
 
     # set up RangeView
     self.RangeView.setModel(self.rangeModel)

@@ -15,25 +15,29 @@ class database():
     def Connect(self):
         with open('configs/dbconfig.json', 'r') as dbconfig:
             config = json.load(dbconfig)
-#        config = json.loads(open('configs/dbconfig.json').read())  # load database connection parameters from config.json
+            dbname = config["db_Name"]
         try:
             self.conn = pymysql.connect(host=config["db_Host"], port=config["db_Port"], user=config["db_root_User"],
                                    password=config["db_root_PWD"], db=config["db_Name"])
         except MySQLError as e:  # error if connect failed:  ASSUME database does not exist ... create database
-            print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+            if e.args[0] == 1049:
+                print(f"Could not find database {dbname} now")
+            else:
+                print('Got error {!r}, errno is {}'.format(e, e.args[0]))
             self.conn = pymysql.connect(host=config["db_Host"], port=config["db_Port"], user=config["db_root_User"],
                                    password=config["db_root_PWD"])
             with self.conn:
-                dbname = config["db_Name"]  # see db_Name in config.json
-                print("Creating database {}".format(dbname))
+              #  dbname = config["db_Name"]  # see db_Name in config.json
+                print("Creating new database {}".format(dbname))
                 query = f"CREATE DATABASE IF NOT EXISTS {dbname}"  # create the database (if it does not exist)
                 cur = self.conn.cursor()
                 cur.execute(query)
                 query = f"USE {dbname}"  # use the database whose name is defined by db_Name in config.json
                 cur.execute(query)
                 sql = open("db_setup.sql")  # open file db_setup.sql (database schema creation script)
-                sql = sql.read()  # read the schema
-                sql = sql.split(';')  # split into individual commands at semicolons.
+                sqltext = sql.read()  # read the schema
+                sql.close()
+                sql = sqltext.split(';')  # split into individual commands at semicolons.
                 for command in sql:
                     cur.execute(command)  # execute the schema creation script (one command at a time)
         return self
@@ -51,7 +55,7 @@ class database():
         return rows
 
     def populateListView(self, caller, table, field, idx, model):
-        myself = caller # caller is reference to object that called this method
+        myself = caller
         with myself.conn:
             myself.colIndex = idx
             myself.model = model
@@ -104,5 +108,3 @@ def getQuerries(caller):
                 index = self.QuerriesModel.createIndex(i, j)
                 self.QuerriesModel.setData(index, data[i][j], Qt.EditRole)
     self.QuerySelView.setColumnHidden(0, False)
-
-

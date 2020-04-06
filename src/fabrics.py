@@ -5,14 +5,14 @@ from PyQt5.QtWidgets import QMessageBox
 
 
 class FabricsModel(QAbstractTableModel):
-    def __init__(self, Fabrics=None, parent=None):
+    def __init__(self, fabric_objects_list=None, parent=None):
         super(FabricsModel, self).__init__(parent)
         # set up grains attributes
         self.caller = object
-        if Fabrics is None:
-            self.Fabrics = []
+        if fabric_objects_list is None:
+            self.fabric_objects_list = []
         else:
-            self.Fabrics = Fabrics
+            self.fabric_objects_list = fabric_objects_list
 
     # Modal Warning Box
     def issueWarning(self, Message):
@@ -20,7 +20,7 @@ class FabricsModel(QAbstractTableModel):
 
     def rowCount(self, index=QModelIndex()):
         """ Returns the number of rows the model holds """
-        return len(self.Fabrics)
+        return len(self.fabric_objects_list)
 
     def columnCount(self, index=QModelIndex()):
         return 1    #  fields:  fabricType
@@ -29,11 +29,11 @@ class FabricsModel(QAbstractTableModel):
         if not index.isValid():
             return None
 
-        if not 0 <= index.row() < len(self.Fabrics):
+        if not 0 <= index.row() < len(self.fabric_objects_list):
             return None
 
         if role == Qt.DisplayRole:
-            fabricVal = self.Fabrics[index.row()]["fabricType"]
+            fabricVal = self.fabric_objects_list[index.row()]["fabricType"]
             return fabricVal
 
 
@@ -54,7 +54,7 @@ class FabricsModel(QAbstractTableModel):
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
-            self.Fabrics.insert(position + row, {"fabricType": ""})
+            self.fabric_objects_list.insert(position + row, {"fabricType": ""})
 
         self.endInsertRows()
         return True
@@ -63,7 +63,7 @@ class FabricsModel(QAbstractTableModel):
         """ Remove a row from  ProjectilesModel. """
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
 
-        del self.Fabrics[position:position + rows]
+        del self.fabric_objects_list[position:position + rows]
 
         self.endRemoveRows()
         self.dataChanged.emit(index, index)
@@ -73,12 +73,12 @@ class FabricsModel(QAbstractTableModel):
         rowCount = self.rowCount()
         for i in range(rowCount):
             j = i+1
-            if fabricsVal < self.Fabrics[0]["fabricType"]:
+            if fabricsVal < self.fabric_objects_list[0]["fabricType"]:
                 self.insertRow(0)
                 index = self.createIndex(0, 0)
                 self.setData(index, fabricsVal, role=Qt.EditRole)
 
-            elif fabricsVal > self.Fabrics[i]["fabricType"]:
+            elif fabricsVal > self.fabric_objects_list[i]["fabricType"]:
                 try:
                     if i < self.rowCount()-1:
                         if fabricsVal < self.Powders[j]["fabricType"]:
@@ -99,8 +99,8 @@ class FabricsModel(QAbstractTableModel):
         if role != Qt.EditRole:
             return False
 
-        if index.isValid() and 0 <= index.row() < len(self.Fabrics):
-            aFabric = self.Fabrics[index.row()]
+        if index.isValid() and 0 <= index.row() < len(self.fabric_objects_list):
+            aFabric = self.fabric_objects_list[index.row()]
             if index.column() == 0:
                 aFabric["fabricType"] = f"{value}"
             else:

@@ -59,7 +59,7 @@ class ProjectilesModel(QAbstractTableModel):
             if section == 1:
                 return "Mass"
             if section == 2:
-                return "Drag Coef"
+                return "k-factor"
             return None
 
         # if orientation == Qt.Vertical:
