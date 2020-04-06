@@ -37,11 +37,9 @@ class Counter:
         """
         Read from the DAQ with a timeout. Set the appropriate instance variables.
         """
-        readFloat = read_from_daq(counterStr=self.counterStr, timeoutSecFloat=self.timeoutFloat)
-        self.logging.warning("Shot detected at {}... Raw data =  {}.".format(time(), readFloat))
+        self.lastReadFloat = read_from_daq(counterStr=self.counterStr, timeoutSecFloat=self.timeoutFloat)
         self.lastReadTimeFloat = time()
-        self.lastReadFloat = readFloat
-        return readFloat
+        return self.lastReadFloat, self.lastReadTimeFloat
 
 
 

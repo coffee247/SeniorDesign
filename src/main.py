@@ -26,6 +26,7 @@ import src.setupUI
 import src.lowLevel
 import src.fabrics
 import logging
+from time import time
 
 
 
@@ -166,20 +167,26 @@ class MainWindow(QtWidgets.QMainWindow):
     ''' Controllers for shot record '''
     def shoot(self):
         shot = threading.Thread(target=self.takeShot)
-        shot.start()
         self.velocityDataLabel.setText("")
         self.standbyLabel.setText("Waiting for shot!")
-        self.takeShot()
+        shot.start()
+
     def takeShot(self):
         try:
             hwCounter = src.lowLevel.counter()
-            hwCounter.read()
+            rawVelTime, ShotClockTime = hwCounter.read()
+            logging.warning(f"Shot detected at {ShotClockTime}... Raw data =  {rawVelTime}. <---")
         except:
-            fps = random.random()
+            rawVelTime = random.random()
             from time import time
-            logging.warning("Shot detected at {}... Raw data =  {}.".format(time(), fps))
-            self.velocityDataLabel.setText(f"Shot fired! {fps}")
+            ShotClockTime = time()
+            self.velocityDataLabel.setText(f"Shot fired! {rawVelTime}")
             self.standbyLabel.setText("")
+            logging.warning(f"Shot detected at {ShotClockTime}... Raw data =  {rawVelTime}. <---")
+
+
+
+
     def saveShotData(self):
         pass
 
@@ -378,9 +385,6 @@ class MainWindow(QtWidgets.QMainWindow):
                         self.HistView.show()
                 except:
                     pass
-
-
-
 
 
 

@@ -2,14 +2,20 @@ import numpy as np
 import pymysql, json
 from PyQt5.QtCore import Qt
 from pymysql import MySQLError
+import logging
 
 
 class database():
+    logging = None
 
     def __init__(self):
         self.conn = pymysql.connections.Connection
         self.cur = pymysql.cursors.Cursor
+        self.logging = self.setupLogging()
 
+    def setupLogging(self):
+        logging.basicConfig(filename='app.log', filemode='a', format='%(asctime)s - %(message)s')
+        return logging
 
     ''' Method to initialize a database at first run or just use it if existed already '''
     def Connect(self):
@@ -22,13 +28,15 @@ class database():
         except MySQLError as e:  # error if connect failed:  ASSUME database does not exist ... create database
             if e.args[0] == 1049:
                 print(f"Could not find database {dbname} now")
+                self.logging.warning(f"Could not find database {dbname}.")
             else:
                 print('Got error {!r}, errno is {}'.format(e, e.args[0]))
             self.conn = pymysql.connect(host=config["db_Host"], port=config["db_Port"], user=config["db_root_User"],
                                    password=config["db_root_PWD"])
             with self.conn:
               #  dbname = config["db_Name"]  # see db_Name in config.json
-                print("Creating new database {}".format(dbname))
+                print(f"Creating new database {dbname}")
+                self.logging.warning(f"\tCreating new database {dbname}")
                 query = f"CREATE DATABASE IF NOT EXISTS {dbname}"  # create the database (if it does not exist)
                 cur = self.conn.cursor()
                 cur.execute(query)
@@ -40,6 +48,7 @@ class database():
                 sql = sqltext.split(';')  # split into individual commands at semicolons.
                 for command in sql:
                     cur.execute(command)  # execute the schema creation script (one command at a time)
+
         return self
 
 
