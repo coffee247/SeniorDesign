@@ -357,7 +357,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fabricMaker_ComboBox.setCurrentIndex(self.FabricRow)
 
     def addFabric(self):
-        fabricVal = self.fabric_lineEdit.text()
+        fabricVal = self.fabric_lineEdit.text().title()
         if fabricVal != "":
             myquery = f"insert into fabrics (fabricType) values ('{fabricVal}')"
             try:

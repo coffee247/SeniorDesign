@@ -1,9 +1,0 @@
-2020-04-05 20:38:46,943 - Could not find database dbtest.
-2020-04-05 20:38:46,945 - 	Creating new database dbtest
-2020-04-05 20:39:13,330 - Screens Device and type changed ... Prev value Dev1/ctr0.  New value: Dev1/ctr1
-2020-04-05 21:17:30,737 - Shot detected at 1586135850.7375586... Raw data =  0.836327988557213. <---
-
-2020-04-05 21:18:05,823 - Shot detected at 1586135885.8237808... Raw data =  0.664992185755232. <---
-2020-04-05 21:18:05,979 - Shot detected at 1586135885.9791784... Raw data =  0.4802993158135548. <---
-2020-04-05 21:18:06,155 - Shot detected at 1586135886.1551056... Raw data =  0.10863333392535757. <---
-2020-04-05 21:18:35,527 - Shot detected at 1586135915.5269258... Raw data =  0.3086749351160598. <---
