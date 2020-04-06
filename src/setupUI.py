@@ -49,6 +49,16 @@ def doSetup(caller):
     self.HWmagEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'magDev_LineEdit')
     self.TimeoutEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'timeout_LineEdit')
 
+    # identify Projects page ui elements
+    self.sampTypes_listView = self.stacks.findChild(QtWidgets.QListView, 'sampTypes_listView')
+    self.sampTypes_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'sampTypes_lineEdit')
+    self.remove_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_sampTypes_pushButton')
+    self.add_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_sampTypes_pushButton')
+    self.manufacturer_listView = self.stacks.findChild(QtWidgets.QListView, 'manufacturer_listView')
+    self.manufacturer_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'manufacturer_lineEdit')
+    self.remove_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_manufacturer_pushButton')
+    self.add_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_manufacturer_pushButton')
+
 
     # identify Measure Page UI elements
     self.grainsComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Grains_comboBox')

@@ -115,6 +115,13 @@ CREATE TABLE fabrics (fabricType varchar(30) primary key);
 
 INSERT INTO fabrics (fabricType) VALUES ('Kevlar'), ('Spectra'), ('Twaron'), ('Dyneema');
 
-UPDATE user SET firstName = 'Jimmy' where loginID = 'coffee247'
+UPDATE user SET firstName = 'Jimmy' where loginID = 'coffee247';
+
+create TABLE backings (backing varchar(20) primary key);
+
+INSERT INTO backings (backing)
+    VALUES ('Clay'),
+           ('Aluminum'),
+           ('Air');
 
 
