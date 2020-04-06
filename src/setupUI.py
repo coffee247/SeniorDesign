@@ -66,11 +66,11 @@ def doSetup(caller):
     self.grainsComboBox.setModel(self.grainsModel)
     self.projoComboBox.setModel(self.projectilesModel)
     self.powdersComboBox.setModel(self.powdersModel)
- #   self.HistProjectilesComboBox.setModel(self.projectilesModel)
     self.ballisticianComboBox.setModel(self.ballModel)
 
     # link Models to Projects page ComboBoxes
-    self.fabricMaker_ComboBox = self.stacks.findChild(QtWidgets.QComboBox, 'fabricMaker_comboBox')
+    self.fabricMaker_ComboBox = self.findChild(QtWidgets.QComboBox, 'fabricMaker_comboBox')
+    self.fabricMaker_ComboBox.setModel(self.fabricModel)
 
     # connect left menubar buttons
     self.homeButton.clicked.connect(self.goHome)

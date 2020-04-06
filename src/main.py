@@ -53,6 +53,7 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi("mainwindow.ui", self)
         self.GrainsRow = 0
         self.ProjoRow = 0
+        self.FabricRow = 0
 
         with open('configs/HWconfig.json', 'r') as HWconfig:
             HWconfig = json.load(HWconfig)
@@ -346,9 +347,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.FabricRow = index.row()
         fabric = self.fabricModel.itemData(index)
         self.fabric_lineEdit.setText(fabric[0])
-        self.fabricMaker_ComboBox.setCurrentIndex(self.FabricRow[0].row())
-        # self.grainsLabel.setText(grains[0])
-        #
+        self.fabricMaker_ComboBox.setCurrentIndex(self.FabricRow)
+
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def doQuerySelect_clicked(self, index):
