@@ -124,4 +124,16 @@ INSERT INTO backings (backing)
            ('Aluminum'),
            ('Air');
 
+create table manufacturers (Mfr_name varchar(30) primary key);
+
+insert into manufacturers (Mfr_name)
+    values ('JPS'),
+           ('Lincoln Fabrics'),
+           ('DuPont'),
+           ('Honeywell'),
+           ('Artec'),
+           ('Saint-Gobian');
+
+
+
 

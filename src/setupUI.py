@@ -59,6 +59,10 @@ def doSetup(caller):
     self.remove_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_manufacturer_pushButton')
     self.add_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_manufacturer_pushButton')
 
+    # connect Projects Page ui elements
+    self.remove_manufacturer_pushButton.clicked.connect(self.on_remove_Manufacturer_clicked)
+    self.add_manufacturer_pushButton.clicked.connect(self.on_add_manufacturer_clicked)
+
 
     # identify Measure Page UI elements
     self.grainsComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Grains_comboBox')
@@ -152,6 +156,12 @@ def doSetup(caller):
 
     # connect language selection comboBox (selection changed behavior) to mainwindow's dolanguageChangeRequest method
     self.langCombo.currentIndexChanged.connect(self.dolanguageChangeRequest)
+
+    #connect listViews to models and connect clicked behaviors for those listViews
+
+    # set up manufacturer_listView (on Projects page)
+    self.manufacturer_listView.setModel(self.manufactModel)
+    self.manufacturer_listView.clicked.connect(self.on_manufacturer_listView_clicked)
 
     # set up QuerySelectorView (on History page)
     self.QuerySelView.setModel(self.QuerriesModel)

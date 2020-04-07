@@ -23,7 +23,7 @@ class ManufacturersModel(QAbstractTableModel):
         return len(self.Makers)
 
     def columnCount(self, index=QModelIndex()):
-        return 1    #  fields:  MakerName
+        return 1    #  fields:  Mfr_name
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
@@ -33,7 +33,7 @@ class ManufacturersModel(QAbstractTableModel):
             return None
 
         if role == Qt.DisplayRole:
-            makerVal = self.Fabrics[index.row()]["makerName"]
+            makerVal = self.Makers[index.row()]["Mfr_name"]
             return makerVal
 
 
@@ -44,7 +44,7 @@ class ManufacturersModel(QAbstractTableModel):
 
         if orientation == Qt.Horizontal:
             if section == 0:
-                return "makerName"
+                return "Mfr_name"
             return None
 
 
@@ -54,7 +54,7 @@ class ManufacturersModel(QAbstractTableModel):
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
-            self.Makers.insert(position + row, {"makerName": ""})
+            self.Makers.insert(position + row, {"Mfr_name": ""})
 
         self.endInsertRows()
         return True
@@ -73,15 +73,15 @@ class ManufacturersModel(QAbstractTableModel):
         rowCount = self.rowCount()
         for i in range(rowCount):
             j = i+1
-            if makersVal < self.Makers[0]["makerName"]:
+            if makersVal < self.Makers[0]["Mfr_name"]:
                 self.insertRow(0)
                 index = self.createIndex(0, 0)
                 self.setData(index, makersVal, role=Qt.EditRole)
 
-            elif makersVal > self.Makers[i]["makerName"]:
+            elif makersVal > self.Makers[i]["Mfr_name"]:
                 try:
                     if i < self.rowCount()-1:
-                        if makersVal < self.Powders[j]["makerName"]:
+                        if makersVal < self.Powders[j]["Mfr_name"]:
                             self.insertRow(j)
                             index = self.createIndex(j, 0)
                             self.setData(index, makersVal, role=Qt.EditRole)
@@ -99,10 +99,10 @@ class ManufacturersModel(QAbstractTableModel):
         if role != Qt.EditRole:
             return False
 
-        if index.isValid() and 0 <= index.row() < len(self.Fabrics):
+        if index.isValid() and 0 <= index.row() < len(self.Makers):
             aMaker = self.Makers[index.row()]
             if index.column() == 0:
-                aMaker["makerName"] = f"{value}"
+                aMaker["Mfr_name"] = f"{value}"
             else:
                 return False
 

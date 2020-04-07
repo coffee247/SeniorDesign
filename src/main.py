@@ -25,6 +25,7 @@ import src.querries
 import src.setupUI
 import src.lowLevel
 import src.fabrics
+import src.manufacturers
 import logging
 from time import time
 
@@ -79,6 +80,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.QuerriesModel = src.querries.QuerriesModel()
         self.HistoryModel = QSqlQueryModel()
         self.fabricModel = src.fabrics.FabricsModel()
+        self.manufactModel = src.manufacturers.ManufacturersModel()
 
 
         src.setupUI.doSetup(self)
@@ -98,6 +100,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, "ballisticians", "ballistician", 0, self.ballModel)
         self.dbase.populateListView(self, "querries", "Descr", 0, self.QuerriesModel)
         self.dbase.populateListView(self, "fabrics", "fabricType", 0, self.fabricModel)
+        self.dbase.populateListView(self, 'manufacturers', 'Mfr_name', 0, self.manufactModel)
 
         db.getRanges(self)
         header = self.RangeView.horizontalHeader()
@@ -184,7 +187,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.standbyLabel.setText("")
             logging.warning(f"Shot detected at {ShotClockTime}... Raw data =  {rawVelTime}. <---")
 
+    def on_remove_Manufacturer_clicked(self):
+        pass
 
+    def on_add_manufacturer_clicked(self):
+        pass
+
+    def on_manufacturer_listView_clicked(self):
+        pass
 
 
     def saveShotData(self):
