@@ -29,13 +29,8 @@ def doSetup(caller):
     self.editProjosButton = self.findChild(QtWidgets.QPushButton, 'editProjosButton')
     self.addFabricsButton = self.findChild(QtWidgets.QPushButton, 'add_fabric_pushButton')
     self.removeFabricsButton = self.findChild(QtWidgets.QPushButton, 'remove_fabric_pushButton')
-
-    # Set up language support button
-    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'combo')
-    self.langCombo.setToolTip('<html><head><style> body {background-color: white;} </style></head>'
-                              '<body><p>Set language then re-start application</p></body></html>')
-    self.langCombo.setToolTipDuration(5000)
-
+    self.add_backing_pushButton = self.findChild(QtWidgets.QPushButton, 'add_backing_pushButton')
+    self.remove_backing_pushButton = self.findChild(QtWidgets.QPushButton, 'remove_backing_pushButton')
 
     # identify Settings Page LineEdits
     self.S1S2LineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_S1S2')
@@ -48,54 +43,7 @@ def doSetup(caller):
     self.HWscreenEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'scrDev_LineEdit')
     self.HWmagEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'magDev_LineEdit')
     self.TimeoutEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'timeout_LineEdit')
-
-    # identify Projects page ui elements
-    self.sampTypes_listView = self.stacks.findChild(QtWidgets.QListView, 'sampTypes_listView')
-    self.sampTypes_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'sampTypes_lineEdit')
-    self.remove_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_sampTypes_pushButton')
-    self.add_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_sampTypes_pushButton')
-    self.manufacturer_listView = self.stacks.findChild(QtWidgets.QListView, 'manufacturer_listView')
-    self.manufacturer_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'manufacturer_lineEdit')
-    self.remove_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_manufacturer_pushButton')
-    self.add_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_manufacturer_pushButton')
-
-    # connect Projects Page ui elements
-    self.remove_manufacturer_pushButton.clicked.connect(self.on_remove_Manufacturer_clicked)
-    self.add_manufacturer_pushButton.clicked.connect(self.on_add_manufacturer_clicked)
-
-
-    # identify Measure Page UI elements
-    self.grainsComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Grains_comboBox')
-    self.powdersComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Powder_comboBox')
-    self.projoComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Projo_comboBox')
-    self.standbyLabel = self.findChild(QtWidgets.QLabel, 'Standby_label_5')
-    self.velocityDataLabel = self.findChild(QtWidgets.QLabel, 'VelocityDataLabel')
-    self.shootButton = self.findChild(QtWidgets.QPushButton, 'FIRE_shot_pushButton')
-    self.ballisticianComboBox = self.findChild(QtWidgets.QComboBox, 'ballistician_comboBox')
-
-
-    # identify History Page UI elements
-    self.QuerryTextLabel = self.stacks.findChild(QtWidgets.QLabel, 'QueryText_Label')
-    self.HistExecuteButton = self.stacks.findChild(QtWidgets.QPushButton, 'HistoryExecute_Button')
-    self.TempResult = self.stacks.findChild(QtWidgets.QLabel, 'label_15')
-
-    # link Models to Measure Page ComboBoxes
-    self.grainsComboBox.setModel(self.grainsModel)
-    self.projoComboBox.setModel(self.projectilesModel)
-    self.powdersComboBox.setModel(self.powdersModel)
-    self.ballisticianComboBox.setModel(self.ballModel)
-
-    # link Models to Projects page ComboBoxes
-    self.fabricMaker_ComboBox = self.findChild(QtWidgets.QComboBox, 'fabricMaker_comboBox')
-    self.fabricMaker_ComboBox.setModel(self.fabricModel)
-
-    # connect left menubar buttons
-    self.homeButton.clicked.connect(self.goHome)
-    self.historyButton.clicked.connect(self.goHistory)
-    self.measureButton.clicked.connect(self.goMeasure)
-    self.settingsButton.clicked.connect(self.goSettings)
-    self.projectsButton.clicked.connect(self.goProjects)
-    self.quitButton.clicked.connect(self.doQuit)
+    self.BackingLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'backing_lineEdit')
 
     # connect settings page buttons
     self.addGrainsButton.clicked.connect(self.addGrains)
@@ -110,6 +58,75 @@ def doSetup(caller):
     self.editProjosButton.clicked.connect(self.editProjos)
     self.removeFabricsButton.clicked.connect(self.removeFabric)
     self.addFabricsButton.clicked.connect(self.addFabric)
+    self.remove_backing_pushButton.clicked.connect(self.remove_backing)
+    self.add_backing_pushButton.clicked.connect(self.add_backing)
+
+    # Set up language support button
+    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'combo')
+    self.langCombo.setToolTip('<html><head><style> body {background-color: white;} </style></head>'
+                              '<body><p>Set language then re-start application</p></body></html>')
+    self.langCombo.setToolTipDuration(5000)
+
+
+
+
+    # identify Projects page ui elements
+    self.sampTypes_listView = self.stacks.findChild(QtWidgets.QListView, 'sampTypes_listView')
+    self.sampTypes_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'sampTypes_lineEdit')
+    self.remove_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_sampTypes_pushButton')
+    self.add_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_sampTypes_pushButton')
+    self.manufacturer_listView = self.stacks.findChild(QtWidgets.QListView, 'manufacturer_listView')
+    self.manufacturer_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'manufacturer_lineEdit')
+    self.remove_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_manufacturer_pushButton')
+    self.add_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_manufacturer_pushButton')
+    self.sample_backing_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'sample_backing_comboBox')
+    self.Manufacturer_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'Manufacturer_comboBox')
+
+    # connect Projects Page ui elements
+    self.remove_manufacturer_pushButton.clicked.connect(self.on_remove_Manufacturer_clicked)
+    self.add_manufacturer_pushButton.clicked.connect(self.on_add_manufacturer_clicked)
+
+
+    # identify Measure Page UI elements
+    self.grainsComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Grains_comboBox')
+    self.powdersComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Powder_comboBox')
+    self.projoComboBox = self.findChild(QtWidgets.QComboBox, 'Measure_Projo_comboBox')
+    self.standbyLabel = self.findChild(QtWidgets.QLabel, 'Standby_label_5')
+    self.velocityDataLabel = self.findChild(QtWidgets.QLabel, 'VelocityDataLabel')
+    self.shootButton = self.findChild(QtWidgets.QPushButton, 'FIRE_shot_pushButton')
+    self.ballisticianComboBox = self.findChild(QtWidgets.QComboBox, 'ballistician_comboBox')
+    self.backing_combobox = self.findChild(QtWidgets.QComboBox, 'backing_comboBox')
+
+
+    # identify History Page UI elements
+    self.QuerryTextLabel = self.stacks.findChild(QtWidgets.QLabel, 'QueryText_Label')
+    self.HistExecuteButton = self.stacks.findChild(QtWidgets.QPushButton, 'HistoryExecute_Button')
+    self.TempResult = self.stacks.findChild(QtWidgets.QLabel, 'label_15')
+
+    # link Models to Measure Page ComboBoxes
+    self.grainsComboBox.setModel(self.grainsModel)
+    self.projoComboBox.setModel(self.projectilesModel)
+    self.powdersComboBox.setModel(self.powdersModel)
+    self.ballisticianComboBox.setModel(self.ballModel)
+    self.backing_combobox.setModel(self.backingModel)
+    self.Manufacturer_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'Manufacturer_comboBox')
+
+
+    # link Models to Projects page ComboBoxes
+    self.fabricMaker_ComboBox = self.findChild(QtWidgets.QComboBox, 'fabricMaker_comboBox')
+    self.fabricMaker_ComboBox.setModel(self.fabricModel)
+    self.sample_backing_comboBox.setModel(self.backingModel)
+    self.Manufacturer_comboBox.setModel(self.manufactModel)
+
+    # connect left menubar buttons
+    self.homeButton.clicked.connect(self.goHome)
+    self.historyButton.clicked.connect(self.goHistory)
+    self.measureButton.clicked.connect(self.goMeasure)
+    self.settingsButton.clicked.connect(self.goSettings)
+    self.projectsButton.clicked.connect(self.goProjects)
+    self.quitButton.clicked.connect(self.doQuit)
+
+
 
     # connect measure page buttons
     self.shootButton.clicked.connect(self.shoot)
@@ -128,6 +145,7 @@ def doSetup(caller):
     self.QuerySelView = self.stacks.findChild(QtWidgets.QTableView, 'QuerySelector_tableView')
     self.HistView = self.stacks.findChild(QtWidgets.QTableView, 'History_tableView')
     self.fabricsView = self.stacks.findChild(QtWidgets.QListView, 'fabrics_listView')
+    self.backingsView = self.stacks.findChild(QtWidgets.QListView, 'backing_listView')
 
 
 
@@ -190,6 +208,9 @@ def doSetup(caller):
     # set up BallisticiansView
     self.BallisticiansView.setModel(self.ballModel)
     self.BallisticiansView.clicked.connect(self.on_BallisticiansModel_clicked)
+
+    # set up BackingsView
+    self.backingsView.setModel(self.backingModel)
 
     # set up HistoryView
     self.HistView.setModel(self.HistoryModel)

@@ -26,6 +26,7 @@ import src.setupUI
 import src.lowLevel
 import src.fabrics
 import src.manufacturers
+import src.backing
 import logging
 from time import time
 
@@ -81,6 +82,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.HistoryModel = QSqlQueryModel()
         self.fabricModel = src.fabrics.FabricsModel()
         self.manufactModel = src.manufacturers.ManufacturersModel()
+        self.backingModel = src.backing.BackingsModel()
 
 
         src.setupUI.doSetup(self)
@@ -101,6 +103,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, "querries", "Descr", 0, self.QuerriesModel)
         self.dbase.populateListView(self, "fabrics", "fabricType", 0, self.fabricModel)
         self.dbase.populateListView(self, 'manufacturers', 'Mfr_name', 0, self.manufactModel)
+        self.dbase.populateListView(self, 'backings', 'backing', 0, self.backingModel)
 
         db.getRanges(self)
         header = self.RangeView.horizontalHeader()
@@ -195,6 +198,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def on_manufacturer_listView_clicked(self):
         pass
+
+    def add_backing(self):
+        pass
+
+    def remove_backing(self):
+        pass
+
+
 
 
     def saveShotData(self):
