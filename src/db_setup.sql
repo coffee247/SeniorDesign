@@ -143,5 +143,13 @@ insert into sample_types (type_name)
            ('Plate');
 
 
+create table fiber_styles (style_name varchar(30) primary key);
+
+insert into fiber_styles (style_name)
+    values ('woven'),
+           ('uni-directional'),
+           ('multi-axial');
+
+
 
 
