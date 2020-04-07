@@ -134,6 +134,14 @@ insert into manufacturers (Mfr_name)
            ('Artec'),
            ('Saint-Gobian');
 
+create table sample_types (type_name varchar(30) primary key);
+
+insert into sample_types (type_name)
+    values ('Vest'),
+           ('Helmet'),
+           ('Shield'),
+           ('Plate');
+
 
 
 
