@@ -33,7 +33,7 @@ class fiber_styles_model(QAbstractTableModel):
             return None
 
         if role == Qt.DisplayRole:
-            styleVal = self.fiber_styles_list[index.row()]["fiberStyle"]
+            styleVal = self.fiber_styles_list[index.row()]["style_name"]
             return styleVal
 
 
@@ -50,11 +50,11 @@ class fiber_styles_model(QAbstractTableModel):
 
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
-        """Insert a row of range data into FabricsModel. """
+        """Insert a row of range data into FiberTypesModel. """
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
-            self.fiber_styles_list.insert(position + row, {"fiberStyle": ""})
+            self.fiber_styles_list.insert(position + row, {"style_name": ""})
 
         self.endInsertRows()
         return True
@@ -73,15 +73,15 @@ class fiber_styles_model(QAbstractTableModel):
         rowCount = self.rowCount()
         for i in range(rowCount):
             j = i+1
-            if styleVal < self.fiber_styles_list[0]["fiberStyle"]:
+            if styleVal < self.fiber_styles_list[0]["style_name"]:
                 self.insertRow(0)
                 index = self.createIndex(0, 0)
                 self.setData(index, styleVal, role=Qt.EditRole)
 
-            elif styleVal > self.fiber_styles_list[i]["fiberStyle"]:
+            elif styleVal > self.fiber_styles_list[i]["style_name"]:
                 try:
                     if i < self.rowCount()-1:
-                        if styleVal < self.fiber_styles_list[j]["fiberStyle"]:
+                        if styleVal < self.fiber_styles_list[j]["style_name"]:
                             self.insertRow(j)
                             index = self.createIndex(j, 0)
                             self.setData(index, styleVal, role=Qt.EditRole)
@@ -102,7 +102,7 @@ class fiber_styles_model(QAbstractTableModel):
         if index.isValid() and 0 <= index.row() < len(self.fiber_styles_list):
             aStyle = self.fiber_styles_list[index.row()]
             if index.column() == 0:
-                aStyle["fabricType"] = f"{value}"
+                aStyle["style_name"] = f"{value}"
             else:
                 return False
 

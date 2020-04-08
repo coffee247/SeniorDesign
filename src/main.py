@@ -8,7 +8,7 @@ import time
 import pymysql
 from PyQt5 import uic, QtWidgets, QtCore
 from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QAction, QMessageBox
 from PyQt5.uic.Compiler.qtproxies import QtGui
@@ -24,9 +24,11 @@ import src.ranges
 import src.querries
 import src.setupUI
 import src.lowLevel
-import src.fabrics
+import src.fiberTypes
 import src.manufacturers
 import src.backing
+import src.fiber_style
+
 import logging
 from time import time
 
@@ -80,14 +82,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ballModel = src.ballisticians.BallisticiansModel()
         self.QuerriesModel = src.querries.QuerriesModel()
         self.HistoryModel = QSqlQueryModel()
-        self.fabricModel = src.fabrics.FabricsModel()
+        self.fiberTypesModel = src.fiberTypes.FiberTypesModel()
         self.manufactModel = src.manufacturers.ManufacturersModel()
         self.backingModel = src.backing.BackingsModel()
+        self.fabricStylesModel = src.fiber_style.fiber_styles_model()
 
 
         src.setupUI.doSetup(self)
         self.createMenus()
-
 
 
         ''' add flag icons to language selection comboBox '''
@@ -101,9 +103,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, "BimsRange", "RangeID", 0, self.rangeModel)
         self.dbase.populateListView(self, "ballisticians", "ballistician", 0, self.ballModel)
         self.dbase.populateListView(self, "querries", "Descr", 0, self.QuerriesModel)
-        self.dbase.populateListView(self, "fabrics", "fabricType", 0, self.fabricModel)
+        self.dbase.populateListView(self, "fiber_types", "fiberType", 0, self.fiberTypesModel)
         self.dbase.populateListView(self, 'manufacturers', 'Mfr_name', 0, self.manufactModel)
         self.dbase.populateListView(self, 'backings', 'backing', 0, self.backingModel)
+        self.dbase.populateListView(self, 'fiber_styles', 'style_name', 0, self.fabricStylesModel)
 
         db.getRanges(self)
         header = self.RangeView.horizontalHeader()
@@ -148,6 +151,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def doQuit(self):
         sys.exit()
 
+    def on_EditFabricPulldowns_clicked(self):
+        self.stacks.setCurrentIndex(5)
+
     ''' set up menuBar & menubar behaviors '''
     def createMenus(self):
         # Create the main menuBar menu items
@@ -156,6 +162,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # Populate File menu
         self.createAction("E&xit", fileMenu, self.close)
 
+    def on_fabric_styles_clicked(self, index):
+        self.StyleRow = index.row()
+        style = self.fabricStylesModel.itemData(index)
+        self.fabric_styles_lineEdit.setText(style[0])
+        self.FiberStyle_comboBox.setCurrentIndex(self.StyleRow)
 
     def createAction(self, text, menu, slot):
         """ Helper function to save typing when populating menus
@@ -373,7 +384,7 @@ class MainWindow(QtWidgets.QMainWindow):
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_fabriclistView_clicked(self, index):
         self.FabricRow = index.row()
-        fabric = self.fabricModel.itemData(index)
+        fabric = self.fiberTypesModel.itemData(index)
         self.fabric_lineEdit.setText(fabric[0])
         self.fabricMaker_ComboBox.setCurrentIndex(self.FabricRow)
 
@@ -384,7 +395,7 @@ class MainWindow(QtWidgets.QMainWindow):
             try:
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
-                self.fabricModel.addData(fabricVal)
+                self.fiberTypesModel.addData(fabricVal)
                 self.fabric_lineEdit.setText("")
             except pymysql.err.IntegrityError as e:
                 if e.args[0] == 1062:
@@ -401,11 +412,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.fabric_lineEdit.setFocus()
 
     def removeFabric(self):
-        Value = self.fabricModel.fabric_objects_list[self.FabricRow]["fabricType"]
+        Value = self.fiberTypesModel.fabric_objects_list[self.FabricRow]["fabricType"]
         myquery = f"delete from fabrics where fabricType = '{Value}'"
         self.dbase.db_doQuery(myquery)
         self.dbase.db_doQuery("Commit")
-        self.fabricModel.removeRows(self.FabricRow)
+        self.fiberTypesModel.removeRows(self.FabricRow)
         self.fabric_lineEdit.setText("")
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
@@ -525,8 +536,17 @@ class MainWindow(QtWidgets.QMainWindow):
         self.grainsLineEdit.setText("")
 
 
+    def on_remove_sampleTypes_button_clicked(self):
+        pass
 
+    def on_add_sampleTypes_button_clicked(self):
+        pass
 
+    def on_add_fabric_style_pushButton_clicked(self):
+        pass
+
+    def on_remove_fabric_style_pushButton_clicked(self):
+        pass
 
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)

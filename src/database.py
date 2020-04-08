@@ -47,8 +47,10 @@ class database():
                 sql.close()
                 sql = sqltext.split(';')  # split into individual commands at semicolons.
                 for command in sql:
-                    cur.execute(command)  # execute the schema creation script (one command at a time)
-
+                    try:
+                        cur.execute(command)  # execute the schema creation script (one command at a time)
+                    except:
+                        pass
         return self
 
 

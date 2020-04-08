@@ -50,7 +50,7 @@ class BackingsModel(QAbstractTableModel):
 
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
-        """Insert a row of range data into FabricsModel. """
+        """Insert a row of range data into FiberTypesModel. """
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):

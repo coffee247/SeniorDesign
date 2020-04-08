@@ -67,20 +67,21 @@ INSERT INTO ballisticians(ballistician) VALUES ('Luke Jeter'),('Eric Key'), ('Lu
 
 create TABLE threatPowder (powderType varchar(30) primary key);
 
-INSERT INTO threatPowder(powderType) VALUES ('Accurate #2'),
-                                            ('Accurate #9'),
-                                            ('Alliant Herc. Bullseye'),
-                                            ('Alliant 2400'),
-                                            ('Hercules'),
-                                            ('Hi-Skor 700x'),
-                                            ('Hi-Skor 800x'),
-                                            ('IMR-4198'),
-                                            ('IMR-4756'),
-                                            ('IMR-4895'),
-                                            ('Power Pistol'),
-                                            ('Winchester Ball'),
-                                            ('Winchester 231'),
-                                            ('Winchester 296');
+INSERT INTO threatPowder(powderType)
+    VALUES ('Accurate #2'),
+           ('Accurate #9'),
+           ('Alliant Herc. Bullseye'),
+           ('Alliant 2400'),
+           ('Hercules'),
+           ('Hi-Skor 700x'),
+           ('Hi-Skor 800x'),
+           ('IMR-4198'),
+           ('IMR-4756'),
+           ('IMR-4895'),
+           ('Power Pistol'),
+           ('Winchester Ball'),
+           ('Winchester 231'),
+           ('Winchester 296');
 
 CREATE TABLE projo (projectileType varchar(20),
     projo_mass float,
@@ -111,18 +112,16 @@ INSERT INTO projo(projectileType, projo_mass, projo_DragCoef)
            ('9mm FMJ (38 cal)', 0.0, 0.0),
            ('9mm FMJ (9 mm)', 0.0, 0.0);
 
-CREATE TABLE fabrics (fabricType varchar(30) primary key);
+CREATE TABLE fiber_types (fiberType varchar(30) primary key);
 
-INSERT INTO fabrics (fabricType) VALUES ('Kevlar'), ('Spectra'), ('Twaron'), ('Dyneema');
+INSERT INTO fiber_types (fiberType) VALUES ('Kevlar'), ('Spectra'), ('Twaron'), ('Dyneema');
 
 UPDATE user SET firstName = 'Jimmy' where loginID = 'coffee247';
 
 create TABLE backings (backing varchar(20) primary key);
 
 INSERT INTO backings (backing)
-    VALUES ('Clay'),
-           ('Aluminum'),
-           ('Air');
+    VALUES ('Clay'), ('Aluminum'), ('Air');
 
 create table manufacturers (Mfr_name varchar(30) primary key);
 
@@ -132,7 +131,7 @@ insert into manufacturers (Mfr_name)
            ('DuPont'),
            ('Honeywell'),
            ('Artec'),
-           ('Saint-Gobian');
+           ('Saint Gobian');
 
 create table sample_types (type_name varchar(30) primary key);
 
@@ -145,11 +144,4 @@ insert into sample_types (type_name)
 
 create table fiber_styles (style_name varchar(30) primary key);
 
-insert into fiber_styles (style_name)
-    values ('woven'),
-           ('uni-directional'),
-           ('multi-axial');
-
-
-
-
+insert into fiber_styles (style_name) values ('woven'), ('uni directional'), ('multi axial');
