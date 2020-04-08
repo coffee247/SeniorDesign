@@ -456,7 +456,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
