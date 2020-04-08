@@ -112,26 +112,6 @@ margin: 3px</string>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="historyButton">
-        <property name="styleSheet">
-         <string notr="true">margin: 0 3px</string>
-        </property>
-        <property name="text">
-         <string>  History</string>
-        </property>
-        <property name="icon">
-         <iconset resource="BIMS_Resources.qrc">
-          <normaloff>:/images/images/Gnome-document-open-recent.svg</normaloff>:/images/images/Gnome-document-open-recent.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="settingsButton">
         <property name="styleSheet">
          <string notr="true">margin: 0 3px</string>
@@ -142,6 +122,26 @@ margin: 3px</string>
         <property name="icon">
          <iconset resource="BIMS_Resources.qrc">
           <normaloff>:/images/images/Circle-icons-settings.svg</normaloff>:/images/images/Circle-icons-settings.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="historyButton">
+        <property name="styleSheet">
+         <string notr="true">margin: 0 3px</string>
+        </property>
+        <property name="text">
+         <string>  History</string>
+        </property>
+        <property name="icon">
+         <iconset resource="BIMS_Resources.qrc">
+          <normaloff>:/images/images/Gnome-document-open-recent.svg</normaloff>:/images/images/Gnome-document-open-recent.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -456,7 +456,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -3122,6 +3122,9 @@ selection-color: red;</string>
               </item>
               <item>
                <widget class="QFrame" name="frame_17">
+                <property name="styleSheet">
+                 <string notr="true">background-color: #F1F2E0; border: 2px solid black;</string>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -3129,7 +3132,7 @@ selection-color: red;</string>
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_4">
-                 <item row="0" column="0">
+                 <item row="1" column="1">
                   <layout class="QVBoxLayout" name="verticalLayout_6">
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -3237,6 +3240,19 @@ selection-color: red;</string>
                         </item>
                        </layout>
                       </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_2">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
                      </item>
                      <item>
                       <widget class="QFrame" name="frame_8">
@@ -3465,6 +3481,19 @@ selection-color: red;</string>
                       </widget>
                      </item>
                      <item>
+                      <spacer name="horizontalSpacer_3">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
                       <widget class="QFrame" name="frame_21">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
@@ -3584,6 +3613,45 @@ selection-color: red;</string>
                     </layout>
                    </item>
                   </layout>
+                 </item>
+                 <item row="1" column="0">
+                  <spacer name="horizontalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_61">
+                   <property name="styleSheet">
+                    <string notr="true">border: none;</string>
+                   </property>
+                   <property name="text">
+                    <string>Edit sample and fiber pick-lists</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <spacer name="horizontalSpacer_5">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </widget>
@@ -5122,7 +5190,6 @@ border 2px solid black;</string>
   <tabstop>SaveRange_pushButton</tabstop>
   <tabstop>quitButton</tabstop>
   <tabstop>addGrain_PushButton</tabstop>
-  <tabstop>historyButton</tabstop>
   <tabstop>Measure_Projo_comboBox</tabstop>
   <tabstop>settingsButton</tabstop>
   <tabstop>rmvProjectiles_pushButton</tabstop>

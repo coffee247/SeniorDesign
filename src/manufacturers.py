@@ -81,7 +81,7 @@ class ManufacturersModel(QAbstractTableModel):
             elif makersVal > self.Makers[i]["Mfr_name"]:
                 try:
                     if i < self.rowCount()-1:
-                        if makersVal < self.Powders[j]["Mfr_name"]:
+                        if makersVal < self.Makers[j]["Mfr_name"]:
                             self.insertRow(j)
                             index = self.createIndex(j, 0)
                             self.setData(index, makersVal, role=Qt.EditRole)

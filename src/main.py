@@ -111,9 +111,9 @@ class MainWindow(QtWidgets.QMainWindow):
         db.getRanges(self)
         header = self.RangeView.horizontalHeader()
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(4, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
 
         db.getProjos(self)
@@ -151,8 +151,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def doQuit(self):
         sys.exit()
 
-    def on_EditFabricPulldowns_clicked(self):
-        self.stacks.setCurrentIndex(5)
 
     ''' set up menuBar & menubar behaviors '''
     def createMenus(self):
@@ -202,19 +200,86 @@ class MainWindow(QtWidgets.QMainWindow):
             logging.warning(f"Shot detected at {ShotClockTime}... Raw data =  {rawVelTime}. <---")
 
     def on_remove_Manufacturer_clicked(self):
-        pass
+        try:
+            Value = self.manufactModel.Makers[self.ManufacturerRow]["Mfr_name"]
+            myquery = f"delete from manufacturers where Mfr_name = '{Value}'"
+            self.dbase.db_doQuery(myquery)
+            self.dbase.db_doQuery("Commit")
+            self.manufactModel.removeRows(self.ManufacturerRow)
+            self.manufacturer_lineEdit.setText("")
+        except:
+            self.issueWarning("Oops!  Something went wrong!")
 
     def on_add_manufacturer_clicked(self):
-        pass
+        Manufacturer = self.manufacturer_lineEdit.text()
+        if Manufacturer != "":
+            myquery = f"insert into manufacturers (Mfr_name) values ('{Manufacturer}')"
+            try:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.manufactModel.addData(Manufacturer)
+                self.manufacturer_lineEdit.setText("")
+            except pymysql.err.IntegrityError as e:
+                if e.args[0] == 1062:
+                    self.issueWarning(f"Duplicate Entry for {Manufacturer} ---> (already exists.)\n\nTry again!")
+                    self.manufacturer_lineEdit.setText("")
+                    self.manufacturer_lineEdit.setFocus()
+            except pymysql.err.InternalError:
+                pass
+            finally:
+                pass
+            self.manufacturer_lineEdit.setText("")
+        else:
+            self.issueWarning("No value was entered for Powder")
+            self.manufacturer_lineEdit.setText("")
 
-    def on_manufacturer_listView_clicked(self):
-        pass
+
+    def on_manufacturer_listView_clicked(self, index):
+        self.ManufacturerRow = index.row()
+        manufacturer = self.manufactModel.itemData(index)
+        self.manufacturer_lineEdit.setText(manufacturer[0])
+        self.Manufacturer_comboBox.setCurrentIndex(self.ManufacturerRow)
+
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def on_BackingView_clicked(self, index):
+        self.BackingRow = index.row()
+        self.backing_combobox.setCurrentIndex(self.BackingRow)
+        val = self.backingModel.itemData(index)
+        self.backing_lineEdit.setText(val[0])
 
     def add_backing(self):
-        pass
+        Backing = self.backing_lineEdit.text()
+        if Backing != "":
+            myquery = f"insert into backings (backing) values ('{Backing}')"
+            try:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.backingModel.addData(Backing)
+                self.backing_lineEdit.setText("")
+            except pymysql.err.IntegrityError as e:
+                if e.args[0] == 1062:
+                    self.issueWarning(f"Duplicate Entry for {Backing} ---> (already exists.)\n\nTry again!")
+                    self.backing_lineEdit.setText("")
+                    self.backing_lineEdit.setFocus()
+            except pymysql.err.InternalError:
+                pass
+            finally:
+                pass
+            self.backing_lineEdit.setText("")
+        else:
+            self.issueWarning("No value was entered for Backing")
+            self.backing_lineEdit.setText("")
 
     def remove_backing(self):
-        pass
+        try:
+            Value = self.backingModel.backing_objects_list[self.BackingRow]["backing"]
+            myquery = f"delete from backings where backing = '{Value}'"
+            self.dbase.db_doQuery(myquery)
+            self.dbase.db_doQuery("Commit")
+            self.backingModel.removeRows(self.BackingRow)
+            self.backing_lineEdit.setText("")
+        except:
+            self.issueWarning("Oops!  Something went wrong!")
 
 
 
@@ -550,7 +615,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
-    def on_BallisticiansModel_clicked(self, index):
+    def on_BallisticianView_clicked(self, index):
         self.BallisticianRow = index.row()
         self.ballisticianComboBox.setCurrentIndex(self.BallisticianRow)
         val = self.ballModel.itemData(index)

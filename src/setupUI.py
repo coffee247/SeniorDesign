@@ -224,10 +224,11 @@ def doSetup(caller):
 
     # set up BallisticiansView
     self.BallisticiansView.setModel(self.ballModel)
-    self.BallisticiansView.clicked.connect(self.on_BallisticiansModel_clicked)
+    self.BallisticiansView.clicked.connect(self.on_BallisticianView_clicked)
 
     # set up BackingsView
     self.backingsView.setModel(self.backingModel)
+    self.backingsView.clicked.connect(self.on_BackingView_clicked)
 
     # set up HistoryView
     self.HistView.setModel(self.HistoryModel)
