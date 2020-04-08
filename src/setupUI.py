@@ -60,17 +60,6 @@ def doSetup(caller):
     self.addFabricsButton.clicked.connect(self.addFabric)
     self.remove_backing_pushButton.clicked.connect(self.remove_backing)
     self.add_backing_pushButton.clicked.connect(self.add_backing)
-
-    # Set up language support button
-    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'combo')
-    self.langCombo.setToolTip('<html><head><style> body {background-color: white;} </style></head>'
-                              '<body><p>Set language then re-start application</p></body></html>')
-    self.langCombo.setToolTipDuration(5000)
-
-
-
-
-    # identify Projects page ui elements
     self.sampTypes_listView = self.stacks.findChild(QtWidgets.QListView, 'sampTypes_listView')
     self.sampTypes_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'sampTypes_lineEdit')
     self.remove_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_sampTypes_pushButton')
@@ -83,7 +72,19 @@ def doSetup(caller):
     self.Manufacturer_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'Manufacturer_comboBox')
     self.remove_fabric_style_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_fabric_style_pushButton')
     self.add_fabric_style_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_fabric_style_pushButton')
-    self.Edit_Fabric_PullDowns_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'Edit_Fabric_PullDowns_pushButton')
+
+
+    # Set up language support button
+    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'combo')
+    self.langCombo.setToolTip('<html><head><style> body {background-color: white;} </style></head>'
+                              '<body><p>Set language then re-start application</p></body></html>')
+    self.langCombo.setToolTipDuration(5000)
+
+
+
+
+    # identify Projects page ui elements
+    self.FiberStyle_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'Fabric_Style_ComboBox')
 
 
     # connect Projects Page ui elements
@@ -93,7 +94,6 @@ def doSetup(caller):
     self.add_sampTypes_pushButton.clicked.connect(self.on_add_sampleTypes_button_clicked)
     self.add_fabric_style_pushButton.clicked.connect(self.on_add_fabric_style_pushButton_clicked)
     self.remove_fabric_style_pushButton.clicked.connect(self.on_remove_fabric_style_pushButton_clicked)
-    self.FiberStyle_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'FiberStyle_comboBox')
 
 
 
@@ -127,7 +127,7 @@ def doSetup(caller):
     self.fabricMaker_ComboBox.setModel(self.fiberTypesModel)
     self.sample_backing_comboBox.setModel(self.backingModel)
     self.Manufacturer_comboBox.setModel(self.manufactModel)
-    # self.FiberStyle_comboBox.setModel(self.fabricStylesModel)
+    self.FiberStyle_comboBox.setModel(self.fabricStylesModel)
 
     # connect left menubar buttons
     self.homeButton.clicked.connect(self.goHome)
