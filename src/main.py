@@ -453,19 +453,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fabric_lineEdit.setText(fabric[0])
         self.fabricMaker_ComboBox.setCurrentIndex(self.FabricRow)
 
-    def addFabric(self):
-        fabricVal = self.fabric_lineEdit.text().title()
-        if fabricVal != "":
-            myquery = f"insert into fabrics (fabricType) values ('{fabricVal}')"
+    def addFiber(self):
+        fiberVal = self.fabric_lineEdit.text().title()
+        if fiberVal != "":
+            myquery = f"insert into fiber_types (fiberType) values ('{fiberVal}')"
             try:
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
-                self.fiberTypesModel.addData(fabricVal)
+                self.fiberTypesModel.addData(fiberVal)
                 self.fabric_lineEdit.setText("")
             except pymysql.err.IntegrityError as e:
                 if e.args[0] == 1062:
                     self.issueWarning(
-                        f"Duplicate Entry for {fabricVal} ---> (already exists.)\n\nTry again!")
+                        f"Duplicate Entry for {fiberVal} ---> (already exists.)\n\nTry again!")
                     self.fabric_lineEdit.setText("")
                     self.fabric_lineEdit.setFocus()
             except pymysql.err.InternalError:
@@ -476,8 +476,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.issueWarning("No value was entered for Fabric")
             self.fabric_lineEdit.setFocus()
 
-    def removeFabric(self):
-        Value = self.fiberTypesModel.fabric_objects_list[self.FabricRow]["fabricType"]
+    def removeFiber(self):
+        Value = self.fiberTypesModel.fiberType_objects_list[self.FabricRow]["fabricType"]
         myquery = f"delete from fabrics where fabricType = '{Value}'"
         self.dbase.db_doQuery(myquery)
         self.dbase.db_doQuery("Commit")

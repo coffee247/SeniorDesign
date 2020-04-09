@@ -1434,7 +1434,7 @@ selection-color: red;</string>
                           <string notr="true">border: None;</string>
                          </property>
                          <property name="text">
-                          <string>Drag Coef</string>
+                          <string>k-Factor</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignCenter</set>
@@ -2798,6 +2798,11 @@ selection-color: red;</string>
                      </item>
                      <item row="1" column="1">
                       <widget class="QTableView" name="Ranges_tableView">
+                       <property name="font">
+                        <font>
+                         <pointsize>12</pointsize>
+                        </font>
+                       </property>
                        <property name="styleSheet">
                         <string notr="true">background-color: white;</string>
                        </property>
@@ -2809,6 +2814,15 @@ selection-color: red;</string>
                        </property>
                        <property name="selectionBehavior">
                         <enum>QAbstractItemView::SelectRows</enum>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>false</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>false</bool>
                        </property>
                       </widget>
                      </item>
@@ -3132,6 +3146,19 @@ selection-color: red;</string>
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_4">
+                 <item row="1" column="2">
+                  <spacer name="horizontalSpacer_5">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
                  <item row="1" column="1">
                   <layout class="QVBoxLayout" name="verticalLayout_6">
                    <item>
@@ -3173,7 +3200,7 @@ selection-color: red;</string>
                          </widget>
                         </item>
                         <item row="1" column="0" colspan="2">
-                         <widget class="QListView" name="fabrics_listView">
+                         <widget class="QListView" name="fibers_listView">
                           <property name="styleSheet">
                            <string notr="true">background-color: white;</string>
                           </property>
@@ -3198,7 +3225,7 @@ selection-color: red;</string>
                          </widget>
                         </item>
                         <item row="3" column="0" colspan="2">
-                         <widget class="QLineEdit" name="fabric_lineEdit">
+                         <widget class="QLineEdit" name="fiberType_lineEdit">
                           <property name="styleSheet">
                            <string notr="true">background-color: white;</string>
                           </property>
@@ -3207,7 +3234,7 @@ selection-color: red;</string>
                         <item row="4" column="0">
                          <layout class="QHBoxLayout" name="horizontalLayout_3">
                           <item>
-                           <widget class="QPushButton" name="remove_fabric_pushButton">
+                           <widget class="QPushButton" name="remove_fiber_pushButton">
                             <property name="font">
                              <font>
                               <pointsize>9</pointsize>
@@ -3222,7 +3249,7 @@ selection-color: red;</string>
                            </widget>
                           </item>
                           <item>
-                           <widget class="QPushButton" name="add_fabric_pushButton">
+                           <widget class="QPushButton" name="add_fiber_pushButton">
                             <property name="font">
                              <font>
                               <pointsize>9</pointsize>
@@ -3366,6 +3393,19 @@ selection-color: red;</string>
                       </widget>
                      </item>
                     </layout>
+                   </item>
+                   <item>
+                    <spacer name="verticalSpacer_4">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -3629,6 +3669,17 @@ selection-color: red;</string>
                  </item>
                  <item row="0" column="1">
                   <widget class="QLabel" name="label_61">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>15</pointsize>
+                    </font>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">border: none;</string>
                    </property>
@@ -3640,15 +3691,15 @@ selection-color: red;</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="2">
-                  <spacer name="horizontalSpacer_5">
+                 <item row="2" column="1">
+                  <spacer name="verticalSpacer_5">
                    <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                    <enum>Qt::Vertical</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
-                     <width>40</width>
-                     <height>20</height>
+                     <width>20</width>
+                     <height>40</height>
                     </size>
                    </property>
                   </spacer>
@@ -3833,7 +3884,7 @@ border 2px solid black;</string>
                      <string notr="true">border: none;</string>
                     </property>
                     <property name="text">
-                     <string>Fiber_ID</string>
+                     <string>Fabric_ID</string>
                     </property>
                    </widget>
                   </item>
