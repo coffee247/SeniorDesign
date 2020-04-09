@@ -28,7 +28,7 @@ import src.fiberTypes
 import src.manufacturers
 import src.backing
 import src.fiber_style
-
+import src.sample_Types
 import logging
 from time import time
 
@@ -86,6 +86,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.manufactModel = src.manufacturers.ManufacturersModel()
         self.backingModel = src.backing.BackingsModel()
         self.fabricStylesModel = src.fiber_style.fiber_styles_model()
+        self.sample_types_Model = src.sample_Types.sample_types_model()
 
 
         src.setupUI.doSetup(self)
@@ -107,6 +108,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, 'manufacturers', 'Mfr_name', 0, self.manufactModel)
         self.dbase.populateListView(self, 'backings', 'backing', 0, self.backingModel)
         self.dbase.populateListView(self, 'fiber_styles', 'style_name', 0, self.fabricStylesModel)
+        self.dbase.populateListView(self, 'sample_types', 'type_name', 0, self.sample_types_Model)
 
         db.getRanges(self)
         header = self.RangeView.horizontalHeader()
@@ -164,7 +166,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.StyleRow = index.row()
         style = self.fabricStylesModel.itemData(index)
         self.fabric_styles_lineEdit.setText(style[0])
-        self.FiberStyle_comboBox.setCurrentIndex(self.StyleRow)
+        self.Fabric_Style_ComboBox.setCurrentIndex(self.StyleRow)
 
     def createAction(self, text, menu, slot):
         """ Helper function to save typing when populating menus
@@ -239,6 +241,13 @@ class MainWindow(QtWidgets.QMainWindow):
         manufacturer = self.manufactModel.itemData(index)
         self.manufacturer_lineEdit.setText(manufacturer[0])
         self.Manufacturer_comboBox.setCurrentIndex(self.ManufacturerRow)
+
+    def on_sample_types_view_clicked(self, index):
+        self.sampletypeRow = index.row()
+        sampleType = self.sample_types_Model.itemData(index)
+        self.sampTypes_lineEdit.setText(sampleType[0])
+        self.sample_types_comboBox.setCurrentIndex(self.sampletypeRow)
+
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_BackingView_clicked(self, index):
@@ -447,11 +456,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.clearProjoEdits()
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
-    def on_fabriclistView_clicked(self, index):
-        self.FabricRow = index.row()
-        fabric = self.fiberTypesModel.itemData(index)
-        self.fabric_lineEdit.setText(fabric[0])
-        self.fabricMaker_ComboBox.setCurrentIndex(self.FabricRow)
+    def on_fiber_Types_listView_clicked(self, index):
+        self.fiberTypeRow = index.row()
+        type = self.fiberTypesModel.itemData(index)
+        self.fiberType_lineEdit.setText(type[0])
+        self.fiberType_comboBox.setCurrentIndex(self.fiberTypeRow)
 
     def addFiber(self):
         fiberVal = self.fabric_lineEdit.text().title()
@@ -546,6 +555,7 @@ class MainWindow(QtWidgets.QMainWindow):
         powder = self.powdersModel.itemData(index)
         self.powdersLineEdit.setText(powder[0])
         self.powdersComboBox.setCurrentIndex(self.PowderRow)
+
 
     def removePowders(self):
         Value = self.powdersModel.Powders[self.PowderRow]["powderType"]
@@ -709,6 +719,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.S2TargLineEdit.setText(S2Targ[0])
         self.MidS2LineEdit.setText(MidS2[0])
         self.MuzMidLineEdit.setText(MuzMid[0])
+
 
     def dolanguageChangeRequest(self, index):
         if index == 0:

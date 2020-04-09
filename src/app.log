@@ -1,2 +1,7 @@
 2020-04-08 18:04:54,103 - Could not find database dbtest.
 2020-04-08 18:04:54,105 - 	Creating new database dbtest
+2020-04-09 08:01:13,850 - Shot detected at 1586433673.849981... Raw data =  0.6836613328193377. <---
+2020-04-09 10:17:27,124 - Screens Device and type changed ... Prev value Dev1/ctr1.  New value: Dev1/ctr0
+2020-04-09 10:17:43,833 - Screens Device and type changed ... Prev value Dev1/ctr0.  New value: Dev1/ctr1
+2020-04-09 10:17:55,041 - Hardware Timeout changed ... Prev value 122.  New value: 122g
+2020-04-09 10:17:57,519 - Hardware Timeout changed ... Prev value 122g.  New value: 122

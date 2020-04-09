@@ -75,10 +75,14 @@ def doSetup(caller):
     self.remove_fiber_pushButton = self.findChild(QtWidgets.QPushButton, 'remove_fiber_pushButton')
     self.fiberType_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'fiberType_lineEdit')
     self.fiberTypesView = self.stacks.findChild(QtWidgets.QListView, 'fibers_listView')
+    self.fiberType_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'fiberType_comboBox')
     self.remove_fiber_pushButton.clicked.connect(self.removeFiber)
     self.add_fiber_pushButton.clicked.connect(self.addFiber)
     self.fiberTypesView.setModel(self.fiberTypesModel)
-    self.fiberTypesView.clicked.connect(self.on_fabriclistView_clicked)
+    self.fiberType_comboBox.setModel(self.fiberTypesModel)
+    self.fiberTypesView.clicked.connect(self.on_fiber_Types_listView_clicked)
+
+    self.fabric_plies_tableView = self.stacks.findChild(QtWidgets.QTableView, 'fabric_plies_tableView')
 
 
     # UI Sample_Types elements
@@ -86,6 +90,10 @@ def doSetup(caller):
     self.sampTypes_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'sampTypes_lineEdit')
     self.remove_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_sampTypes_pushButton')
     self.add_sampTypes_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_sampTypes_pushButton')
+    self.sample_types_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'SampleType_comboBox')
+    self.sampTypes_listView.setModel(self.sample_types_Model)
+    self.sample_types_comboBox.setModel(self.sample_types_Model)
+    self.sampTypes_listView.clicked.connect(self.on_sample_types_view_clicked)
     self.remove_sampTypes_pushButton.clicked.connect(self.on_remove_sampleTypes_button_clicked)
     self.add_sampTypes_pushButton.clicked.connect(self.on_add_sampleTypes_button_clicked)
 
@@ -94,12 +102,10 @@ def doSetup(caller):
     self.manufacturer_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'manufacturer_lineEdit')
     self.remove_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_manufacturer_pushButton')
     self.add_manufacturer_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_manufacturer_pushButton')
-    self.fabricMaker_ComboBox = self.findChild(QtWidgets.QComboBox, 'fabricMaker_comboBox')
     self.Manufacturer_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'Manufacturer_comboBox')
     self.Manufacturer_comboBox.setModel(self.manufactModel)
     self.remove_manufacturer_pushButton.clicked.connect(self.on_remove_Manufacturer_clicked)
     self.add_manufacturer_pushButton.clicked.connect(self.on_add_manufacturer_clicked)
-    self.fabricMaker_ComboBox.setModel(self.fiberTypesModel)
     self.manufacturer_listView.setModel(self.manufactModel)
     self.manufacturer_listView.clicked.connect(self.on_manufacturer_listView_clicked)
 
@@ -123,6 +129,7 @@ def doSetup(caller):
     self.backing_combobox = self.findChild(QtWidgets.QComboBox, 'backing_comboBox')
     self.backingsView = self.stacks.findChild(QtWidgets.QListView, 'backing_listView')
     self.sample_backing_comboBox.setModel(self.backingModel)
+    self.backing_comboBox.setModel(self.backingModel)
     self.remove_backing_pushButton.clicked.connect(self.remove_backing)
     self.add_backing_pushButton.clicked.connect(self.add_backing)
     self.backingsView.setModel(self.backingModel)

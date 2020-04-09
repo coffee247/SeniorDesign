@@ -456,7 +456,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -760,13 +760,6 @@ margin: 3px</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="8" column="1" colspan="2">
-                    <widget class="QComboBox" name="ballistician_comboBox">
-                     <property name="styleSheet">
-                      <string notr="true">background-color: white</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="3" column="1" colspan="2">
                     <widget class="QComboBox" name="experiment_comboBox">
                      <property name="styleSheet">
@@ -775,7 +768,7 @@ selection-color: red;</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="9" column="1" colspan="2">
+                   <item row="10" column="1" colspan="2">
                     <widget class="QLineEdit" name="obliquity_lineEdit">
                      <property name="styleSheet">
                       <string notr="true">background-color: white</string>
@@ -877,13 +870,6 @@ selection-color: red;</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="10" column="1" colspan="2">
-                    <widget class="QComboBox" name="backing_comboBox">
-                     <property name="styleSheet">
-                      <string notr="true">background-color: white</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="7" column="1" colspan="2">
                     <widget class="QComboBox" name="Measure_Projo_comboBox">
                      <property name="font">
@@ -926,26 +912,6 @@ selection-color: red;</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="10" column="0">
-                    <widget class="QLabel" name="label_23">
-                     <property name="styleSheet">
-                      <string notr="true">border: none;</string>
-                     </property>
-                     <property name="text">
-                      <string>backing</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="8" column="0">
-                    <widget class="QLabel" name="label_9">
-                     <property name="styleSheet">
-                      <string notr="true">border: none</string>
-                     </property>
-                     <property name="text">
-                      <string>Ballistician</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="7" column="0">
                     <widget class="QLabel" name="label_4">
                      <property name="sizePolicy">
@@ -978,13 +944,21 @@ selection-color: red;</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="9" column="0">
+                   <item row="10" column="0">
                     <widget class="QLabel" name="label_13">
                      <property name="styleSheet">
                       <string notr="true">border: none;</string>
                      </property>
                      <property name="text">
                       <string>Obliquity (of shot)</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1" colspan="2">
+                    <widget class="QComboBox" name="project_ComboBox">
+                     <property name="styleSheet">
+                      <string notr="true">background-color: white;
+selection-color: red;</string>
                      </property>
                     </widget>
                    </item>
@@ -998,11 +972,37 @@ selection-color: red;</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="2" column="1" colspan="2">
-                    <widget class="QComboBox" name="project_ComboBox">
+                   <item row="9" column="0">
+                    <widget class="QLabel" name="label_23">
                      <property name="styleSheet">
-                      <string notr="true">background-color: white;
-selection-color: red;</string>
+                      <string notr="true">border: none;</string>
+                     </property>
+                     <property name="text">
+                      <string>backing</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="1" colspan="2">
+                    <widget class="QComboBox" name="backing_comboBox">
+                     <property name="styleSheet">
+                      <string notr="true">background-color: white</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="0">
+                    <widget class="QLabel" name="label_9">
+                     <property name="styleSheet">
+                      <string notr="true">border: none</string>
+                     </property>
+                     <property name="text">
+                      <string>Ballistician</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="1" colspan="2">
+                    <widget class="QComboBox" name="ballistician_comboBox">
+                     <property name="styleSheet">
+                      <string notr="true">background-color: white</string>
                      </property>
                     </widget>
                    </item>
@@ -3878,7 +3878,7 @@ border 2px solid black;</string>
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QFormLayout" name="formLayout_4">
-                  <item row="0" column="0">
+                  <item row="1" column="0">
                    <widget class="QLabel" name="label_52">
                     <property name="styleSheet">
                      <string notr="true">border: none;</string>
@@ -3888,25 +3888,25 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_2">
+                  <item row="1" column="1">
+                   <widget class="QLineEdit" name="fabric_ID_lineEdit">
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0">
+                  <item row="3" column="0">
                    <widget class="QLabel" name="label_49">
                     <property name="styleSheet">
                      <string notr="true">border: none;</string>
                     </property>
                     <property name="text">
-                     <string>Fabric Descrition</string>
+                     <string>Ply Descrition</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="1">
-                   <widget class="QPlainTextEdit" name="fabricDescription_PlainTextEdit">
+                  <item row="3" column="1">
+                   <widget class="QPlainTextEdit" name="ply_description_plainTextEdit">
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
@@ -3917,11 +3917,11 @@ border 2px solid black;</string>
                      <string notr="true">background-color: white</string>
                     </property>
                     <property name="placeholderText">
-                     <string>Plain old text description of the fabric</string>
+                     <string>Plain old text description of the ply</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0">
+                  <item row="4" column="0">
                    <widget class="QLabel" name="label_50">
                     <property name="styleSheet">
                      <string notr="true">border: none</string>
@@ -3931,14 +3931,14 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1">
+                  <item row="4" column="1">
                    <widget class="QComboBox" name="Fabric_Style_ComboBox">
                     <property name="styleSheet">
                      <string notr="true">background-color: white</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0">
+                  <item row="5" column="0">
                    <widget class="QLabel" name="label_51">
                     <property name="styleSheet">
                      <string notr="true">border: none</string>
@@ -3948,25 +3948,25 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1">
-                   <widget class="QComboBox" name="fabricMaker_comboBox">
+                  <item row="5" column="1">
+                   <widget class="QComboBox" name="fiberType_comboBox">
                     <property name="styleSheet">
                      <string notr="true">background-color: white</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="0">
+                  <item row="6" column="0">
                    <widget class="QLabel" name="label_53">
                     <property name="styleSheet">
                      <string notr="true">border: none</string>
                     </property>
                     <property name="text">
-                     <string>Weight (grams)</string>
+                     <string>Ply Weight (grams)</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
-                   <widget class="QSpinBox" name="spinBox">
+                  <item row="6" column="1">
+                   <widget class="QSpinBox" name="ply_weight_spinBox">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -4232,7 +4232,7 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="1">
+                  <item row="7" column="1">
                    <widget class="QPushButton" name="add_ply_pushButton">
                     <property name="styleSheet">
                      <string notr="true">background-color: lightgreen;</string>
@@ -4242,11 +4242,63 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_62">
+                    <property name="styleSheet">
+                     <string notr="true">border: none;</string>
+                    </property>
+                    <property name="text">
+                     <string>Fabric Description</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QPlainTextEdit" name="fabric_description_plainTextEdit">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>100</height>
+                     </size>
+                    </property>
+                    <property name="baseSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: white;</string>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Plain old text description of the fabric</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_63">
+                    <property name="styleSheet">
+                     <string notr="true">border: none;</string>
+                    </property>
+                    <property name="text">
+                     <string>Select a  Fabric</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QComboBox" name="existing_fabrics_comboBox">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: white;</string>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                </item>
                <item row="1" column="1" colspan="2">
                 <widget class="QFrame" name="frame_18">
+                 <property name="styleSheet">
+                  <string notr="true">border: 1px solid;</string>
+                 </property>
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -4268,14 +4320,14 @@ border 2px solid black;</string>
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QTableView" name="tableView_2">
+                   <widget class="QTableView" name="fabric_plies_tableView">
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
                     </property>
                    </widget>
                   </item>
                   <item row="2" column="0">
-                   <widget class="QPushButton" name="pushButton_9">
+                   <widget class="QPushButton" name="remove_ply_pushButton">
                     <property name="styleSheet">
                      <string notr="true">background-color: pink;</string>
                     </property>
@@ -4374,39 +4426,32 @@ border 2px solid black;</string>
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
-                 <layout class="QFormLayout" name="formLayout_20">
+                 <layout class="QGridLayout" name="gridLayout_5">
                   <item row="0" column="0">
                    <widget class="QLabel" name="label_95">
                     <property name="styleSheet">
                      <string notr="true">border: none;</string>
                     </property>
                     <property name="text">
-                     <string>Current Project</string>
+                     <string>Selected Project ID</string>
                     </property>
                    </widget>
                   </item>
                   <item row="0" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout_16">
                     <item>
-                     <spacer name="horizontalSpacer_6">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QComboBox" name="comboBox_7">
+                     <widget class="QComboBox" name="project_I_comboBox">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                         <horstretch>0</horstretch>
                         <verstretch>0</verstretch>
                        </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>200</width>
+                        <height>0</height>
+                       </size>
                       </property>
                       <property name="baseSize">
                        <size>
@@ -4422,30 +4467,53 @@ border 2px solid black;</string>
                    </layout>
                   </item>
                   <item row="1" column="0" colspan="2">
-                   <widget class="QTableView" name="tableView">
+                   <widget class="QTableView" name="projects_tableView">
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0">
+                  <item row="2" column="0" colspan="2">
+                   <widget class="Line" name="line_2">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
                    <widget class="QLabel" name="label_96">
                     <property name="styleSheet">
                      <string notr="true">border: none;</string>
                     </property>
                     <property name="text">
-                     <string>Project Number</string>
+                     <string>New Project Number (If applicable) </string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1">
-                   <widget class="QLineEdit" name="lineEdit">
+                  <item row="3" column="1">
+                   <widget class="QLineEdit" name="project_ID_lineEdit">
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1">
+                  <item row="4" column="1">
+                   <widget class="QPushButton" name="pushButton_11">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: lightgreen;</string>
+                    </property>
+                    <property name="text">
+                     <string>Create new Project</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
                    <spacer name="verticalSpacer_7">
                     <property name="orientation">
                      <enum>Qt::Vertical</enum>
@@ -4645,7 +4713,7 @@ border 2px solid black;</string>
                      <string notr="true">border: none;</string>
                     </property>
                     <property name="text">
-                     <string>Dimension  (Width)</string>
+                     <string>Dimension  (Width) cm</string>
                     </property>
                    </widget>
                   </item>
@@ -4890,6 +4958,9 @@ border 2px solid black;</string>
                       <bold>true</bold>
                      </font>
                     </property>
+                    <property name="toolTip">
+                     <string>Value 1 to 999</string>
+                    </property>
                     <property name="autoFillBackground">
                      <bool>false</bool>
                     </property>
@@ -4902,6 +4973,9 @@ border 2px solid black;</string>
                     <property name="minimum">
                      <number>1</number>
                     </property>
+                    <property name="maximum">
+                     <number>999</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="6" column="0">
@@ -4910,7 +4984,7 @@ border 2px solid black;</string>
                      <string notr="true">border: none;</string>
                     </property>
                     <property name="text">
-                     <string>Dimension (Height)</string>
+                     <string>Dimension (Height) cm</string>
                     </property>
                    </widget>
                   </item>
@@ -5155,6 +5229,9 @@ border 2px solid black;</string>
                       <bold>true</bold>
                      </font>
                     </property>
+                    <property name="toolTip">
+                     <string>Value 1 to 999</string>
+                    </property>
                     <property name="autoFillBackground">
                      <bool>false</bool>
                     </property>
@@ -5167,6 +5244,19 @@ border 2px solid black;</string>
                     <property name="minimum">
                      <number>1</number>
                     </property>
+                    <property name="maximum">
+                     <number>999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="7" column="1">
+                   <widget class="QPushButton" name="pushButton_9">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: lightgreen;</string>
+                    </property>
+                    <property name="text">
+                     <string>Create  Sample</string>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -5174,6 +5264,9 @@ border 2px solid black;</string>
                </item>
                <item row="1" column="1">
                 <widget class="QFrame" name="frame_19">
+                 <property name="styleSheet">
+                  <string notr="true">border: 1px solid;</string>
+                 </property>
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -5181,23 +5274,33 @@ border 2px solid black;</string>
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_17">
+                  <item row="2" column="0">
+                   <widget class="QPushButton" name="pushButton_10">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: pink;</string>
+                    </property>
+                    <property name="text">
+                     <string>Remove selected Sample</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QTableView" name="samples_tableView">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: white;</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="0" column="0">
                    <widget class="QLabel" name="label_56">
                     <property name="styleSheet">
                      <string notr="true">border: none;</string>
                     </property>
                     <property name="text">
-                     <string>I'n not sure what to put in the table below. (Is it necessary?)</string>
+                     <string>Samples in this Project</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QTableView" name="tableView_3">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: white;</string>
                     </property>
                    </widget>
                   </item>
