@@ -1,7 +1,7 @@
 
 # CS326 Ballistics Data Acquisition
 
-This project is written in using Qt Designer, PyQt5, and SQL.
+This project is written in using Qt Designer, PyQt5, with MySQL database as datastore.
 
 A MySql database is used to store all application data.
 
