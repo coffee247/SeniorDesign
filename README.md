@@ -7,6 +7,8 @@ A MySql database is used to store all application data.
 
 The project uses QTableView, QListView to display rows of data in the GUI via a data driven MVC design.
 
+[YouTube PlayList] (https://vcucs.slack.com/archives/GPMDYJ5HS/p1586444608004000)
+
 ![ScreenShot](https://github.com/coffee247/SeniorDesign/blob/master/Screenshot.png)
 
 Source code for project in `src` directory
