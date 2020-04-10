@@ -94,8 +94,8 @@ def doSetup(caller):
     self.sampTypes_listView.setModel(self.sample_types_Model)
     self.sample_types_comboBox.setModel(self.sample_types_Model)
     self.sampTypes_listView.clicked.connect(self.on_sample_types_view_clicked)
-    self.remove_sampTypes_pushButton.clicked.connect(self.on_remove_sampleTypes_button_clicked)
-    self.add_sampTypes_pushButton.clicked.connect(self.on_add_sampleTypes_button_clicked)
+    self.remove_sampTypes_pushButton.clicked.connect(self.on_remove_sampleTypes)
+    self.add_sampTypes_pushButton.clicked.connect(self.on_add_sampleTypes)
 
     # UI Manufacturers elements
     self.manufacturer_listView = self.stacks.findChild(QtWidgets.QListView, 'manufacturer_listView')

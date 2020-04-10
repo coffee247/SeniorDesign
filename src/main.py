@@ -248,6 +248,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.sampTypes_lineEdit.setText(sampleType[0])
         self.sample_types_comboBox.setCurrentIndex(self.sampletypeRow)
 
+    def on_remove_sampleTypes(self):
+        try:
+            Value = self.sample_types_Model.sample_types_objects_list[self.sampletypeRow]["type_name"]
+            myquery = f"delete from sample_types where type_name = '{Value}'"
+            self.dbase.db_doQuery(myquery)
+            self.dbase.db_doQuery("Commit")
+            self.sample_types_Model.removeRows(self.sampletypeRow)
+            self.sampTypes_lineEdit.setText("")
+        except:
+            self.issueWarning("Oops!  Something went wrong!")
+
+    def on_add_sampleTypes(self):
+        pass
+
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_BackingView_clicked(self, index):
