@@ -16,6 +16,22 @@ def doSetup(caller):
     self.projectsButton = self.findChild(QtWidgets.QPushButton, 'projectsButton')
     self.quitButton = self.findChild(QtWidgets.QPushButton, 'quitButton')
 
+    # UI Plies Elements
+    self.ply_description_plainTextEdit = self.stacks.findChild(QtWidgets.QPlainTextEdit, 'ply_description_plainTextEdit')
+    self.fabric_plies_tableView = self.stacks.findChild(QtWidgets.QTableView, 'fabric_plies_tableView')
+    self.ply_weight_spinBox = self.stacks.findChild(QtWidgets.QSpinBox, 'ply_weight_spinBox')
+    self.fiberType_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'fiberType_comboBox')
+    self.Fabric_Style_ComboBox = self.stacks.findChild(QtWidgets.QComboBox,'Fabric_Style_ComboBox')
+    self.fabric_plies_tableView.setModel(self.pliesModel)
+
+
+
+    #UI Fabrics Elemenst
+    self.existing_fabrics_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'existing_fabrics_comboBox')
+    self.fabric_ID_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'fabric_ID_lineEdit')
+    self.existing_fabrics_comboBox.setModel(self.fabricsModel)
+    self.existing_fabrics_comboBox.currentIndexChanged.connect(self.on_FabricChanged)
+
     # UI Grains elements
     self.grainsLabel = self.stacks.findChild(QtWidgets.QLabel, 'grainsLabel')
     self.addGrainsButton = self.findChild(QtWidgets.QPushButton, 'addGrain_PushButton')
@@ -83,6 +99,7 @@ def doSetup(caller):
     self.fiberTypesView.clicked.connect(self.on_fiber_Types_listView_clicked)
 
     self.fabric_plies_tableView = self.stacks.findChild(QtWidgets.QTableView, 'fabric_plies_tableView')
+    self.fabric_plies_tableView.clicked.connect(self.on_plieslistView_clicked)
 
 
     # UI Sample_Types elements
@@ -197,15 +214,20 @@ def doSetup(caller):
 
     # set up table headers
     self.RangeView.verticalHeader().hide()  # Hide the Vertical Header in RangeView
+    self.RangeView.setSelectionBehavior(QAbstractItemView.SelectRows) # Select by entire row (not by individual cell)
+    RangesHeader = self.RangeView.horizontalHeader()
+    RangesHeader.setDefaultSectionSize(20)
+
     self.ProjectilesView.verticalHeader().hide()  # Hide the Vertical Header in ProjectilesView
     self.ProjectilesView.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select by entire row (not by individual cell)
+
+    self.fabric_plies_tableView.verticalHeader().hide()
+    self.fabric_plies_tableView.setSelectionBehavior(QAbstractItemView.SelectRows) # Select by entire row (not by individual cell)
 
     self.QuerySelView.verticalHeader().hide()  # Hide the Vertical Header in ProjectilesView
     self.QuerySelView.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select by entire row (not by individual cell)
 
-    self.RangeView.verticalHeader().hide()  # Hide the Vertical Header
-    RangesHeader = self.RangeView.horizontalHeader()
-    RangesHeader.setDefaultSectionSize(20)
+
 
 
     # set up QuerySelectorView (on History page)

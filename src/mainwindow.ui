@@ -456,7 +456,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -3779,7 +3779,6 @@ selection-color: red;</string>
            <zorder>line_3</zorder>
            <zorder>verticalSpacer_3</zorder>
            <zorder>combo</zorder>
-           <zorder>frame_17</zorder>
           </widget>
           <widget class="QWidget" name="page">
            <layout class="QGridLayout" name="gridLayout_16">
@@ -3895,7 +3894,7 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0">
+                  <item row="5" column="0">
                    <widget class="QLabel" name="label_49">
                     <property name="styleSheet">
                      <string notr="true">border: none;</string>
@@ -3905,7 +3904,7 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1">
+                  <item row="5" column="1">
                    <widget class="QPlainTextEdit" name="ply_description_plainTextEdit">
                     <property name="maximumSize">
                      <size>
@@ -3921,7 +3920,7 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="0">
+                  <item row="6" column="0">
                    <widget class="QLabel" name="label_50">
                     <property name="styleSheet">
                      <string notr="true">border: none</string>
@@ -3931,14 +3930,20 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
+                  <item row="6" column="1">
                    <widget class="QComboBox" name="Fabric_Style_ComboBox">
+                    <property name="toolTip">
+                     <string>Edit style list in SETTINGS</string>
+                    </property>
+                    <property name="toolTipDuration">
+                     <number>3000</number>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">background-color: white</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="0">
+                  <item row="7" column="0">
                    <widget class="QLabel" name="label_51">
                     <property name="styleSheet">
                      <string notr="true">border: none</string>
@@ -3948,14 +3953,20 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="1">
+                  <item row="7" column="1">
                    <widget class="QComboBox" name="fiberType_comboBox">
+                    <property name="toolTip">
+                     <string>Edit type list in SETTINGS</string>
+                    </property>
+                    <property name="toolTipDuration">
+                     <number>3000</number>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">background-color: white</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="6" column="0">
+                  <item row="8" column="0">
                    <widget class="QLabel" name="label_53">
                     <property name="styleSheet">
                      <string notr="true">border: none</string>
@@ -3965,7 +3976,7 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="6" column="1">
+                  <item row="8" column="1">
                    <widget class="QSpinBox" name="ply_weight_spinBox">
                     <property name="minimumSize">
                      <size>
@@ -4232,13 +4243,13 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="7" column="1">
+                  <item row="9" column="1">
                    <widget class="QPushButton" name="add_ply_pushButton">
                     <property name="styleSheet">
                      <string notr="true">background-color: lightgreen;</string>
                     </property>
                     <property name="text">
-                     <string>Add a new Ply (layer)</string>
+                     <string>Add new Ply (fabric layer)</string>
                     </property>
                    </widget>
                   </item>
@@ -4291,6 +4302,23 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
+                  <item row="3" column="1">
+                   <widget class="QPushButton" name="add_fabric_pushButton">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: lightgreen;</string>
+                    </property>
+                    <property name="text">
+                     <string>Add new Fabric</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0" colspan="2">
+                   <widget class="Line" name="line_12">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                </item>
@@ -4324,6 +4352,9 @@ border 2px solid black;</string>
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
                     </property>
+                    <property name="selectionMode">
+                     <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
                    </widget>
                   </item>
                   <item row="2" column="0">
@@ -4340,30 +4371,6 @@ border 2px solid black;</string>
                 </widget>
                </item>
               </layout>
-             </widget>
-            </item>
-            <item row="0" column="0" colspan="2">
-             <widget class="QLabel" name="label_47">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>1</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>34</pointsize>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: None;</string>
-              </property>
-              <property name="text">
-               <string>Projects , Samples, and Fabrics</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
              </widget>
             </item>
             <item row="5" column="2">
@@ -5308,6 +5315,30 @@ border 2px solid black;</string>
                 </widget>
                </item>
               </layout>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="3">
+             <widget class="QLabel" name="label_47">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>34</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: None;</string>
+              </property>
+              <property name="text">
+               <string>Projects , Samples, and Fabrics</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
            </layout>

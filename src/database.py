@@ -80,6 +80,19 @@ class database():
                     myself.model.setData(index, data[i][j], Qt.EditRole)
 
 
+    def getPlies(caller, fabric_id):
+        self = caller
+        # Fetch list of plies
+        with self.conn:
+            query = f"select * from ply where fabric_id like '{fabric_id}'"
+            data = self.dbase.db_doQuery(query)
+            dataShape = np.array(data).shape
+            for i in range(dataShape[0]):
+                for j in range(dataShape[1]):
+                    index = self.pliesModel.createIndex(i ,j)
+                    self.pliesModel.setData(index ,data[i][j], Qt.EditRole)
+        self.fabric_plies_tableView.setColumnHidden(5, False)
+
 def getRanges(caller):
     self = caller
     # Fetch list of ranges

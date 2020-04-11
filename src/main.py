@@ -29,6 +29,9 @@ import src.manufacturers
 import src.backing
 import src.fiber_style
 import src.sample_Types
+import src.plies
+import src.fabrics
+import src.SortFilterProxyModel
 import logging
 from time import time
 
@@ -59,6 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.GrainsRow = 0
         self.ProjoRow = 0
         self.FabricRow = 0
+        self.pliesRow = 0
 
         with open('configs/HWconfig.json', 'r') as HWconfig:
             HWconfig = json.load(HWconfig)
@@ -87,6 +91,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.backingModel = src.backing.BackingsModel()
         self.fabricStylesModel = src.fiber_style.fiber_styles_model()
         self.sample_types_Model = src.sample_Types.sample_types_model()
+        self.pliesModel = src.plies.PliesModel()
+        self.fabricsModel = src.fabrics.FabricsModel()
+        self.pliesProxyModel = src.SortFilterProxyModel.SortFilterProxyModel()
+
 
 
         src.setupUI.doSetup(self)
@@ -109,6 +117,17 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, 'backings', 'backing', 0, self.backingModel)
         self.dbase.populateListView(self, 'fiber_styles', 'style_name', 0, self.fabricStylesModel)
         self.dbase.populateListView(self, 'sample_types', 'type_name', 0, self.sample_types_Model)
+        self.dbase.populateListView(self, 'ply', 'fiber_type', 0, self.pliesModel)
+        self.dbase.populateListView(self, 'fabric', 'fabric_id', 0, self.fabricsModel)
+
+
+        header = self.fabric_plies_tableView.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+
+
 
         db.getRanges(self)
         header = self.RangeView.horizontalHeader()
@@ -153,6 +172,22 @@ class MainWindow(QtWidgets.QMainWindow):
     def doQuit(self):
         sys.exit()
 
+
+
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def on_plieslistView_clicked(self, index):
+        PliesRow = self.fabric_plies_tableView.selectedIndexes()
+        descr = self.pliesModel.itemData(PliesRow[0])[0]
+        style = f"{self.pliesModel.itemData(PliesRow[1])[0]}"
+        type = f"{self.pliesModel.itemData(PliesRow[2])[0]}"
+        weight = int(self.pliesModel.itemData(PliesRow[3])[0])
+        self.Fabric_Style_ComboBox.setCurrentText(style)
+        self.fiberType_comboBox.setCurrentText(type)
+        self.ply_weight_spinBox.setValue(weight)
+        self.ply_description_plainTextEdit.setPlainText(descr)
+
+    def on_FabricChanged(self):
+        self.fabric_ID_lineEdit.setText(self.existing_fabrics_comboBox.currentText())
 
     ''' set up menuBar & menubar behaviors '''
     def createMenus(self):
@@ -438,11 +473,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.projosDragLineEdit.setText(self.Drag[0])
         self.projoComboBox.setCurrentIndex(ProjoRow[0].row())
 
-    # projectiles populate form elements on projo ListView row clicked
-    @QtCore.pyqtSlot(QtCore.QModelIndex)
-    def populateProjoForm(self, index):
-        self.ProjoRow = index.row()
-        self.projosLineEdit.setFocus()
+
 
     # projectiles handle editButton clicked
     def editProjos(self):
