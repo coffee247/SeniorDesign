@@ -46,6 +46,9 @@ class BallisticiansModel(QAbstractTableModel):
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
         '''Insert a row of ballistician data into ballisticaianModel. '''
+        ''' Ref : https://doc.qt.io/qt-5/qabstractitemmodel.html#beginInsertRows  
+        An insertRows() implementation must call beginInsertRows() before inserting 
+        new rows into the data structure, and endInsertRows() immediately afterwards.'''
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
@@ -56,6 +59,10 @@ class BallisticiansModel(QAbstractTableModel):
 
     def removeRows(self, position, rows=1, index=QModelIndex()):
         """ Remove a row from  ballisticaianModel. """
+        ''' https://doc.qt.io/qt-5/qabstractitemmodel.html#beginRemoveRows 
+        A removeRows() implementation must call beginRemoveRows() before the
+         rows are removed from the data structure, and endRemoveRows() 
+         immediately afterwards.'''
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
 
         del self.BallisticiansList[position:position + rows]

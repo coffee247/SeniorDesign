@@ -23,7 +23,7 @@ class BackingsModel(QAbstractTableModel):
         return len(self.backing_objects_list)
 
     def columnCount(self, index=QModelIndex()):
-        return 1    #  fields:  backing
+        return 1    #  number of columns to display in the view.  fields:  backing
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
@@ -33,12 +33,13 @@ class BackingsModel(QAbstractTableModel):
             return None
 
         if role == Qt.DisplayRole:
-            fabricVal = self.backing_objects_list[index.row()]["backing"]
-            return fabricVal
+            backingVal = self.backing_objects_list[index.row()]["backing"]
+            return backingVal
 
 
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
+        ''' https://doc.qt.io/qt-5/qabstractitemmodel.html#headerData '''
         if role != Qt.DisplayRole:
             return None
 
@@ -50,7 +51,10 @@ class BackingsModel(QAbstractTableModel):
 
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
-        """Insert a row of range data into FiberTypesModel. """
+        """Insert a row of backings data into BackingsModel. """
+        ''' Ref : https://doc.qt.io/qt-5/qabstractitemmodel.html#beginInsertRows  
+        An insertRows() implementation must call beginInsertRows() before inserting 
+        new rows into the data structure, and endInsertRows() immediately afterwards.'''
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
@@ -60,7 +64,11 @@ class BackingsModel(QAbstractTableModel):
         return True
 
     def removeRows(self, position, rows=1, index=QModelIndex()):
-        """ Remove a row from  ProjectilesModel. """
+        """ Remove a row from  BackingsModel. """
+        ''' https://doc.qt.io/qt-5/qabstractitemmodel.html#beginRemoveRows 
+        A removeRows() implementation must call beginRemoveRows() before the
+         rows are removed from the data structure, and endRemoveRows() 
+         immediately afterwards.'''
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
 
         del self.backing_objects_list[position:position + rows]
@@ -70,6 +78,7 @@ class BackingsModel(QAbstractTableModel):
         return True
 
     def addData(self, backingVal):
+        ''' Add a row of data to the model '''
         rowCount = self.rowCount()
         for i in range(rowCount):
             j = i+1

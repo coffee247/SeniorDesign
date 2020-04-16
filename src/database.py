@@ -65,6 +65,7 @@ class database():
         rows = cur.fetchall()
         return rows
 
+    '''method to do initial population of a List or Table View'''
     def populateListView(self, caller, table, field, idx, model):
         myself = caller
         with myself.conn:
@@ -82,7 +83,7 @@ class database():
 
     def getPlies(caller, fabric_id):
         self = caller
-        # Fetch list of plies
+        # Fetch list of plies used on projects page
         with self.conn:
             query = f"select * from ply where fabric_id like '{fabric_id}'"
             data = self.dbase.db_doQuery(query)
@@ -95,7 +96,7 @@ class database():
 
 def getRanges(caller):
     self = caller
-    # Fetch list of ranges
+    # Fetch list of ranges used on settings
     with self.conn:
         query = f"select * from BimsRange"
         data = self.dbase.db_doQuery(query)
@@ -108,7 +109,7 @@ def getRanges(caller):
 
 def getProjos(caller):
     self = caller
-    # Fetch list of projos
+    # Fetch list of projos used on settings page
     with self.conn:
         query = f"select * from projo"
         data = self.dbase.db_doQuery(query)
@@ -122,7 +123,7 @@ def getProjos(caller):
 
 def getQuerries(caller):
     self = caller
-    # Fetch list of Querries
+    # Fetch list of Querries  used on History page
     with self.conn:
         query = f"select * from querries"
         data = self.dbase.db_doQuery(query)
