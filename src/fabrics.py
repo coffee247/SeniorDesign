@@ -24,7 +24,7 @@ class FabricsModel(QAbstractTableModel):
         return len(self.Fabrics)
 
     def columnCount(self, index=QModelIndex()):
-        return 2    #  fields:
+        return 2    #  fields: fabric_id, fabric_descript
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
@@ -61,6 +61,9 @@ class FabricsModel(QAbstractTableModel):
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
         """Insert a row of range data into RangeModel. """
+        ''' Ref : https://doc.qt.io/qt-5/qabstractitemmodel.html#beginInsertRows  
+        An insertRows() implementation must call beginInsertRows() before inserting 
+        new rows into the data structure, and endInsertRows() immediately afterwards '''
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
@@ -71,6 +74,9 @@ class FabricsModel(QAbstractTableModel):
 
     def removeRows(self, position, rows=1, index=QModelIndex()):
         """ Remove a row from  ProjectilesModel. """
+        ''' Ref : https://doc.qt.io/qt-5/qabstractitemmodel.html#beginRemoveRows  
+        A removeRows() implementation must call beginRemoveRows() before removing 
+        rows from the data structure, and endRemoveRows() immediately afterwards '''
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
 
         del self.Fabrics[position:position + rows]

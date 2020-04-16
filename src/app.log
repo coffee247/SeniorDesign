@@ -1,18 +1,2 @@
 2020-04-08 18:04:54,103 - Could not find database dbtest.
 2020-04-08 18:04:54,105 - 	Creating new database dbtest
-2020-04-09 08:01:13,850 - Shot detected at 1586433673.849981... Raw data =  0.6836613328193377. <---
-2020-04-09 10:17:27,124 - Screens Device and type changed ... Prev value Dev1/ctr1.  New value: Dev1/ctr0
-2020-04-09 10:17:43,833 - Screens Device and type changed ... Prev value Dev1/ctr0.  New value: Dev1/ctr1
-2020-04-09 10:17:55,041 - Hardware Timeout changed ... Prev value 122.  New value: 122g
-2020-04-09 10:17:57,519 - Hardware Timeout changed ... Prev value 122g.  New value: 122
-2020-04-11 12:17:05,833 - Shot detected at 1586621825.8329241... Raw data =  0.6025068271710478. <---
-2020-04-13 13:41:13,994 - Screens Device and type changed ... Prev value Dev1/ctr1.  New value: Dev1/ctr0
-2020-04-13 13:41:28,040 - Screens Device and type changed ... Prev value Dev1/ctr0.  New value: Dev1/ctr1
-2020-04-13 13:41:39,375 - Hardware Timeout changed ... Prev value 122.  New value: 123
-2020-04-13 13:41:42,635 - Hardware Timeout changed ... Prev value 123.  New value: 122
-2020-04-13 13:56:58,997 - Shot detected at 1586800618.9977567... Raw data =  0.025598120137754754. <---
-2020-04-13 13:56:59,847 - Shot detected at 1586800619.847835... Raw data =  0.9896386132230707. <---
-2020-04-13 13:57:00,109 - Shot detected at 1586800620.1097877... Raw data =  0.009920011847182053. <---
-2020-04-13 13:57:00,279 - Shot detected at 1586800620.279832... Raw data =  0.2343946564934546. <---
-2020-04-13 14:02:40,335 - Shot detected at 1586800960.3358324... Raw data =  0.77864899332619. <---
-2020-04-13 14:25:03,459 - Shot detected at 1586802303.459371... Raw data =  0.7052539505070028. <---

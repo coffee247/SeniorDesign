@@ -85,7 +85,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.projectilesModel = src.projectiles.ProjectilesModel()
         self.ballModel = src.ballisticians.BallisticiansModel()
         self.QuerriesModel = src.querries.QuerriesModel()
-        self.HistoryModel = QSqlQueryModel()
+        self.HistoryModel = QSqlQueryModel() # see src/basicsortfilterproxymodel.py for example of good idea
         self.fiberTypesModel = src.fiberTypes.FiberTypesModel()
         self.manufactModel = src.manufacturers.ManufacturersModel()
         self.backingModel = src.backing.BackingsModel()
@@ -121,6 +121,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, 'fabric', 'fabric_id', 0, self.fabricsModel)
 
 
+        ''' Set up header for fabric plies table (fabric_plies_tableView) '''
         header = self.fabric_plies_tableView.horizontalHeader()
         header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
@@ -130,6 +131,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         db.getRanges(self)
+        ''' Set up header for ranges table (RangeView) '''
         header = self.RangeView.horizontalHeader()
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
@@ -138,12 +140,14 @@ class MainWindow(QtWidgets.QMainWindow):
         header.setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
 
         db.getProjos(self)
+        ''' Set up header for Projectiles table (ProjectilesView) '''
         projoheader = self.ProjectilesView.horizontalHeader()
         self.ProjectilesView.setColumnWidth(0,170)
         projoheader.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         projoheader.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
 
         db.getQuerries(self)
+        ''' Set up header for query table in history page (QuerySelView) '''
         querryHeader = self.QuerySelView.horizontalHeader()
         querryHeader.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         querryHeader.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
@@ -174,6 +178,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
+    ''' Respond to clicks in fabric_plies_tableView '''
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_plieslistView_clicked(self, index):
         PliesRow = self.fabric_plies_tableView.selectedIndexes()
@@ -186,6 +191,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ply_weight_spinBox.setValue(weight)
         self.ply_description_plainTextEdit.setPlainText(descr)
 
+    ''' Respond to fabric comboBox  selectionChange event'''
     def on_FabricChanged(self):
         self.fabric_ID_lineEdit.setText(self.existing_fabrics_comboBox.currentText())
 
