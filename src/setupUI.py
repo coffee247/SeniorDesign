@@ -22,7 +22,7 @@ def doSetup(caller):
     self.ply_weight_spinBox = self.stacks.findChild(QtWidgets.QSpinBox, 'ply_weight_spinBox')
     self.fiberType_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'fiberType_comboBox')
     self.Fabric_Style_ComboBox = self.stacks.findChild(QtWidgets.QComboBox,'Fabric_Style_ComboBox')
-    self.fabric_plies_tableView.setModel(self.pliesModel)
+    self.fabric_plies_tableView.setModel(self.pliesProxyModel)
 
 
 

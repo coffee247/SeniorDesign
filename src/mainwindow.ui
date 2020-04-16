@@ -1363,6 +1363,9 @@ selection-color: red;</string>
                          <property name="styleSheet">
                           <string notr="true">background-color: white;</string>
                          </property>
+                         <property name="alternatingRowColors">
+                          <bool>true</bool>
+                         </property>
                          <property name="selectionMode">
                           <enum>QAbstractItemView::SingleSelection</enum>
                          </property>
@@ -1798,6 +1801,9 @@ selection-color: red;</string>
                          <property name="styleSheet">
                           <string notr="true">background-color: white;</string>
                          </property>
+                         <property name="alternatingRowColors">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                        <item row="2" column="0" colspan="2">
@@ -2109,6 +2115,9 @@ selection-color: red;</string>
                         <widget class="QListView" name="Powders_listView">
                          <property name="styleSheet">
                           <string notr="true">background-color: white;</string>
+                         </property>
+                         <property name="alternatingRowColors">
+                          <bool>true</bool>
                          </property>
                         </widget>
                        </item>
@@ -2474,6 +2483,9 @@ selection-color: red;</string>
                          <property name="styleSheet">
                           <string notr="true">background-color: white;</string>
                          </property>
+                         <property name="alternatingRowColors">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                       </layout>
@@ -2807,7 +2819,7 @@ selection-color: red;</string>
                         <string notr="true">background-color: white;</string>
                        </property>
                        <property name="alternatingRowColors">
-                        <bool>false</bool>
+                        <bool>true</bool>
                        </property>
                        <property name="selectionMode">
                         <enum>QAbstractItemView::SingleSelection</enum>
@@ -3112,6 +3124,9 @@ selection-color: red;</string>
                        <property name="styleSheet">
                         <string notr="true">background-color: white;</string>
                        </property>
+                       <property name="alternatingRowColors">
+                        <bool>true</bool>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -3203,6 +3218,9 @@ selection-color: red;</string>
                          <widget class="QListView" name="fibers_listView">
                           <property name="styleSheet">
                            <string notr="true">background-color: white;</string>
+                          </property>
+                          <property name="alternatingRowColors">
+                           <bool>true</bool>
                           </property>
                          </widget>
                         </item>
@@ -3327,6 +3345,9 @@ selection-color: red;</string>
                          <widget class="QListView" name="fabric_styles_listView">
                           <property name="styleSheet">
                            <string notr="true">background-color: white;</string>
+                          </property>
+                          <property name="alternatingRowColors">
+                           <bool>true</bool>
                           </property>
                          </widget>
                         </item>
@@ -3455,6 +3476,9 @@ selection-color: red;</string>
                          <widget class="QListView" name="sampTypes_listView">
                           <property name="styleSheet">
                            <string notr="true">background-color: white;</string>
+                          </property>
+                          <property name="alternatingRowColors">
+                           <bool>true</bool>
                           </property>
                          </widget>
                         </item>
@@ -3585,6 +3609,9 @@ selection-color: red;</string>
                          <widget class="QListView" name="manufacturer_listView">
                           <property name="styleSheet">
                            <string notr="true">background-color: white; color: black;</string>
+                          </property>
+                          <property name="alternatingRowColors">
+                           <bool>true</bool>
                           </property>
                          </widget>
                         </item>
@@ -4349,11 +4376,23 @@ border 2px solid black;</string>
                   </item>
                   <item row="1" column="0">
                    <widget class="QTableView" name="fabric_plies_tableView">
+                    <property name="autoFillBackground">
+                     <bool>true</bool>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
                     </property>
+                    <property name="showDropIndicator" stdset="0">
+                     <bool>false</bool>
+                    </property>
+                    <property name="alternatingRowColors">
+                     <bool>true</bool>
+                    </property>
                     <property name="selectionMode">
                      <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
+                    <property name="sortingEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>

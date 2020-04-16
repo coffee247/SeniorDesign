@@ -93,7 +93,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.sample_types_Model = src.sample_Types.sample_types_model()
         self.pliesModel = src.plies.PliesModel()
         self.fabricsModel = src.fabrics.FabricsModel()
+
+        ''' set up proxymodel for plies '''
         self.pliesProxyModel = src.SortFilterProxyModel.SortFilterProxyModel()
+        self.pliesProxyModel.setDynamicSortFilter(True)
+        self.pliesProxyModel.setSourceModel(self.pliesModel)
+
 
 
 
