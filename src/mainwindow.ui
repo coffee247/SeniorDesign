@@ -75,7 +75,7 @@ margin: 3px</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>images/DuPont_logo.png</pixmap>
+         <pixmap resource="BIMS_Resources.qrc">:/images/images/DuPont_logo.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -3939,11 +3939,17 @@ border 2px solid black;</string>
                       <height>100</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Plain test description of the Frabric</string>
+                    </property>
+                    <property name="toolTipDuration">
+                     <number>5000</number>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">background-color: white</string>
                     </property>
                     <property name="placeholderText">
-                     <string>Plain old text description of the ply</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -4304,11 +4310,17 @@ border 2px solid black;</string>
                       <height>0</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Plain test description of the Frabric</string>
+                    </property>
+                    <property name="toolTipDuration">
+                     <number>5000</number>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
                     </property>
                     <property name="placeholderText">
-                     <string>Plain old text description of the fabric</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>

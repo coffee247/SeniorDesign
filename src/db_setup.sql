@@ -149,7 +149,16 @@ insert into fiber_styles (style_name) values ('woven'), ('uni directional'), ('m
 create table ply (ply_id int auto_increment primary key,
     ply_descript varchar(120),
     fiber_style varchar(30),
-    fiber_type varchar(30));
+    ply_weight int(5),
+    fiber_type varchar(30),
+    fabric_id varchar(30));
+
+insert into ply(ply_descript, fiber_style, fiber_type, ply_weight, fabric_id)
+    values ('test ply description', 'multi axial', 'Spectra', 10, 'fabric 1'),
+           ('another ply description', 'uni-directional', 'Twaron', 30, 'fabric 1'),
+           ('and yet another test ply described here', 'multi axial', 'Spectra', 5, 'fabric 1'),
+           ('There are a lot of plies in this fabric', 'woven', 'Kevlar', 12, 'fabric 1'),
+           ('test ply description','multi axial','Spectra',10,'second fabric');
 
 create table fabric (fabric_id varchar(30) primary key, fabric_descript varchar(120));
 

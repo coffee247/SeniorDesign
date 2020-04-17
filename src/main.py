@@ -6,8 +6,8 @@ import threading
 import time
 
 import pymysql
-from PyQt5 import uic, QtWidgets, QtCore
-from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication
+from PyQt5 import uic, QtWidgets, QtCore, Qt
+from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication, QRegExp, Qt
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QAction, QMessageBox
@@ -98,6 +98,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pliesProxyModel = src.SortFilterProxyModel.SortFilterProxyModel()
         self.pliesProxyModel.setDynamicSortFilter(True)
         self.pliesProxyModel.setSourceModel(self.pliesModel)
+        self.pliesProxyModel.setFilterKeyColumn(4)
+
 
 
 
@@ -198,7 +200,48 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ''' Respond to fabric comboBox  selectionChange event'''
     def on_FabricChanged(self):
-        self.fabric_ID_lineEdit.setText(self.existing_fabrics_comboBox.currentText())
+        data = ""
+        myText = self.existing_fabrics_comboBox.currentText()
+        myquery = f"select fabric_descript from fabric where fabric_id = '{myText}'"
+        try:
+            data = self.dbase.db_doQuery(myquery)
+            data = f"{data[0][0]}"
+        except:
+            pass
+        self.fabric_ID_lineEdit.setText(myText)
+        if len(data) != 0:
+            self.fabric_description_plainTextEdit.setPlainText(data)
+        else:
+            self.fabric_description_plainTextEdit.setPlainText('')
+        syntax_nr = QRegExp.FixedString
+        syntax = QRegExp.PatternSyntax(syntax_nr)
+        caseSensitivity = Qt.CaseInsensitive
+
+        regExp = QRegExp(self.existing_fabrics_comboBox.currentText(),
+                         caseSensitivity, syntax)
+        self.pliesProxyModel.setFilterRegExp(regExp)
+
+    ''' Respond to add fabric pushbutton clicked event'''
+    def on_add_fabrics_pushbutton_clicked(self):
+        fabricID = self.fabric_ID_lineEdit.text()
+        fabricDescr = self.fabric_description_plainTextEdit.toPlainText()
+        myquery = f"insert into fabric (fabric_id, fabric_descript) values('{fabricID}', '{fabricDescr}')"
+        try:
+            self.dbase.db_doQuery(myquery)
+            self.dbase.db_doQuery("Commit")
+            self.fabricsModel.addData(fabricID, fabricDescr)
+            self.fabric_ID_lineEdit.setText(f"new --> {fabricID}")
+            self.fabric_ID_lineEdit.setFocus()
+        except pymysql.err.IntegrityError as e:
+            if e.args[0] == 1062:
+                self.issueWarning(f"Duplicate Entry for {fabricID} ---> (already exists.)\n\nTry again!")
+                self.fabric_ID_lineEdit.setText("")
+                self.fabric_ID_lineEdit.setFocus()
+        except pymysql.err.InternalError:
+            pass
+        finally:
+            pass
+
 
     ''' set up menuBar & menubar behaviors '''
     def createMenus(self):

@@ -31,6 +31,9 @@ def doSetup(caller):
     self.fabric_ID_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'fabric_ID_lineEdit')
     self.existing_fabrics_comboBox.setModel(self.fabricsModel)
     self.existing_fabrics_comboBox.currentIndexChanged.connect(self.on_FabricChanged)
+    self.add_fabric_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_fabric_pushButton')
+    self.add_fabric_pushButton.clicked.connect(self.on_add_fabrics_pushbutton_clicked)
+
 
     # UI Grains elements
     self.grainsLabel = self.stacks.findChild(QtWidgets.QLabel, 'grainsLabel')
