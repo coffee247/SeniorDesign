@@ -10,6 +10,8 @@ The project uses QTableView, QListView to display rows of data in the GUI via a 
 [YouTube PlayList (application run)](https://www.youtube.com/playlist?list=PLxqDZAbH9k3mWbs3I2YZCNSHZbmUAgxML)  Only the first few videos loaded so far (12 April 2020)
 
 ![ScreenShot](https://github.com/coffee247/SeniorDesign/blob/master/Screenshot.png)
+
+The image (below) illustrates what the Database Setup Utility looks like.  (setup.py)
 ![SETUP_ScreenShot](https://github.com/coffee247/SeniorDesign/blob/master/DBSetupScreen.png)
 
 Source code for project in `src` directory
