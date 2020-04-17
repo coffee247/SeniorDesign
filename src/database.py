@@ -14,7 +14,7 @@ class database():
         self.logging = self.setupLogging()
 
     def setupLogging(self):
-        logging.basicConfig(filename='app.log', filemode='a', format='%(asctime)s - %(message)s')
+        logging.basicConfig(filename='db.log', filemode='a', format='%(asctime)s - %(message)s')
         return logging
 
     ''' Method to initialize a database at first run or just use it if existed already '''
@@ -52,6 +52,19 @@ class database():
                     except:
                         pass
         return self
+
+    ''' Method to initialize a database at first run or just use it if existed already '''
+
+    def TestConnect(self):
+        with open('configs/dbconfig.json', 'r') as dbconfig:
+            config = json.load(dbconfig)
+            dbname = "None"
+        try:
+            self.conn = pymysql.connect(host=config["db_Host"], port=config["db_Port"], user=config["db_root_User"],
+                                        password=config["db_root_PWD"], db=config["db_Name"])
+        except MySQLError as e:
+            pass    # error if connect failed:  ASSUME database does not exist ... create database
+        return self.conn
 
 
     '''method to get (return to calling function) an open database connection'''

@@ -43,7 +43,7 @@
      <set>Qt::AlignHCenter|Qt::AlignTop</set>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -255,6 +255,9 @@
           </property>
          </spacer>
         </item>
+        <item row="0" column="0">
+         <widget class="QComboBox" name="langCombo"/>
+        </item>
        </layout>
       </widget>
      </item>
@@ -270,12 +273,6 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuQuit">
-    <property name="title">
-     <string>Quit</string>
-    </property>
-   </widget>
-   <addaction name="menuQuit"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
