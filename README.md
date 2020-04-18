@@ -11,4 +11,7 @@ The project uses QTableView, QListView to display rows of data in the GUI via a 
 
 ![ScreenShot](https://github.com/coffee247/SeniorDesign/blob/master/Screenshot.png)
 
+The image (below) illustrates what the Database Setup Utility looks like.  (setup.py)
+![SETUP_ScreenShot](https://github.com/coffee247/SeniorDesign/blob/master/DBSetupScreen.png)
+
 Source code for project in `src` directory
