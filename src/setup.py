@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-import json
-import random
+import pathlib
 import sys
-import threading
-import time
+import os
 
 import pymysql, json
 from pymysql import MySQLError
@@ -40,11 +38,6 @@ class MainWindow(QtWidgets.QMainWindow):
         ''' Create a connection to the database '''
         self.dbase = db.database()  # Create an instance of the database class as self.dbase
 
-        '''call the  Connect method defined in database.py '''
-        self.dbase.Connect()
-        self.conn = self.dbase.getConn()
-
-
         # Set up language support button
         self.langCombo = self.findChild(QtWidgets.QComboBox, 'langCombo')
         ''' add flag icons to language selection comboBox '''
@@ -67,18 +60,25 @@ class MainWindow(QtWidgets.QMainWindow):
         self.createMenus()
 
         self.hostLineEdit = self.findChild(QtWidgets.QLineEdit, 'host_lineEdit')
+        self.port_lineEdit = self.findChild(QtWidgets.QLineEdit, 'port_lineEdit')
         self.userLineEdit = self.findChild(QtWidgets.QLineEdit, 'user_lineEdit')
         self.passLineEdit = self.findChild(QtWidgets.QLineEdit, 'password_lineEdit')
+        self.message_label = self.findChild(QtWidgets.QLabel, 'message_label')
 
         self.test_connection_pushButton = self.findChild(QtWidgets.QPushButton, 'test_connection_pushButton')
         self.test_connection_pushButton.clicked.connect(self.doTest)
 
+        self.quitButton = self.findChild(QtWidgets.QPushButton, 'Quit_Button')
+        self.quitButton.hide()
+        self.quitButton.clicked.connect(self.doQuit)
+
     def doTest(self):
-        try:
-            self.conn = self.dbase.TestConnect()
-            print(type(self.conn))
-        except:
-            print(type(self.conn))
+        self.connectMessage = self.dbase.TestConnect(self)
+        if self.connectMessage == 'fail':
+            self.message_label.setText("Incorrect value in at least one field.\n Try again please!")
+        else:
+            self.quitButton.show()
+            self.message_label.setText("That works!\nYour database connection is established\nQuit setup and run main application now!")
 
 
     def createAction(self, text, menu, slot):

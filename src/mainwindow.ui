@@ -456,7 +456,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>4</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -3780,7 +3780,7 @@ selection-color: red;</string>
              </widget>
             </item>
             <item row="0" column="0">
-             <widget class="QComboBox" name="combo">
+             <widget class="QComboBox" name="lang_combo">
               <property name="maximumSize">
                <size>
                 <width>150</width>
@@ -3805,7 +3805,7 @@ selection-color: red;</string>
            <zorder>label_33</zorder>
            <zorder>line_3</zorder>
            <zorder>verticalSpacer_3</zorder>
-           <zorder>combo</zorder>
+           <zorder>lang_combo</zorder>
           </widget>
           <widget class="QWidget" name="page">
            <layout class="QGridLayout" name="gridLayout_16">

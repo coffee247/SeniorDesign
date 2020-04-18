@@ -7,6 +7,7 @@ def doSetup(caller):
     self = caller
 
     self.stacks = self.findChild(QtWidgets.QStackedWidget, 'stackedWidget')
+    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'lang_combo')
 
     # identify left menubar buttons
     self.homeButton = self.findChild(QtWidgets.QPushButton, 'homeButton')
@@ -23,7 +24,10 @@ def doSetup(caller):
     self.fiberType_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'fiberType_comboBox')
     self.Fabric_Style_ComboBox = self.stacks.findChild(QtWidgets.QComboBox,'Fabric_Style_ComboBox')
     self.fabric_plies_tableView.setModel(self.pliesProxyModel)
-
+    self.remove_ply_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_ply_pushButton')
+    self.remove_ply_pushButton.clicked.connect(self.on_remove_plies_button_clicked)
+    self.add_ply_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_ply_pushButton')
+    self.add_ply_pushButton.clicked.connect(self.add_ply_button_clicked)
 
 
     #UI Fabrics Elemenst
@@ -183,12 +187,7 @@ def doSetup(caller):
 
 
 
-    # Set up language support button
-    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'combo')
-    self.langCombo.setToolTip('<html><head><style> body {background-color: white;} </style></head>'
-                              '<body><p>Set language then re-start application</p></body></html>')
-    self.langCombo.setToolTipDuration(5000)
-    self.langCombo.currentIndexChanged.connect(self.dolanguageChangeRequest)
+
 
     # identify Measure Page UI elements
     self.standbyLabel = self.findChild(QtWidgets.QLabel, 'Standby_label_5')

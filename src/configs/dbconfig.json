@@ -1,7 +1,1 @@
-{
-  "db_Host": "localhost",
-  "db_Port": 3306,
-  "db_root_User": "root",
-  "db_root_PWD": "B$C$dreamer2963",
-  "db_Name": "dbtest"
-}
+{"db_Host": "localhost", "db_Port": 3306, "db_root_User": "admin", "db_root_PWD": "a12BC34$", "db_Name": "dbtest"}

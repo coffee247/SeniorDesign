@@ -101,9 +101,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pliesProxyModel.setFilterKeyColumn(4)
 
 
-
-
-
         src.setupUI.doSetup(self)
         self.createMenus()
 
@@ -198,6 +195,32 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ply_weight_spinBox.setValue(weight)
         self.ply_description_plainTextEdit.setPlainText(descr)
 
+    ''' Respond to add ply button clicked '''
+    def add_ply_button_clicked(self):
+        plyFiberType = self.fiberType_comboBox.currentText()
+        plyFabricStyle = self.Fabric_Style_ComboBox.currentText()
+        plyDescript = self.ply_description_plainTextEdit.toPlainText()
+        plyWeight = self.ply_weight_spinBox.value()
+        plyFabric_id = self.existing_fabrics_comboBox.currentText()
+        if plyFiberType != "":
+            myquery = f"insert into ply (ply_descript, fiber_style, fiber_type, ply_weight, fabric_id) " \
+                      f"values ('{plyDescript}', '{plyFabricStyle}', '{plyFiberType}', {plyWeight}, '{plyFabric_id}')"
+            try:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.pliesModel.addData(plyDescript, plyFabricStyle, plyFiberType, plyWeight, plyFabric_id)
+            except pymysql.err.IntegrityError as e:
+                    self.issueWarning(f"Oops\n\nTry again!")
+            except pymysql.err.InternalError:
+                pass
+            finally:
+                pass
+
+
+    ''' Respond to remove plies button clicked '''
+    def on_remove_plies_button_clicked(self):
+        print("remove")
+
     ''' Respond to fabric comboBox  selectionChange event'''
     def on_FabricChanged(self):
         data = ""
@@ -230,7 +253,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.dbase.db_doQuery(myquery)
             self.dbase.db_doQuery("Commit")
             self.fabricsModel.addData(fabricID, fabricDescr)
-            self.fabric_ID_lineEdit.setText(f"new --> {fabricID}")
+            self.fabric_ID_lineEdit.setText(f"{fabricID}")
             self.fabric_ID_lineEdit.setFocus()
         except pymysql.err.IntegrityError as e:
             if e.args[0] == 1062:

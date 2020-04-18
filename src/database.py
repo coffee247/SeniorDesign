@@ -55,16 +55,31 @@ class database():
 
     ''' Method to initialize a database at first run or just use it if existed already '''
 
-    def TestConnect(self):
+    def TestConnect(self, window):
         with open('configs/dbconfig.json', 'r') as dbconfig:
             config = json.load(dbconfig)
             dbname = "None"
+            host = window.hostLineEdit.text()
+            if window.port_lineEdit.text() != '':
+                port = int(window.port_lineEdit.text())
+            else:
+                port = 3306
+            user = window.user_lineEdit.text()
+            passwd = window.passLineEdit.text()
         try:
-            self.conn = pymysql.connect(host=config["db_Host"], port=config["db_Port"], user=config["db_root_User"],
-                                        password=config["db_root_PWD"], db=config["db_Name"])
+            self.conn = pymysql.connect(host=f'{host}', port=port, user=f'{user}',
+                                        password=f'{passwd}', db=None)
         except MySQLError as e:
-            pass    # error if connect failed:  ASSUME database does not exist ... create database
-        return self.conn
+            return "fail"    # error if connect failed:  ASSUME database does not exist ... create database
+        with open('configs/dbconfig.json', 'r') as config:
+            data = json.load(config)
+            data['db_Host'] = f'{host}'  # memorialize the change in the json file
+            data['db_Port'] = port
+            data['db_root_User'] = f'{user}'
+            data['db_root_PWD'] = f'{passwd}'
+        with open('configs/dbconfig.json', 'w') as config:
+            config.write(json.dumps(data))  # write the json file back to disk
+        return "success"
 
 
     '''method to get (return to calling function) an open database connection'''
