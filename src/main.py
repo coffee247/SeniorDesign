@@ -176,6 +176,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def goSettings(self):
         self.stacks.setCurrentIndex(3)
     def goProjects(self):
+        self.existing_fabrics_comboBox.setCurrentIndex(-1)
         self.stacks.setCurrentIndex(4)
     def doQuit(self):
         sys.exit()
@@ -185,11 +186,12 @@ class MainWindow(QtWidgets.QMainWindow):
     ''' Respond to clicks in fabric_plies_tableView '''
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_plieslistView_clicked(self, index):
+        self.PliesRow = index.row()
         PliesRow = self.fabric_plies_tableView.selectedIndexes()
-        descr = self.pliesModel.itemData(PliesRow[0])[0]
-        style = f"{self.pliesModel.itemData(PliesRow[1])[0]}"
-        type = f"{self.pliesModel.itemData(PliesRow[2])[0]}"
-        weight = int(self.pliesModel.itemData(PliesRow[3])[0])
+        descr = self.pliesProxyModel.itemData(PliesRow[0])[0]
+        style = f"{self.pliesProxyModel.itemData(PliesRow[1])[0]}"
+        type = f"{self.pliesProxyModel.itemData(PliesRow[2])[0]}"
+        weight = int(self.pliesProxyModel.itemData(PliesRow[3])[0])
         self.Fabric_Style_ComboBox.setCurrentText(style)
         self.fiberType_comboBox.setCurrentText(type)
         self.ply_weight_spinBox.setValue(weight)
@@ -219,7 +221,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ''' Respond to remove plies button clicked '''
     def on_remove_plies_button_clicked(self):
-        print("remove")
+        if self.fabric_plies_tableView.selectedIndexes() != []:
+            try:
+                descValue = self.pliesModel.Plies[self.PliesRow]['ply_descript']
+                weight = int(self.pliesModel.Plies[self.PliesRow]["ply_weight"])
+                style = self.pliesModel.Plies[self.PliesRow]["fiber_style"]
+                plytype = self.pliesModel.Plies[self.PliesRow]["fiber_type"]
+                fabricID = self.pliesModel.Plies[self.PliesRow]["fabric_id"]
+                myquery = f"delete from ply where ply_descript = '{descValue}' and fiber_style = '{style}'" \
+                          f" and fiber_type = '{plytype}' and ply_weight = {weight} and fabric_id = '{fabricID}'"
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.pliesModel.removeRows(self.PliesRow)
+            except:
+                self.issueWarning("Oops!  Something went wrong!")
+
 
     ''' Respond to fabric comboBox  selectionChange event'''
     def on_FabricChanged(self):
@@ -261,9 +277,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.fabric_ID_lineEdit.setText("")
                 self.fabric_ID_lineEdit.setFocus()
         except pymysql.err.InternalError:
-            pass
-        finally:
-            pass
+            self.issueWarning("Opps, something went wrong!")
+
 
 
     ''' set up menuBar & menubar behaviors '''
@@ -484,18 +499,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.projosDragLineEdit.setText("")
         self.projosLineEdit.setFocus()  # put the cursor back in the first projosLineEdit field.
 
-    # projectiles ListView click behavior
-    @QtCore.pyqtSlot(QtCore.QModelIndex)
-    def on_projoslistView_clicked(self, index):
-        self.ProjoRow = index.row()
-        ProjoRow = self.ProjectilesView.selectedIndexes()
-        self.Projo = self.projectilesModel.itemData(ProjoRow[0])
-        self.Mass = self.projectilesModel.itemData(ProjoRow[1])
-        self.Drag = self.projectilesModel.itemData(ProjoRow[2])
-        self.projosLineEdit.setText(self.Projo[0])
-        self.projosMassLineEdit.setText(self.Mass[0])
-        self.projosDragLineEdit.setText(self.Drag[0])
-        self.projoComboBox.setCurrentIndex(ProjoRow[0].row())
 
     # projectiles populate form elements on projo ListView row clicked
     @QtCore.pyqtSlot(QtCore.QModelIndex)

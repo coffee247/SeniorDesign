@@ -99,73 +99,26 @@ class PliesModel(QAbstractTableModel):
 
     def addData(self, ply_descript, fiber_style, fiber_type, ply_weight, fabric_id):
         rowCount = self.rowCount()
-        for i in range(rowCount):
-            j = i + 1
-            if fiber_type < self.Plies[0]["fiber_type"]:
-                self.insertRow(0)
-                for i in range(3):
-                    index = self.createIndex(0, i)
-                    if i == 0:
-                        self.setData(index, ply_descript, role=Qt.EditRole)
-                        self.dataChanged.emit(index, index)
-                    elif i == 1:
-                        self.setData(index, fiber_style, role=Qt.EditRole)
-                        self.dataChanged.emit(index, index)
-                    elif i == 2:
-                        self.setData(index, fiber_type, role=Qt.EditRole)
-                        self.dataChanged.emit(index, index)
-                    elif i == 3:
-                        self.setData(index, ply_weight, role=Qt.EditRole)
-                        self.dataChanged.emit(index, index)
-                    elif i == 4:
-                        self.setData(index, fabric_id, role=Qt.EditRole)
-                        self.dataChanged.emit(index, index)
-                return None
-            elif fiber_type > self.Plies[i]["fiber_type"]:
-                try:
-                    if i < self.rowCount() - 1:
-                        if fiber_type <= self.Plies[j]["fiber_type"]:
-                            self.insertRow(j)
-                            for i in range(3):
-                                index = self.createIndex(j, i)
-                                if i == 0:
-                                    self.setData(index, ply_descript, role=Qt.EditRole)
-                                    self.dataChanged.emit(index, index)
-                                elif i == 1:
-                                    self.setData(index,fiber_style, role=Qt.EditRole)
-                                    self.dataChanged.emit(index, index)
-                                elif i == 2:
-                                    self.setData(index, fiber_type, role=Qt.EditRole)
-                                    self.dataChanged.emit(index, index)
-                                elif i == 3:
-                                    self.setData(index, ply_weight, role=Qt.EditRole)
-                                    self.dataChanged.emit(index, index)
-                                elif i == 4:
-                                    self.setData(index, fabric_id, role=Qt.EditRole)
-                                    self.dataChanged.emit(index, index)
-                            return None
-                    else:
-                        self.insertRow(j)
-                        for i in range(4):
-                            index = self.createIndex(j, i)
-                            if i == 0:
-                                self.setData(index, ply_descript, role=Qt.EditRole)
-                                self.dataChanged.emit(index, index)
-                            elif i == 1:
-                                self.setData(index, fiber_style, role=Qt.EditRole)
-                                self.dataChanged.emit(index, index)
-                            elif i == 2:
-                                self.setData(index, fiber_type, role=Qt.EditRole)
-                                self.dataChanged.emit(index, index)
-                            elif i == 3:
-                                self.setData(index, ply_weight, role=Qt.EditRole)
-                                self.dataChanged.emit(index, index)
-                            elif i == 4:
-                                self.setData(index, fabric_id, role=Qt.EditRole)
-                                self.dataChanged.emit(index, index)
-                        return None
-                except:
-                    pass
+        self.insertRow(0)
+        for i in range(5):
+            index = self.createIndex(0, i)
+            if i == 0:
+                self.setData(index, ply_descript, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 1:
+                self.setData(index, fiber_style, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 2:
+                self.setData(index, fiber_type, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 3:
+                self.setData(index, ply_weight, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 4:
+                self.setData(index, fabric_id, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+        return None
+
 
 
     def setData(self, index, value, role=Qt.EditRole):
