@@ -785,9 +785,12 @@ class MainWindow(QtWidgets.QMainWindow):
         Value = self.fabricStylesModel.fiber_styles_list[self.fabricStyleRow]["style_name"]
         myquery = f"delete from fiber_styles where style_name = '{Value}'"
         self.dbase.db_doQuery(myquery)
-        self.dbase.db_doQuery("Commit")
-        self.fabricStylesModel.removeRows(self.fabricStyleRow)
-        self.fabric_styles_lineEdit.setText("")
+        try:
+            self.dbase.db_doQuery("Commit")
+            self.fabricStylesModel.removeRows(self.fabricStyleRow)
+            self.fabric_styles_lineEdit.setText("")
+        except:
+            pass
 
 
 
