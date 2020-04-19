@@ -140,8 +140,8 @@ def doSetup(caller):
     self.fabric_styles_LineEdit = self.stacks.findChild(QtWidgets.QLineEdit,'fabric_styles_lineEdit')
     self.fabricStylesView = self.stacks.findChild(QtWidgets.QListView, 'fabric_styles_listView')
     self.Fabric_Style_ComboBox.setModel(self.fabricStylesModel)
-    self.add_fabric_style_pushButton.clicked.connect(self.on_add_fabric_style_pushButton_clicked)
-    self.remove_fabric_style_pushButton.clicked.connect(self.on_remove_fabric_style_pushButton_clicked)
+    self.add_fabric_style_pushButton.clicked.connect(self.on_add_fabric_style)
+    self.remove_fabric_style_pushButton.clicked.connect(self.on_remove_fabric_style)
     self.fabricStylesView.setModel(self.fabricStylesModel)
     self.fabricStylesView.clicked.connect(self.on_fabric_styles_clicked)
 

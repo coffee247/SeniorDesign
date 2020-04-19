@@ -289,11 +289,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Populate File menu
         self.createAction("E&xit", fileMenu, self.close)
 
-    def on_fabric_styles_clicked(self, index):
-        self.StyleRow = index.row()
-        style = self.fabricStylesModel.itemData(index)
-        self.fabric_styles_lineEdit.setText(style[0])
-        self.Fabric_Style_ComboBox.setCurrentIndex(self.StyleRow)
+
 
     def createAction(self, text, menu, slot):
         """ Helper function to save typing when populating menus
@@ -755,18 +751,44 @@ class MainWindow(QtWidgets.QMainWindow):
         self.grainsModel.removeRows(self.GrainsRow)
         self.grainsLineEdit.setText("")
 
+    def on_fabric_styles_clicked(self, index):
+        self.fabricStyleRow = index.row()
+        style = self.fabricStylesModel.itemData(index)
+        self.fabric_styles_lineEdit.setText(style[0])
+        self.Fabric_Style_ComboBox.setCurrentIndex(self.fabricStyleRow)
 
-    def on_remove_sampleTypes_button_clicked(self):
-        pass
+    def on_add_fabric_style(self):
+        fabricStyleVal = self.fabric_styles_lineEdit.text()
+        if fabricStyleVal != "":
+            myquery = f"insert into fiber_styles (style_name) values ('{fabricStyleVal}')"
+            try:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.fabricStylesModel.addData(fabricStyleVal)
+                self.fabric_styles_lineEdit.setText("")
+            except pymysql.err.IntegrityError as e:
+                if e.args[0] == 1062:
+                    self.issueWarning(
+                        f"Duplicate Entry for {fabricStyleVal} ---> (already exists.)\n\nTry again!")
+                    self.fabric_styles_lineEdit.setText("")
+                    self.fabric_styles_lineEdit.setFocus()
+            except pymysql.err.InternalError:
+                pass
+            finally:
+                pass
+        else:
+            self.issueWarning("No value was entered for Fabric Style")
+            self.fabric_styles_lineEdit.setFocus()
 
-    def on_add_sampleTypes_button_clicked(self):
-        pass
 
-    def on_add_fabric_style_pushButton_clicked(self):
-        pass
+    def on_remove_fabric_style(self):
+        Value = self.fabricStylesModel.fiber_styles_list[self.fabricStyleRow]["style_name"]
+        myquery = f"delete from fiber_styles where style_name = '{Value}'"
+        self.dbase.db_doQuery(myquery)
+        self.dbase.db_doQuery("Commit")
+        self.fabricStylesModel.removeRows(self.fabricStyleRow)
+        self.fabric_styles_lineEdit.setText("")
 
-    def on_remove_fabric_style_pushButton_clicked(self):
-        pass
 
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
