@@ -608,35 +608,35 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fiberType_comboBox.setCurrentIndex(self.fiberTypeRow)
 
     def addFiber(self):
-        fiberVal = self.fabric_lineEdit.text().title()
+        fiberVal = self.fiberType_lineEdit.text().title()
         if fiberVal != "":
             myquery = f"insert into fiber_types (fiberType) values ('{fiberVal}')"
             try:
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
                 self.fiberTypesModel.addData(fiberVal)
-                self.fabric_lineEdit.setText("")
+                self.fiberType_lineEdit.setText("")
             except pymysql.err.IntegrityError as e:
                 if e.args[0] == 1062:
                     self.issueWarning(
                         f"Duplicate Entry for {fiberVal} ---> (already exists.)\n\nTry again!")
-                    self.fabric_lineEdit.setText("")
-                    self.fabric_lineEdit.setFocus()
+                    self.fiberType_lineEdit.setText("")
+                    self.fiberType_lineEdit.setFocus()
             except pymysql.err.InternalError:
                 pass
             finally:
                 pass
         else:
-            self.issueWarning("No value was entered for Fabric")
-            self.fabric_lineEdit.setFocus()
+            self.issueWarning("No value was entered for Fiber Type")
+            self.fiberType_lineEdit.setFocus()
 
     def removeFiber(self):
-        Value = self.fiberTypesModel.fiberType_objects_list[self.FabricRow]["fabricType"]
-        myquery = f"delete from fabrics where fabricType = '{Value}'"
+        Value = self.fiberTypesModel.fiberType_objects_list[self.fiberTypeRow]["fiberType"]
+        myquery = f"delete from fiber_types where fiberType = '{Value}'"
         self.dbase.db_doQuery(myquery)
         self.dbase.db_doQuery("Commit")
-        self.fiberTypesModel.removeRows(self.FabricRow)
-        self.fabric_lineEdit.setText("")
+        self.fiberTypesModel.removeRows(self.fiberTypeRow)
+        self.fiberType_lineEdit.setText("")
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def doQuerySelect_clicked(self, index):

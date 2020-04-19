@@ -78,7 +78,7 @@ class FiberTypesModel(QAbstractTableModel):
                 index = self.createIndex(0, 0)
                 self.setData(index, fiberTypeVal, role=Qt.EditRole)
 
-            elif fiberTypeVal > self.fiberTy_objects_list[i]["fiberType"]:
+            elif fiberTypeVal > self.fiberType_objects_list[i]["fiberType"]:
                 try:
                     if i < self.rowCount()-1:
                         if fiberTypeVal < self.fiberType_objects_list[j]["fiberType"]:
