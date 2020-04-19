@@ -127,7 +127,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         ''' Set up header for fabric plies table (fabric_plies_tableView) '''
         header = self.fabric_plies_tableView.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        header.setMaximumSectionSize(250)
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
@@ -177,6 +178,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stacks.setCurrentIndex(3)
     def goProjects(self):
         self.existing_fabrics_comboBox.setCurrentIndex(-1)
+        self.pliesProxyModel.setFilterRegExp('zxqGarbageKey_DoesNotExist_IsMadeUP')
         self.stacks.setCurrentIndex(4)
     def doQuit(self):
         sys.exit()

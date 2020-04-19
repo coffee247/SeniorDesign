@@ -67,7 +67,7 @@ class PliesModel(QAbstractTableModel):
             if section == 2:
                 return "fiber type"
             if section == 3:
-                return "ply weight (grams)"
+                return "ply weight"
             if section == 4:
                 return "fabric_id"
             return None

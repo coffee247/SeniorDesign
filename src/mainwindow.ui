@@ -97,7 +97,7 @@ margin: 3px</string>
          <string notr="true">margin: 0 3</string>
         </property>
         <property name="text">
-         <string>  Home</string>
+         <string>   Home</string>
         </property>
         <property name="icon">
          <iconset resource="BIMS_Resources.qrc">
@@ -117,11 +117,45 @@ margin: 3px</string>
          <string notr="true">margin: 0 3px</string>
         </property>
         <property name="text">
-         <string>  Settings</string>
+         <string>   Settings</string>
         </property>
         <property name="icon">
          <iconset resource="BIMS_Resources.qrc">
           <normaloff>:/images/images/Circle-icons-settings.svg</normaloff>:/images/images/Circle-icons-settings.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="clients_menuButton">
+        <property name="text">
+         <string>   Clients</string>
+        </property>
+        <property name="icon">
+         <iconset resource="BIMS_Resources.qrc">
+          <normaloff>:/images/images/Circle-icons-contacts.svg</normaloff>:/images/images/Circle-icons-contacts.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="projectsButton">
+        <property name="text">
+         <string>   Projects</string>
+        </property>
+        <property name="icon">
+         <iconset resource="BIMS_Resources.qrc">
+          <normaloff>:/images/images/Gear_green_icon.svg</normaloff>:/images/images/Gear_green_icon.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -137,28 +171,11 @@ margin: 3px</string>
          <string notr="true">margin: 0 3px</string>
         </property>
         <property name="text">
-         <string>  History</string>
+         <string>   History</string>
         </property>
         <property name="icon">
          <iconset resource="BIMS_Resources.qrc">
           <normaloff>:/images/images/Gnome-document-open-recent.svg</normaloff>:/images/images/Gnome-document-open-recent.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="projectsButton">
-        <property name="text">
-         <string>Projects</string>
-        </property>
-        <property name="icon">
-         <iconset resource="BIMS_Resources.qrc">
-          <normaloff>:/images/images/Gear_green_icon.svg</normaloff>:/images/images/Gear_green_icon.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -174,7 +191,7 @@ margin: 3px</string>
          <string notr="true">margin: 0 3px</string>
         </property>
         <property name="text">
-         <string>  Measure</string>
+         <string>   Measure</string>
         </property>
         <property name="icon">
          <iconset resource="BIMS_Resources.qrc">
@@ -3847,7 +3864,67 @@ border 2px solid black;</string>
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout_9">
-               <item row="0" column="0" colspan="3">
+               <item row="4" column="2" colspan="3">
+                <widget class="QFrame" name="frame_18">
+                 <property name="styleSheet">
+                  <string notr="true">border: 1px solid;background-color: #A1EAF0;</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_18">
+                  <item row="2" column="0">
+                   <widget class="QPushButton" name="remove_ply_pushButton">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: pink;</string>
+                    </property>
+                    <property name="text">
+                     <string>Remove selected Ply</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_25">
+                    <property name="styleSheet">
+                     <string notr="true">border: none;</string>
+                    </property>
+                    <property name="text">
+                     <string>Plies in this Fabric</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QTableView" name="fabric_plies_tableView">
+                    <property name="autoFillBackground">
+                     <bool>true</bool>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: white;</string>
+                    </property>
+                    <property name="showDropIndicator" stdset="0">
+                     <bool>false</bool>
+                    </property>
+                    <property name="alternatingRowColors">
+                     <bool>true</bool>
+                    </property>
+                    <property name="selectionMode">
+                     <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
+                    <property name="sortingEnabled">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="0" column="1" colspan="4">
                 <widget class="QLabel" name="label_48">
                  <property name="maximumSize">
                   <size>
@@ -3871,7 +3948,7 @@ border 2px solid black;</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
+               <item row="4" column="1">
                 <widget class="QFrame" name="frame_13">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
@@ -3918,6 +3995,61 @@ border 2px solid black;</string>
                    <widget class="QLineEdit" name="fabric_ID_lineEdit">
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_62">
+                    <property name="styleSheet">
+                     <string notr="true">border: none;</string>
+                    </property>
+                    <property name="text">
+                     <string>Fabric Description</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QPlainTextEdit" name="fabric_description_plainTextEdit">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>100</height>
+                     </size>
+                    </property>
+                    <property name="baseSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Plain test description of the Frabric</string>
+                    </property>
+                    <property name="toolTipDuration">
+                     <number>5000</number>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: white;</string>
+                    </property>
+                    <property name="placeholderText">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QPushButton" name="add_fabric_pushButton">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: lightgreen;</string>
+                    </property>
+                    <property name="text">
+                     <string>Add new Fabric</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0" colspan="2">
+                   <widget class="Line" name="line_12">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
                     </property>
                    </widget>
                   </item>
@@ -4286,139 +4418,34 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_62">
-                    <property name="styleSheet">
-                     <string notr="true">border: none;</string>
-                    </property>
-                    <property name="text">
-                     <string>Fabric Description</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <widget class="QPlainTextEdit" name="fabric_description_plainTextEdit">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>100</height>
-                     </size>
-                    </property>
-                    <property name="baseSize">
-                     <size>
-                      <width>0</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Plain test description of the Frabric</string>
-                    </property>
-                    <property name="toolTipDuration">
-                     <number>5000</number>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">background-color: white;</string>
-                    </property>
-                    <property name="placeholderText">
-                     <string/>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_63">
-                    <property name="styleSheet">
-                     <string notr="true">border: none;</string>
-                    </property>
-                    <property name="text">
-                     <string>Select a  Fabric</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QComboBox" name="existing_fabrics_comboBox">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: white;</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
-                   <widget class="QPushButton" name="add_fabric_pushButton">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: lightgreen;</string>
-                    </property>
-                    <property name="text">
-                     <string>Add new Fabric</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="0" colspan="2">
-                   <widget class="Line" name="line_12">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                   </widget>
-                  </item>
                  </layout>
                 </widget>
                </item>
-               <item row="1" column="1" colspan="2">
-                <widget class="QFrame" name="frame_18">
+               <item row="1" column="1" colspan="4">
+                <widget class="Line" name="line_13">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLabel" name="label_63">
                  <property name="styleSheet">
-                  <string notr="true">border: 1px solid;</string>
+                  <string notr="true">border: none;</string>
                  </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                 <property name="text">
+                  <string>Select a  Fabric   </string>
                  </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_18">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_25">
-                    <property name="styleSheet">
-                     <string notr="true">border: none;</string>
-                    </property>
-                    <property name="text">
-                     <string>Plies in this Fabric</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QTableView" name="fabric_plies_tableView">
-                    <property name="autoFillBackground">
-                     <bool>true</bool>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">background-color: white;</string>
-                    </property>
-                    <property name="showDropIndicator" stdset="0">
-                     <bool>false</bool>
-                    </property>
-                    <property name="alternatingRowColors">
-                     <bool>true</bool>
-                    </property>
-                    <property name="selectionMode">
-                     <enum>QAbstractItemView::SingleSelection</enum>
-                    </property>
-                    <property name="sortingEnabled">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
-                   <widget class="QPushButton" name="remove_ply_pushButton">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: pink;</string>
-                    </property>
-                    <property name="text">
-                     <string>Remove selected Ply</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QComboBox" name="existing_fabrics_comboBox">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: white;</string>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -5342,13 +5369,6 @@ border 2px solid black;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0">
-                   <widget class="QTableView" name="samples_tableView">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: white;</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="0" column="0">
                    <widget class="QLabel" name="label_56">
                     <property name="styleSheet">
@@ -5359,6 +5379,13 @@ border 2px solid black;</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QTableView" name="samples_tableView">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: white;</string>
                     </property>
                    </widget>
                   </item>
@@ -5427,7 +5454,6 @@ border 2px solid black;</string>
   <tabstop>quitButton</tabstop>
   <tabstop>addGrain_PushButton</tabstop>
   <tabstop>Measure_Projo_comboBox</tabstop>
-  <tabstop>settingsButton</tabstop>
   <tabstop>rmvProjectiles_pushButton</tabstop>
   <tabstop>textBrowser_4</tabstop>
   <tabstop>Measure_Powder_comboBox</tabstop>
