@@ -387,7 +387,27 @@ class MainWindow(QtWidgets.QMainWindow):
             self.issueWarning("Oops!  Something went wrong!")
 
     def on_add_sampleTypes(self):
-        pass
+        SampleType = self.sampTypes_lineEdit.text()
+        if SampleType != "":
+            myquery = f"insert into sample_types (type_name) values ('{SampleType}')"
+            try:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.sample_types_Model.addData(SampleType)
+                self.sampTypes_lineEdit.setText("")
+            except pymysql.err.IntegrityError as e:
+                if e.args[0] == 1062:
+                    self.issueWarning(f"Duplicate Entry for {SampleType} ---> (already exists.)\n\nTry again!")
+                    self.sampTypes_lineEdit.setText("")
+                    self.sampTypes_lineEdit.setFocus()
+            except pymysql.err.InternalError:
+                pass
+            finally:
+                pass
+            self.sampTypes_lineEdit.setText("")
+        else:
+            self.issueWarning("No value was entered for Sample Type")
+            self.sampTypes_lineEdit.setText("")
 
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
