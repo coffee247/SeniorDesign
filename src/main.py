@@ -460,7 +460,7 @@ class MainWindow(QtWidgets.QMainWindow):
             ''' update the model by removing the row '''
             self.backingModel.removeRows(self.BackingRow)
             self.backing_lineEdit.setText("")
-        except: 
+        except:
             self.issueWarning("Oops!  Something went wrong!")
 
 
@@ -575,14 +575,17 @@ class MainWindow(QtWidgets.QMainWindow):
     # projectiles ListView click behavior
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_projoslistView_clicked(self, index):
-        self.ProjoRow = index.row()
-        ProjoRow = self.ProjectilesView.selectedIndexes()
+        self.ProjoRow = index.row()  # set mainWindow's ProjoRow value (A QmodelIndex)
+        ProjoRow = self.ProjectilesView.selectedIndexes() # set local ProjoRow value (an integer)
+        ''' Read values from the model '''
         self.Projo = self.projectilesModel.itemData(ProjoRow[0])
         self.Mass = self.projectilesModel.itemData(ProjoRow[1])
         self.Drag = self.projectilesModel.itemData(ProjoRow[2])
+        ''' Use the values just read to set value (state) of corresponding UI element '''
         self.projosLineEdit.setText(self.Projo[0])
         self.projosMassLineEdit.setText(self.Mass[0])
         self.projosDragLineEdit.setText(self.Drag[0])
+        ''' Set the index of the projoComboBox to the index of the clicked row '''
         self.projoComboBox.setCurrentIndex(ProjoRow[0].row())
 
 
