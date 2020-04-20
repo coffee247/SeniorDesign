@@ -14,6 +14,7 @@ def doSetup(caller):
     self.measureButton = self.findChild(QtWidgets.QPushButton, 'measureButton')
     self.historyButton = self.findChild(QtWidgets.QPushButton, 'historyButton')
     self.settingsButton = self.findChild(QtWidgets.QPushButton, 'settingsButton')
+    self.clientsButton = self.findChild(QtWidgets.QPushButton, 'clients_menuButton')
     self.projectsButton = self.findChild(QtWidgets.QPushButton, 'projectsButton')
     self.quitButton = self.findChild(QtWidgets.QPushButton, 'quitButton')
 
@@ -205,6 +206,7 @@ def doSetup(caller):
     self.measureButton.clicked.connect(self.goMeasure)
     self.settingsButton.clicked.connect(self.goSettings)
     self.projectsButton.clicked.connect(self.goProjects)
+    self.clientsButton.clicked.connect(self.goClients)
     self.quitButton.clicked.connect(self.doQuit)
 
     # connect measure page buttons

@@ -43,10 +43,10 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        # set up logging
+        ''' set up logging '''
         logging.basicConfig(filename='app.log', filemode='a', format='%(asctime)s - %(message)s')
 
-        # Internationalization support
+        ''' set up Internationalization support '''
         with open('configs/lang_config.json', 'r') as lang_config:
             config = json.load(lang_config)
         self.translator = QtCore.QTranslator()
@@ -54,21 +54,23 @@ class MainWindow(QtWidgets.QMainWindow):
             language = "Dupont_BIMS_{}.qm".format(config["lang"])
             self.translator.load(language)
 
-        # install translator to the app
+        ''' install translator to the app '''
         app.installTranslator(self.translator)
         # app.removeTranslator(self.translator)
 
+        ''' load the UI '''
         uic.loadUi("mainwindow.ui", self)
+
+        '''pre-define row index variables to zeroth index. '''
         self.GrainsRow = 0
         self.ProjoRow = 0
         self.FabricRow = 0
         self.pliesRow = 0
 
+        ''' set load and set Hardware (NiDAQ card) settings for sensors. '''
         with open('configs/HWconfig.json', 'r') as HWconfig:
             HWconfig = json.load(HWconfig)
         self.counter = src.lowLevel.Counter(HWconfig["HWscreen"], HWconfig["HWmag"], HWconfig["HWtimeout"])
-
-
 
         ''' Create a connection to the database '''
         self.dbase = db.database()  # Create an instance of the database as self.dbase
@@ -101,15 +103,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pliesProxyModel.setFilterKeyColumn(4)
 
 
-        src.setupUI.doSetup(self)
-        self.createMenus()
+        src.setupUI.doSetup(self)  # connect ui elements to app varables and functions
+
+        self.createMenus()  # just waht it says
 
 
         ''' add flag icons to language selection comboBox '''
         self.langCombo.addItem(QIcon('images/Flag-us.svg'),'English', 'en')
         self.langCombo.addItem(QIcon('images/Brazilian_flag.png'), 'Portuguese', 'eng-pt')
 
-
+        # first load of data from database into models
         self.dbase.populateListView(self, "projo", "projectileType", 0, self.projectilesModel)
         self.dbase.populateListView(self, "threatGrain", "grain", 0, self.grainsModel)
         self.dbase.populateListView(self, "threatPowder", "powderType", 0, self.powdersModel)
@@ -159,12 +162,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         if config["lang"] != "en":
-            self.langCombo.setCurrentIndex(1)
+            self.langCombo.setCurrentIndex(1) # index 1 in langCombo is "English"
         else:
-            self.langCombo.setCurrentIndex(0)
+            self.langCombo.setCurrentIndex(0)  # index 0 in langCombo is "Portuguese"
+
 
         self.LoadLastUsedRangeData()
         self.langCombo.setFocus()
+
+        self.stacks.setCurrentIndex(3)  # start up in "Settings" page
 
 
     ''' left menuBar on-click behaviors '''
@@ -176,10 +182,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stacks.setCurrentIndex(2)
     def goSettings(self):
         self.stacks.setCurrentIndex(3)
+    def goClients(self):
+        self.stacks.setCurrentIndex(4)
     def goProjects(self):
         self.existing_fabrics_comboBox.setCurrentIndex(-1)
         self.pliesProxyModel.setFilterRegExp('zxqGarbageKey_DoesNotExist_IsMadeUP')
-        self.stacks.setCurrentIndex(4)
+        self.stacks.setCurrentIndex(5)
     def doQuit(self):
         sys.exit()
 
@@ -188,12 +196,13 @@ class MainWindow(QtWidgets.QMainWindow):
     ''' Respond to clicks in fabric_plies_tableView '''
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_plieslistView_clicked(self, index):
-        self.PliesRow = index.row()
-        PliesRow = self.fabric_plies_tableView.selectedIndexes()
-        descr = self.pliesProxyModel.itemData(PliesRow[0])[0]
-        style = f"{self.pliesProxyModel.itemData(PliesRow[1])[0]}"
-        type = f"{self.pliesProxyModel.itemData(PliesRow[2])[0]}"
-        weight = int(self.pliesProxyModel.itemData(PliesRow[3])[0])
+        self.PliesRow = index.row()  # create and set PliesRow attibute (a QModelIndex row)
+        PliesRow = self.fabric_plies_tableView.selectedIndexes() # create local PliesRow (an integer value for row)
+        descr = self.pliesProxyModel.itemData(PliesRow[0])[0]  # get value of plies decript for this row
+        style = f"{self.pliesProxyModel.itemData(PliesRow[1])[0]}" # get value of plies style for this row
+        type = f"{self.pliesProxyModel.itemData(PliesRow[2])[0]}" # get value of plies type for this row
+        weight = int(self.pliesProxyModel.itemData(PliesRow[3])[0]) # get value of plies weight for this row
+        ''' set UI elements ... (comboBox, SpinBox, LieEdit, and PlainTextEdit) values for plies '''
         self.Fabric_Style_ComboBox.setCurrentText(style)
         self.fiberType_comboBox.setCurrentText(type)
         self.ply_weight_spinBox.setValue(weight)
@@ -417,13 +426,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def add_backing(self):
         Backing = self.backing_lineEdit.text()
-        if Backing != "":
+        if Backing != "":  # if value of Backing is not empty string
+            ''' Create the SQL query to insert backing into backings table '''
             myquery = f"insert into backings (backing) values ('{Backing}')"
-            try:
+            try: # try to execute the query
                 self.dbase.db_doQuery(myquery)
-                self.dbase.db_doQuery("Commit")
-                self.backingModel.addData(Backing)
-                self.backing_lineEdit.setText("")
+                self.dbase.db_doQuery("Commit") # query successfully executed (so commit it)
+                self.backingModel.addData(Backing) # Now update the model
+                self.backing_lineEdit.setText("") # and clear the backing lineEdit field
             except pymysql.err.IntegrityError as e:
                 if e.args[0] == 1062:
                     self.issueWarning(f"Duplicate Entry for {Backing} ---> (already exists.)\n\nTry again!")
@@ -439,14 +449,18 @@ class MainWindow(QtWidgets.QMainWindow):
             self.backing_lineEdit.setText("")
 
     def remove_backing(self):
-        try:
+        try: # try to execute the following
+            # Get the value of the backing column from selected row in backingModel
             Value = self.backingModel.backing_objects_list[self.BackingRow]["backing"]
+            # create SQL query to delet the selected  backing from the backings table
             myquery = f"delete from backings where backing = '{Value}'"
+            ''' Execute the SQL delete query '''
             self.dbase.db_doQuery(myquery)
-            self.dbase.db_doQuery("Commit")
+            self.dbase.db_doQuery("Commit") # successful query execution, so commit.
+            ''' update the model by removing the row '''
             self.backingModel.removeRows(self.BackingRow)
             self.backing_lineEdit.setText("")
-        except:
+        except: 
             self.issueWarning("Oops!  Something went wrong!")
 
 
