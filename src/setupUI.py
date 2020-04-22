@@ -179,15 +179,23 @@ def doSetup(caller):
     self.S2TargLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_S2Targ')
     self.MidS2LineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MidS2')
     self.MuzMidLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MuzMid')
-    self.SDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_SDevice')
-    self.MDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MDevice')
-    self.TimeoutLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_Timeout')
+#    self.SDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_SDevice')
+ #   self.MDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MDevice')
+ #   self.TimeoutLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_Timeout')
     self.HWscreenEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'scrDev_LineEdit')
     self.HWmagEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'magDev_LineEdit')
     self.TimeoutEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'timeout_LineEdit')
 
 
-
+    # identify client UI elements
+    self.clientID_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit,'clientID_lineEdit')
+    self.contact_name_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'contact_name_lineEdit')
+    self.contact_phone_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'contact_phone_lineEdit')
+    self.client_email_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'client_email_lineEdit')
+    self.client_address_plainTextEdit = self.stacks.findChild(QtWidgets.QPlainTextEdit, 'client_address_plainTextEdit')
+    self.client_notes_plainTextEdit = self.stacks.findChild(QtWidgets.QPlainTextEdit, 'client_notes_plainTextEdit')
+    self.add_client_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_client_pushButton')
+    self.add_client_pushButton.clicked.connect(self.on_add_client_clicked)
 
 
     # identify Measure Page UI elements

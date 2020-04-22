@@ -7,8 +7,8 @@ import time
 
 import pymysql
 from PyQt5 import uic, QtWidgets, QtCore, Qt
-from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication, QRegExp, Qt
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication, QRegExp, Qt, QRegularExpression
+from PyQt5.QtGui import QIcon, QPixmap, QRegExpValidator
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QAction, QMessageBox
 from PyQt5.uic.Compiler.qtproxies import QtGui
@@ -172,6 +172,34 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.stacks.setCurrentIndex(3)  # start up in "Settings" page
 
+        # hook up entry validators
+        self.setup_email_validator()
+        self.setup_Integer_Valitator(self.grainsLineEdit)
+        self.setup_Integer_Valitator(self.TimeoutEdit)
+        self.setup_number_Validator(self.S1S2LineEdit)
+        self.setup_number_Validator(self.S2TargLineEdit)
+        self.setup_number_Validator(self.MidS2LineEdit)
+        self.setup_number_Validator(self.MuzMidLineEdit)
+        self.setup_number_Validator(self.projosMassLineEdit)
+        self.setup_number_Validator(self.projosDragLineEdit)
+
+
+    def setup_email_validator(self):
+        emailEdit = self.client_email_lineEdit
+        rx = QRegExp("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b")
+        rx.setCaseSensitivity(False)
+        emailValidator = QRegExpValidator(rx, emailEdit)
+        emailEdit.setValidator(emailValidator)
+
+    def setup_Integer_Valitator(self, lineEdit_Object):
+        rx = QRegExp("[0-9]*")
+        intValidator = QRegExpValidator(rx, lineEdit_Object)
+        lineEdit_Object.setValidator(intValidator)
+
+    def setup_number_Validator(self, lineEdit_Object):
+        rx = QRegExp("\d\d*[.]?\d*\d")
+        numValidator = QRegExpValidator(rx, lineEdit_Object)
+        lineEdit_Object.setValidator(numValidator)
 
     ''' left menuBar on-click behaviors '''
     def goHome(self):
@@ -210,17 +238,19 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ''' Respond to add ply button clicked '''
     def add_ply_button_clicked(self):
-        plyFiberType = self.fiberType_comboBox.currentText()
-        plyFabricStyle = self.Fabric_Style_ComboBox.currentText()
-        plyDescript = self.ply_description_plainTextEdit.toPlainText()
-        plyWeight = self.ply_weight_spinBox.value()
-        plyFabric_id = self.existing_fabrics_comboBox.currentText()
+        plyFiberType = self.fiberType_comboBox.currentText()  # get current fiberType from comboBox selection.
+        plyFabricStyle = self.Fabric_Style_ComboBox.currentText() # get current fabricStyle from comboBox selection.
+        plyDescript = self.ply_description_plainTextEdit.toPlainText() # get plyDescription from plaintext field.
+        plyWeight = self.ply_weight_spinBox.value()  # get current plyWeight from plyWeight spinBox.
+        plyFabric_id = self.existing_fabrics_comboBox.currentText()  # get current fabricID from fabricID comboBox.
         if plyFiberType != "":
+            ''' create the insert query '''
             myquery = f"insert into ply (ply_descript, fiber_style, fiber_type, ply_weight, fabric_id) " \
                       f"values ('{plyDescript}', '{plyFabricStyle}', '{plyFiberType}', {plyWeight}, '{plyFabric_id}')"
             try:
-                self.dbase.db_doQuery(myquery)
-                self.dbase.db_doQuery("Commit")
+                self.dbase.db_doQuery(myquery)  # execute the insert query
+                self.dbase.db_doQuery("Commit") # Success, so commit the change to the database
+                ''' Query worked, so update the model '''
                 self.pliesModel.addData(plyDescript, plyFabricStyle, plyFiberType, plyWeight, plyFabric_id)
             except pymysql.err.IntegrityError as e:
                     self.issueWarning(f"Oops\n\nTry again!")
@@ -228,6 +258,25 @@ class MainWindow(QtWidgets.QMainWindow):
                 pass
             finally:
                 pass
+
+
+    def on_add_client_clicked(self):
+        ''' Validate email entry on Clients Window (filtered first by self.setup_email_validator())'''
+        email = self.client_email_lineEdit.text()
+        if len(email) == 0:
+            pass
+        else:
+            if not(email.find("@") != -1 and email.find(".") != -1):
+                self.issueWarning("Email address not properly formed")
+                return 0
+            else:
+                ''' email is valid so continue '''
+                self.issueWarning("Good Email")
+        pass
+
+
+
+
 
 
     ''' Respond to remove plies button clicked '''
@@ -575,8 +624,8 @@ class MainWindow(QtWidgets.QMainWindow):
     # projectiles ListView click behavior
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_projoslistView_clicked(self, index):
-        self.ProjoRow = index.row()  # set mainWindow's ProjoRow value (A QmodelIndex)
-        ProjoRow = self.ProjectilesView.selectedIndexes() # set local ProjoRow value (an integer)
+        self.ProjoRowInt = index.row()  # set local ProjoRow value (an integer)# set mainWindow's ProjoRow value (A QmodelIndex)
+        ProjoRow = self.ProjectilesView.selectedIndexes() # set mainWindow's ProjoRow value (A QmodelIndex)
         ''' Read values from the model '''
         self.Projo = self.projectilesModel.itemData(ProjoRow[0])
         self.Mass = self.projectilesModel.itemData(ProjoRow[1])
@@ -608,12 +657,15 @@ class MainWindow(QtWidgets.QMainWindow):
     # projectiles handle remove button clicked
     def removeProjo(self):
         if self.ProjectilesView.selectedIndexes() != [] and self.projosLineEdit.text() != "":
-            Value = self.projectilesModel.Projos[self.ProjoRow]["projectileType"]
+            Value = self.projectilesModel.Projos[self.ProjoRowInt]["projectileType"]
             myquery = f"delete from projo where projectileType = '{Value}'"
-            self.dbase.db_doQuery(myquery)
-            self.dbase.db_doQuery("Commit")
-            self.projectilesModel.removeRows(self.ProjoRow)
-            self.clearProjoEdits()
+            try:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.projectilesModel.removeRows(self.ProjoRowInt)
+                self.clearProjoEdits()
+            except:
+                self.issueWarning("Oops, something went wrong during the delete operation!")
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_fiber_Types_listView_clicked(self, index):
@@ -661,26 +713,28 @@ class MainWindow(QtWidgets.QMainWindow):
         self.QuerryTextLabel.setText(itemData[0])
 
     def DoHistoryQuery(self):
-        HistQuery = self.QuerryTextLabel.text()
-        text = ""
-        if HistQuery != "":
-             try:
-                 data = self.dbase.db_doQuery(HistQuery)
-                 for a in range(len(data)):
-                    text = text + "\n" +(str((data[a])))
-                 self.TempResult.setText(text)
-             except:
-                 pass
-             finally:
-                try:
-                    self.conn = self.dbase.getConn()
-                    with self.conn:
-                        self.HistoryModel.setQuery(HistQuery)
-                        if self.HistoryModel.lastError().isValid():
-                            print(self.HistoryModel.lastError())
-                        self.HistView.show()
-                except:
-                    pass
+        ''' toDo set up QSortFilterProxyModel for history navigation '''
+        # HistQuery = self.QuerryTextLabel.text()
+        # text = ""
+        # if HistQuery != "":
+        #      try:
+        #          data = self.dbase.db_doQuery(HistQuery)
+        #          for a in range(len(data)):
+        #             text = text + "\n" +(str((data[a])))
+        #          self.TempResult.setText(text)
+        #      except:
+        #          pass
+        #      finally:
+        #         try:
+        #             self.conn = self.dbase.getConn()
+        #             with self.conn:
+        #                 self.HistoryModel.setQuery(HistQuery)
+        #                 if self.HistoryModel.lastError().isValid():
+        #                     print(self.HistoryModel.lastError())
+        #                 self.HistView.show()
+        #         except:
+        #             pass
+        pass
 
 
 
@@ -856,50 +910,50 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def saveRange(self):
-        S1S2 = self.S1S2LineEdit.text()
-        S2Targ = self.S2TargLineEdit.text()
-        MidS2 = self.MidS2LineEdit.text()
-        MuzMid = self.MuzMidLineEdit.text()
-        myquery = f"insert into BimsRange (scrn1_to_scrn2, scrn2_to_target, mid_to_scrn2, muz_to_mid) " \
-                  f"values ({S1S2},{S2Targ},{MidS2},{MuzMid})"
         try:
-            self.dbase.db_doQuery(myquery)
-            self.dbase.db_doQuery("Commit")
-            mquery = f"Select RangeID, dateCreated from BimsRange where dateCreated = (Select max(dateCreated) from BimsRange)"
+            self.S1S2 = self.S1S2LineEdit.text()
+            self.S2Targ = self.S2TargLineEdit.text()
+            self.MidS2 = self.MidS2LineEdit.text()
+            self.MuzMid = self.MuzMidLineEdit.text()
+            myquery = f"insert into BimsRange (scrn1_to_scrn2, scrn2_to_target, mid_to_scrn2, muz_to_mid) " \
+                      f"values ({self.S1S2},{self.S2Targ},{self.MidS2},{self.MuzMid})"
             try:
-                data = self.dbase.db_doQuery(mquery)
-                ID = data[0][0]
-                created = data[0][1]
-                self.rangeModel.addData(ID,created,S1S2, S2Targ, MidS2, MuzMid)
-            except:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                mquery = f"Select RangeID, dateCreated from BimsRange where dateCreated = (Select max(dateCreated) from BimsRange)"
+                try:
+                    data = self.dbase.db_doQuery(mquery)
+                    ID = data[0][0]
+                    created = data[0][1]
+                    self.rangeModel.addData(ID,created,self.S1S2, self.S2Targ, self.MidS2, self.MuzMid)
+                except:
+                    pass
+            except pymysql.err.IntegrityError as e:
+                if e.args[0] == 1062:
+                    pass
+            except pymysql.err.InternalError:
                 pass
-            # self.grainsModel.addData(ballisticianToAdd)
-            # self.grainsLineEdit.setText("")
-        except pymysql.err.IntegrityError as e:
-            if e.args[0] == 1062:
+            finally:
                 pass
-                # self.issueWarning(
-                #     f"Duplicate Entry for {ballisticianToAdd} ---> (already exists.)\n\nTry again!")
-                # self.grainsLineEdit.setText("")
-                # self.grainsLineEdit.setFocus()
-        except pymysql.err.InternalError:
-            pass
-        finally:
-            pass
+        except:
+            self.issueWarning("Please enter a value for EACH range field")
 
     def loadDefaultRangeVals(self):
         with open('configs/HWconfig.json', 'r') as HWconfig:
             data = json.load(HWconfig)
-        self.S1S2LineEdit.setText(S1S2[0])
-        self.S2TargLineEdit.setText(S2Targ[0])
-        self.MidS2LineEdit.setText(MidS2[0])
-        self.MuzMidLineEdit.setText(MuzMid[0])
+        self.S1S2LineEdit.setText(self.S1S2[0])
+        self.S2TargLineEdit.setText(self.S2Targ[0])
+        self.MidS2LineEdit.setText(self.MidS2[0])
+        self.MuzMidLineEdit.setText(self.MuzMid[0])
 
 
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_rangetableView_clicked(self, index):
+        ''' Set value of mainWindow's RangeRow (A QModelIndex) to clicked index'''
         self.RangeRow = self.RangeView.selectedIndexes()
+
+        ''' Use values from rangemodel row (selected) to set  corresponding UI values '''
         S1S2 = self.rangeModel.itemData(self.RangeRow[2])
         S2Targ = self.rangeModel.itemData(self.RangeRow[3])
         MidS2 = self.rangeModel.itemData(self.RangeRow[4])
@@ -927,7 +981,6 @@ app = QtWidgets.QApplication(sys.argv)
 window = MainWindow()
 
 window.show()
-
 
 app.exec_()
 
