@@ -149,9 +149,7 @@ Create table ply (
     fiber_type varchar(30),
     ply_weight int(5),
     fabric_id varchar(30),
-    ply_id int auto_increment primary key,
-    CONSTRAINT FK_fabricPly FOREIGN KEY (fabric_id)
-    REFERENCES fabric(fabric_id));
+    ply_id int auto_increment primary key);
 
 insert into ply(ply_descript, fiber_style, fiber_type, ply_weight, fabric_id)
     values ('test ply description', 'multi axial', 'Spectra', 10, 'fabric 1'),
