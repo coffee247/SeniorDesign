@@ -7,7 +7,7 @@ import time
 
 import pymysql
 from PyQt5 import uic, QtWidgets, QtCore, Qt
-from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication, QRegExp, Qt, QRegularExpression
+from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication, QRegExp, Qt, QRegularExpression, QObject, QEvent
 from PyQt5.QtGui import QIcon, QPixmap, QRegExpValidator
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QAction, QMessageBox
@@ -184,6 +184,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_number_Validator(self.projosDragLineEdit)
 
 
+
+
     def setup_email_validator(self):
         emailEdit = self.client_email_lineEdit
         rx = QRegExp("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b")
@@ -200,6 +202,7 @@ class MainWindow(QtWidgets.QMainWindow):
         rx = QRegExp("\d\d*[.]?\d*\d")
         numValidator = QRegExpValidator(rx, lineEdit_Object)
         lineEdit_Object.setValidator(numValidator)
+
 
     ''' left menuBar on-click behaviors '''
     def goHome(self):
@@ -272,7 +275,9 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 ''' email is valid so continue '''
                 self.issueWarning("Good Email")
-        pass
+        clientID = self.self.clientID_lineEdit.text()
+        contactName = self.contact_name_lineEdit.text()
+        contactPhone = self.contact_phone_lineEdit.text()
 
 
 
@@ -383,6 +388,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.velocityDataLabel.setText(f"Shot fired! {rawVelTime}")
             self.standbyLabel.setText("")
             logging.warning(f"Shot detected at {ShotClockTime}... Raw data =  {rawVelTime}. <---")
+
 
     def on_remove_Manufacturer_clicked(self):
         try:

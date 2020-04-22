@@ -24,16 +24,17 @@ create Table BimsRange (RangeID int AUTO_INCREMENT primary key,
     mid_to_scrn2 float, muz_to_mid float);
 
 insert into BimsRange (scrn1_to_scrn2, scrn2_to_target, mid_to_scrn2, muz_to_mid)
-    values (36, 20, 18, 72),
-           (38, 20, 19, 96);
+    values (36.5, 20, 18.5, 72),
+           (38.25, 20, 19.5, 96.25);
 
 create Table Environment (EnvID int AUTO_INCREMENT primary key,
+    barPress float,
     humidityPercent float,
     tempFloat float);
 
 insert into Environment (humidityPercent, tempFloat)
-    values (5.8, 72),
-           (15.2, 85.5);
+    values (29.85, 5.8, 72),
+           (28.5, 15.2, 85.5);
 
 create TABLE threatGrain (grain int(6) primary key);
 
@@ -50,11 +51,26 @@ create Table shot (SHOTID int AUTO_INCREMENT primary key,
     ShotDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     scrset1rawdat float,
     scrset2rawdat float,
-    magrawdat float);
+    magrawdat float,
+    obliquity int(3),
+    backingID varchar(20),
+    rangeID int(11),
+    ballistician varchar(30),
+    envID int(11),
+    fabricID varchar(30),
+    projoID int(4),
+    grains int(6),
+    powder varchar(30)
+                  );
 
-insert into shot(ShotDate, scrset1rawdat, scrset2rawdat, magrawdat)
-    values ('2020-03-29 19:56:42', 0.023453456, 0.023453441, 0.023423457),
-           ('2020-03-30 14:30:42', 0.523453456, 0.623453441, 0.723423457);
+insert into shot(ShotDate, scrset1rawdat, scrset2rawdat,
+                 magrawdat, obliquity, backingID, rangeID,
+                 ballistician, envID, fabricID, projoID,
+                 grains, powder)
+    values ('2020-03-29 19:56:42', 0.023453456, 0.023453441, 0.023423457,
+            90, 'Air', 12, 'Luke Jeter', 1, 'fabric 1', 17, 147, 'Accurate #9'),
+           ('2020-03-30 14:30:42', 0.523453456, 0.623453441, 0.723423457,
+            90, 'Aluminum', 13, 'Eric Key', 1, 'second fabric', 33, 147, 'Hi-Skor 700x');
 
 create Table querries (Descr varchar(256) primary key, TheQuery varchar(512));
 

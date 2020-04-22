@@ -190,7 +190,7 @@ def doSetup(caller):
     # identify client UI elements
     self.clientID_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit,'clientID_lineEdit')
     self.contact_name_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'contact_name_lineEdit')
-    self.contact_phone_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'contact_phone_lineEdit')
+    self.contact_phone_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'client_phone_lineEdit')
     self.client_email_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'client_email_lineEdit')
     self.client_address_plainTextEdit = self.stacks.findChild(QtWidgets.QPlainTextEdit, 'client_address_plainTextEdit')
     self.client_notes_plainTextEdit = self.stacks.findChild(QtWidgets.QPlainTextEdit, 'client_notes_plainTextEdit')
