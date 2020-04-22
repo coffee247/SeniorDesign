@@ -473,7 +473,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -1205,7 +1205,7 @@ selection-color: red;</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_21">
                <item row="0" column="0" colspan="2">
-                <widget class="QTableView" name="tableView_4">
+                <widget class="QTreeView" name="shots_treeView">
                  <property name="styleSheet">
                   <string notr="true">background-color: white;</string>
                  </property>
@@ -5092,7 +5092,7 @@ border 2px solid black;</string>
                    </widget>
                   </item>
                   <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_3">
+                   <widget class="QLineEdit" name="sampleID_lineEdit">
                     <property name="styleSheet">
                      <string notr="true">background-color: white;</string>
                     </property>

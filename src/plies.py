@@ -79,7 +79,7 @@ class PliesModel(QAbstractTableModel):
 
     def insertRows(self, position, rows=1, index=QModelIndex()):
         """Insert a row of range data into RangeModel. """
-        self.beginInsertRows(QModelIndex(), position, position + rows - 1)
+        self.beginInsertRows(QModelIndex(), position, position + rows -1)
 
         for row in range(rows):
             self.Plies.insert(position + row, {"ply_descript": "", "fiber_style": "", "fiber_type": "", "ply_weight": "", "fabric_id": ""})

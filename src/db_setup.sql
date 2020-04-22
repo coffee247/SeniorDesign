@@ -1,22 +1,3 @@
-CREATE TABLE user (userID int, loginID varchar(256) PRIMARY KEY,
-loginPWD varchar(256),
-firstName varchar(20),
-lastName varchar(20),
-lastModified DATETIME);
-
-INSERT INTO user(userID, loginID, loginPWD, firstName, lastName)
-VALUES (1, 'admin', 'password', 'Admin', 'User'),
-       (2, 'coffee247', 'clearpass', 'James', 'Stallings');
-
-CREATE VIEW users_List_View AS
-    SELECT CONCAT(firstName, ' ',
-        lastName, ': (', LoginID, ')') AS "Full_Name",
-           LoginID AS "Login ID" FROM user ORDER BY lastName, firstName;
-
-CREATE TRIGGER `User_Modified_Trigger`
-    BEFORE UPDATE ON `user`
-    FOR EACH ROW
-    SET new.lastmodified = CURRENT_TIMESTAMP;
 
 create Table BimsRange (RangeID int AUTO_INCREMENT primary key,
     dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -47,6 +28,7 @@ INSERT INTO threatGrain(grain)
            (125),
            (180);
 
+
 create Table shot (SHOTID int AUTO_INCREMENT primary key,
     ShotDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     scrset1rawdat float,
@@ -62,7 +44,6 @@ create Table shot (SHOTID int AUTO_INCREMENT primary key,
     grains int(6),
     powder varchar(30)
                   );
-
 insert into shot(ShotDate, scrset1rawdat, scrset2rawdat,
                  magrawdat, obliquity, backingID, rangeID,
                  ballistician, envID, fabricID, projoID,
@@ -162,21 +143,26 @@ create table fiber_styles (style_name varchar(30) primary key);
 
 insert into fiber_styles (style_name) values ('woven'), ('uni directional'), ('multi axial');
 
-create table ply (ply_id int auto_increment primary key,
+Create table ply (
     ply_descript varchar(120),
     fiber_style varchar(30),
     ply_weight int(5),
     fiber_type varchar(30),
-    fabric_id varchar(30));
+    fabric_id varchar(30),
+    ply_id int auto_increment primary key,
+    CONSTRAINT FK_fabricPly FOREIGN KEY (fabric_id)
+    REFERENCES fabric(fabric_id));
 
 insert into ply(ply_descript, fiber_style, fiber_type, ply_weight, fabric_id)
     values ('test ply description', 'multi axial', 'Spectra', 10, 'fabric 1'),
            ('another ply description', 'uni-directional', 'Twaron', 30, 'fabric 1'),
-           ('and yet another test ply described here', 'multi axial', 'Spectra', 5, 'fabric 1'),
+           ('test ply for second fabric described here', 'multi axial', 'Spectra', 5, 'second fabric'),
            ('There are a lot of plies in this fabric', 'woven', 'Kevlar', 12, 'fabric 1'),
            ('test ply description','multi axial','Spectra',10,'second fabric');
 
 create table fabric (fabric_id varchar(30) primary key, fabric_descript varchar(120));
 
 insert into fabric (fabric_id, fabric_descript)
-    values('fabric 1', 'Test fabric number 1'), ('second fabric', 'Fabric 2 test description');
+    values('fabric 1', 'Test fabric number 1'),
+           ('second fabric', 'Fabric 2 test description');
+

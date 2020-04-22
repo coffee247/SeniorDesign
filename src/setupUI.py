@@ -30,6 +30,15 @@ def doSetup(caller):
     self.add_ply_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_ply_pushButton')
     self.add_ply_pushButton.clicked.connect(self.add_ply_button_clicked)
 
+    #UI Samples Elements
+    self.sampleID_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit,'sampleID_lineEdit')
+    self.sample_descript_Plaintext = self.stacks.findChild(QtWidgets.QPlainTextEdit, 'SampleDescription_PlainTextEdit')
+    self.SampleWidth_SpinBox = self.stacks.findChild(QtWidgets.QSpinBox, 'SampleWidth_SpinBox')
+    self.SampleLength_SpinBox = self.stacks.findChild(QtWidgets.QSpinBox, 'SampleLength_SpinBox')
+    self.createSample_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'createSample_pushButton')
+    self.samples_tableView = self.stacks.findChild(QtWidgets.QTableView, 'samples_tableView')
+
+
 
     #UI Fabrics Elemenst
     self.existing_fabrics_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'existing_fabrics_comboBox')
@@ -179,9 +188,6 @@ def doSetup(caller):
     self.S2TargLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_S2Targ')
     self.MidS2LineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MidS2')
     self.MuzMidLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MuzMid')
-#    self.SDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_SDevice')
- #   self.MDeviceLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_MDevice')
- #   self.TimeoutLineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'lineEdit_Timeout')
     self.HWscreenEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'scrDev_LineEdit')
     self.HWmagEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'magDev_LineEdit')
     self.TimeoutEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'timeout_LineEdit')
@@ -202,6 +208,11 @@ def doSetup(caller):
     self.standbyLabel = self.findChild(QtWidgets.QLabel, 'Standby_label_5')
     self.velocityDataLabel = self.findChild(QtWidgets.QLabel, 'VelocityDataLabel')
     self.shootButton = self.findChild(QtWidgets.QPushButton, 'FIRE_shot_pushButton')
+    self.shots_treeView = self.stacks.findChild(QtWidgets.QTreeView, 'shots_treeView')
+
+    # connect measure page buttons
+    self.shootButton.clicked.connect(self.shoot)
+
 
     # identify History Page UI elements
     self.QuerryTextLabel = self.stacks.findChild(QtWidgets.QLabel, 'QueryText_Label')
@@ -217,8 +228,7 @@ def doSetup(caller):
     self.clientsButton.clicked.connect(self.goClients)
     self.quitButton.clicked.connect(self.doQuit)
 
-    # connect measure page buttons
-    self.shootButton.clicked.connect(self.shoot)
+
 
     # connect history page buttons
     self.HistExecuteButton.clicked.connect(self.DoHistoryQuery)

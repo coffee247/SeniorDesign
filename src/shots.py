@@ -24,7 +24,7 @@ class ShotsModel(QAbstractTableModel):
         return len(self.Shots)
 
     def columnCount(self, index=QModelIndex()):
-        return 14    #  fields:
+        return 14    #  fields:  zeroth index and 13 others
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
@@ -40,7 +40,15 @@ class ShotsModel(QAbstractTableModel):
             shot_scrnset1raw = self.Shots[index.row()]["scrnset1rawdat"]
             shot_scrnset2raw = self.Shots[index.row()]["scrnset2rawdat"]
             shot_magrawdat = self.Shots[index.row()]["magrawdat"]
-            shot_obliquity = self.Shots[index.row()]['obliquity']
+            shot_obliquity = self.Shots[index.row()]["obliquity"]
+            shot_backing = self.Shots[index.row()]["backingID"]
+            shot_rangeID = self.Shots[index.row()]["rangeID"]
+            shot_ballistician = self.Shots[index.row()]["ballistician"]
+            shot_envID = self.Shots[index.row()]['envID']
+            shot_fabricID = self.Shots[index.row()]["fabricID"]
+            shot_projoID = self.Shots[index.row()]["projoID"]
+            shot_grains = self.Shots[index.row()]["grains"]
+            shot_powder = self.Shots[index.row()]['powder']
 
 
             if index.column() == 0:
@@ -56,21 +64,21 @@ class ShotsModel(QAbstractTableModel):
             elif index.column() == 5:
                 return shot_obliquity
             elif index.column() == 6:
-                return shot_date
+                return shot_backing
             elif index.column() == 7:
-                return shot_scrnset1raw
+                return shot_rangeID
             elif index.column() == 8:
-                return shot_scrnset2raw
+                return shot_ballistician
             elif index.column() == 9:
-                return shot_magrawdat
+                return shot_envID
             elif index.column() == 10:
-                return shot_obliquity
+                return shot_fabricID
             elif index.column() == 11:
-                return shot_date
+                return shot_projoID
             elif index.column() == 12:
-                return shot_scrnset1raw
+                return shot_grains
             elif index.column() == 13:
-                return shot_scrnset2raw
+                return shot_powder
             return None
 
 
@@ -120,7 +128,22 @@ class ShotsModel(QAbstractTableModel):
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
-            self.Plies.insert(position + row, {"ply_descript": "", "fiber_style": "", "fiber_type": "", "ply_weight": "", "fabric_id": ""})
+            self.Plies.insert(position + row,
+                              {"SHOTID": "",
+                               "ShotDate": "",
+                               "scrnset1rawdat": "",
+                               "scrnset2rawdat": "",
+                               "magrawdat": "",
+                               "obliquity": "",
+                               "backingID": "",
+                               "rangeID": "",
+                               "ballistician": "",
+                               "envID": "",
+                               "fabricID": "",
+                               "projoID": "",
+                               "grains": "",
+                               "powder": ""
+                               })
             self.dataChanged.emit(index, index)
         self.endInsertRows()
         return True
@@ -129,31 +152,61 @@ class ShotsModel(QAbstractTableModel):
         """ Remove a row from  ProjectilesModel. """
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
 
-        del self.Plies[position:position + rows]
+        del self.Shots[position:position + rows]
 
         self.endRemoveRows()
         self.dataChanged.emit(index, index)
         return True
 
-    def addData(self, ply_descript, fiber_style, fiber_type, ply_weight, fabric_id):
+    def addData(self, shot_ID, shot_date, shot_scrnset1raw, shot_scrnset2raw,
+                shot_magrawdat, shot_obliquity, shot_backing, shot_rangeID,
+                shot_ballistician, shot_envID, shot_fabricID, shot_projoID,
+                shot_grains, shot_powder):
         rowCount = self.rowCount()
         self.insertRow(0)
         for i in range(5):
             index = self.createIndex(0, i)
             if i == 0:
-                self.setData(index, ply_descript, role=Qt.EditRole)
+                self.setData(index, shot_ID, role=Qt.EditRole)
                 self.dataChanged.emit(index, index)
             elif i == 1:
-                self.setData(index, fiber_style, role=Qt.EditRole)
+                self.setData(index, shot_date, role=Qt.EditRole)
                 self.dataChanged.emit(index, index)
             elif i == 2:
-                self.setData(index, fiber_type, role=Qt.EditRole)
+                self.setData(index, shot_scrnset1raw, role=Qt.EditRole)
                 self.dataChanged.emit(index, index)
             elif i == 3:
-                self.setData(index, ply_weight, role=Qt.EditRole)
+                self.setData(index, shot_scrnset2raw, role=Qt.EditRole)
                 self.dataChanged.emit(index, index)
             elif i == 4:
-                self.setData(index, fabric_id, role=Qt.EditRole)
+                self.setData(index, shot_magrawdat, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 5:
+                self.setData(index, shot_obliquity, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 6:
+                self.setData(index, shot_backing, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 7:
+                self.setData(index, shot_rangeID, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 8:
+                self.setData(index, shot_ballistician, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 9:
+                self.setData(index, shot_envID, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 10:
+                self.setData(index, shot_fabricID, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 11:
+                self.setData(index, shot_projoID, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 12:
+                self.setData(index, shot_grains, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 13:
+                self.setData(index, shot_powder, role=Qt.EditRole)
                 self.dataChanged.emit(index, index)
         return None
 
@@ -169,15 +222,33 @@ class ShotsModel(QAbstractTableModel):
         if index.isValid() and 0 <= index.row() < len(self.Plies):
             aPly = self.Plies[index.row()]
             if index.column() == 0:
-                aPly["ply_descript"] = f"{value}"
+                aPly["SHOTID"] = f"{value}"
             elif index.column() == 1:
-                aPly["fiber_style"] = f"{value}"
+                aPly["ShotDate"] = f"{value}"
             elif index.column() == 2:
-                aPly["fiber_type"] = f"{value}"
+                aPly["scrnset1rawdat"] = f"{value}"
             elif index.column() == 3:
-                aPly["ply_weight"] = f"{value}"
+                aPly["scrnset2rawdat"] = f"{value}"
             elif index.column() == 4:
-                aPly["fabric_id"] = f"{value}"
+                aPly["magrawdat"] = f"{value}"
+            elif index.column() == 5:
+                aPly["obliquity"] = f"{value}"
+            elif index.column() == 6:
+                aPly["backingID"] = f"{value}"
+            elif index.column() == 7:
+                aPly["rangeID"] = f"{value}"
+            elif index.column() == 8:
+                aPly["ballistician"] = f"{value}"
+            elif index.column() == 9:
+                aPly["envID"] = f"{value}"
+            elif index.column() == 10:
+                aPly["fabricID"] = f"{value}"
+            elif index.column() == 11:
+                aPly["projoID"] = f"{value}"
+            elif index.column() == 12:
+                aPly["grains"] = f"{value}"
+            elif index.column() == 13:
+                aPly["powder"] = f"{value}"
             else:
                 return False
 
