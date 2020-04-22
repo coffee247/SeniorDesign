@@ -146,8 +146,8 @@ insert into fiber_styles (style_name) values ('woven'), ('uni directional'), ('m
 Create table ply (
     ply_descript varchar(120),
     fiber_style varchar(30),
-    ply_weight int(5),
     fiber_type varchar(30),
+    ply_weight int(5),
     fabric_id varchar(30),
     ply_id int auto_increment primary key,
     CONSTRAINT FK_fabricPly FOREIGN KEY (fabric_id)

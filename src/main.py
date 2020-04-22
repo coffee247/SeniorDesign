@@ -231,8 +231,8 @@ class MainWindow(QtWidgets.QMainWindow):
         PliesRow = self.fabric_plies_tableView.selectedIndexes() # create local PliesRow (an integer value for row)
         descr = self.pliesProxyModel.itemData(PliesRow[0])[0]  # get value of plies decript for this row
         style = f"{self.pliesProxyModel.itemData(PliesRow[1])[0]}" # get value of plies style for this row
-        weight = int(self.pliesProxyModel.itemData(PliesRow[2])[0]) # get value of plies type for this row
-        type = f"{self.pliesProxyModel.itemData(PliesRow[3])[0]}" # get value of plies weight for this row
+        type = f"{self.pliesProxyModel.itemData(PliesRow[2])[0]}" # get value of plies weight for this row
+        weight = int(self.pliesProxyModel.itemData(PliesRow[3])[0])  # get value of plies type for this row
         ''' set UI elements ... (comboBox, SpinBox, LieEdit, and PlainTextEdit) values for plies '''
         self.Fabric_Style_ComboBox.setCurrentText(style)
         self.fiberType_comboBox.setCurrentText(type)
