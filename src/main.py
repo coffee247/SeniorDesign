@@ -226,6 +226,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def goProjects(self):
         self.existing_fabrics_comboBox.setCurrentIndex(-1)
         self.pliesProxyModel.setFilterRegExp('zxqGarbageKey_DoesNotExist_IsMadeUP')
+        self.fabric_ID_lineEdit.setText("")
+        self.fabric_ID_lineEdit.setFocus()
+        self.fabric_description_plainTextEdit.setPlainText("")
         self.stacks.setCurrentIndex(5)
     def doQuit(self):
         sys.exit()
@@ -293,15 +296,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ''' Respond to remove plies button clicked '''
     def on_remove_plies_button_clicked(self):
-        if self.fabric_plies_tableView.selectedIndexes() != []:
+        selectionModel = self.fabric_plies_tableView.selectionModel()
+        indexes = selectionModel.selectedRows()
+        for index in indexes:
+            rowToRemove = self.pliesProxyModel.mapToSource(index).row()
+            plyIDToRemove = self.pliesModel.Plies[rowToRemove]["ply_id"]
             try:
-                plyID = self.pliesModel.Plies[self.PliesRow]["ply_id"]
-                myquery = f"delete from ply where ply_id = '{plyID}'"
+                myquery = f"delete from ply where ply_id = '{plyIDToRemove}'"
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
-                self.pliesModel.removeRows(self.PliesRow)
+                self.pliesModel.removeRows(rowToRemove)
+                self.ply_description_plainTextEdit.setPlainText('')
             except:
-                self.issueWarning("Oops!  Something went wrong!")
+                self.issueWarning("Oops!\nSomething went wrong!")
+
+
 
 
     ''' Respond to fabric comboBox  selectionChange event'''
@@ -336,10 +345,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.dbase.db_doQuery(myquery)
             self.dbase.db_doQuery("Commit")
             self.fabricsModel.addData(fabricID, fabricDescr)
-            self.fabric_ID_lineEdit.setText("")
-            self.fabric_ID_lineEdit.setFocus()
-            self.fabric_description_plainTextEdit.setPlainText("")
-            self.goProjects()
+            self.goProjects()  # this will reset the QProxyModel filter among other things.
             self.issueWarning("Your new fabric was created\n\nPlease select it in the fabrics pulldown!")
         except pymysql.err.IntegrityError as e:
             if e.args[0] == 1062:
@@ -358,6 +364,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
                 self.fabricsModel.removeRows(index)
+                self.goProjects()  # this will reset the QProxyModel filter among other things.
+                self.issueWarning("The fabric was deleted!\n\nPlease select another fabric from the fabrics pulldown!")
             except:
                 self.issueWarning("Opps, something went wrong!")
 

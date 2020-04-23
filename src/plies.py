@@ -73,6 +73,8 @@ class PliesModel(QAbstractTableModel):
                 return "ply weight"
             if section == 4:
                 return "fabric_id"
+            if section == 5:
+                return "ply_id"
             return None
 
         # if orientation == Qt.Vertical:
