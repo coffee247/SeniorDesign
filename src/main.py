@@ -249,25 +249,29 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ''' Respond to add ply button clicked '''
     def add_ply_button_clicked(self):
-        plyFiberType = self.fiberType_comboBox.currentText()  # get current fiberType from comboBox selection.
-        plyFabricStyle = self.Fabric_Style_ComboBox.currentText() # get current fabricStyle from comboBox selection.
-        plyDescript = self.ply_description_plainTextEdit.toPlainText() # get plyDescription from plaintext field.
-        plyWeight = self.ply_weight_spinBox.value()  # get current plyWeight from plyWeight spinBox.
-        plyFabric_id = self.existing_fabrics_comboBox.currentText()  # get current fabricID from fabricID comboBox.
-        if plyFiberType != "":
-            ''' create the insert query '''
-            myquery = f"insert into ply (ply_descript, fiber_style, fiber_type, ply_weight, fabric_id) " \
-                      f"values ('{plyDescript}', '{plyFabricStyle}', '{plyFiberType}', {plyWeight}, '{plyFabric_id}')"
-            try:
-                self.dbase.db_doQuery(myquery)  # execute the insert query
-                self.dbase.db_doQuery("Commit") # Success, so commit the change to the database
-                ''' Query worked, so update the model '''
-                IDquery = f"SELECT MAX(ply_id) FROM ply"
-                data = self.dbase.db_doQuery(IDquery)
-                ID = data[0][0]
-                self.pliesModel.addData(plyDescript, plyFabricStyle, plyFiberType, plyWeight, plyFabric_id, ID)
-            except pymysql.err.IntegrityError as e:
-                self.issueWarning(f"Oops\n\nTry again!")
+        index = self.existing_fabrics_comboBox.currentIndex()
+        if index == -1:
+            self.issueWarning("You have'n chosen a fabric\nPlease select (or create) a fabric\nbefore making a new ply!")
+        else:
+            plyFiberType = self.fiberType_comboBox.currentText()  # get current fiberType from comboBox selection.
+            plyFabricStyle = self.Fabric_Style_ComboBox.currentText() # get current fabricStyle from comboBox selection.
+            plyDescript = self.ply_description_plainTextEdit.toPlainText() # get plyDescription from plaintext field.
+            plyWeight = self.ply_weight_spinBox.value()  # get current plyWeight from plyWeight spinBox.
+            plyFabric_id = self.existing_fabrics_comboBox.currentText()  # get current fabricID from fabricID comboBox.
+            if plyFiberType != "":
+                ''' create the insert query '''
+                myquery = f"insert into ply (ply_descript, fiber_style, fiber_type, ply_weight, fabric_id) " \
+                          f"values ('{plyDescript}', '{plyFabricStyle}', '{plyFiberType}', {plyWeight}, '{plyFabric_id}')"
+                try:
+                    self.dbase.db_doQuery(myquery)  # execute the insert query
+                    self.dbase.db_doQuery("Commit") # Success, so commit the change to the database
+                    ''' Query worked, so update the model '''
+                    IDquery = f"SELECT MAX(ply_id) FROM ply"
+                    data = self.dbase.db_doQuery(IDquery)
+                    ID = data[0][0]
+                    self.pliesModel.addData(plyDescript, plyFabricStyle, plyFiberType, plyWeight, plyFabric_id, ID)
+                except pymysql.err.IntegrityError as e:
+                    self.issueWarning(f"Oops\n\nTry again!")
 
 
 
@@ -332,8 +336,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.dbase.db_doQuery(myquery)
             self.dbase.db_doQuery("Commit")
             self.fabricsModel.addData(fabricID, fabricDescr)
-            self.fabric_ID_lineEdit.setText(f"{fabricID}")
+            self.fabric_ID_lineEdit.setText("")
             self.fabric_ID_lineEdit.setFocus()
+            self.fabric_description_plainTextEdit.setPlainText("")
+            self.goProjects()
+            self.issueWarning("Your new fabric was created\n\nPlease select it in the fabrics pulldown!")
         except pymysql.err.IntegrityError as e:
             if e.args[0] == 1062:
                 self.issueWarning(f"Duplicate Entry for {fabricID} ---> (already exists.)\n\nTry again!")
@@ -342,9 +349,40 @@ class MainWindow(QtWidgets.QMainWindow):
         except pymysql.err.InternalError:
             self.issueWarning("Opps, something went wrong!")
 
+    def on_remove_fabric_clicked(self):
+        fabricID = self.fabric_ID_lineEdit.text()
+        myquery = f"delete from fabric where fabric_id = '{fabricID}'"
+        index = self.existing_fabrics_comboBox.currentIndex()
+        if fabricID == self.existing_fabrics_comboBox.currentText():
+            try:
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.fabricsModel.removeRows(index)
+            except:
+                self.issueWarning("Opps, something went wrong!")
 
     def add_sample(self):
-        pass
+        sampleID = self.sampleID_lineEdit.text()
+        sampleDescr = self.sample_descript_Plaintext.toPlainText()
+        index = self.existing_fabrics_comboBox.currentIndex()
+        if index == -1:
+            self.issueWarning("You have'n chosen a fabric\nPlease select (or create)\na fabric before making a sample!")
+        else:
+            pass
+        # myquery = f"insert into fabric (fabric_id, fabric_descript) values('{fabricID}', '{fabricDescr}')"
+        # try:
+        #     self.dbase.db_doQuery(myquery)
+        #     self.dbase.db_doQuery("Commit")
+        #     self.fabricsModel.addData(fabricID, fabricDescr)
+        #     self.fabric_ID_lineEdit.setText(f"{fabricID}")
+        #     self.fabric_ID_lineEdit.setFocus()
+        # except pymysql.err.IntegrityError as e:
+        #     if e.args[0] == 1062:
+        #         self.issueWarning(f"Duplicate Entry for {fabricID} ---> (already exists.)\n\nTry again!")
+        #         self.fabric_ID_lineEdit.setText("")
+        #         self.fabric_ID_lineEdit.setFocus()
+        # except pymysql.err.InternalError:
+        #     self.issueWarning("Opps, something went wrong!")
 
 
     ''' set up menuBar & menubar behaviors '''

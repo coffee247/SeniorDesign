@@ -51,6 +51,8 @@ def doSetup(caller):
     self.existing_fabrics_comboBox.currentIndexChanged.connect(self.on_FabricChanged)
     self.add_fabric_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_fabric_pushButton')
     self.add_fabric_pushButton.clicked.connect(self.on_add_fabrics_pushbutton_clicked)
+    self.remove_fabric_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'remove_fabric_pushButton')
+    self.remove_fabric_pushButton.clicked.connect(self.on_remove_fabric_clicked)
 
 
     # UI Grains elements
