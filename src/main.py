@@ -30,6 +30,7 @@ import src.backing
 import src.fiber_style
 import src.sample_Types
 import src.plies
+import src.samples
 import src.fabrics
 import src.SortFilterProxyModel
 import logging
@@ -94,6 +95,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fabricStylesModel = src.fiber_style.fiber_styles_model()
         self.sample_types_Model = src.sample_Types.sample_types_model()
         self.pliesModel = src.plies.PliesModel()
+        self.SamplesModel = src.samples.SamplesModel()
         self.fabricsModel = src.fabrics.FabricsModel()
 
         ''' set up proxymodel for plies '''
@@ -101,6 +103,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pliesProxyModel.setDynamicSortFilter(True)
         self.pliesProxyModel.setSourceModel(self.pliesModel)
         self.pliesProxyModel.setFilterKeyColumn(4)
+
+        ''' set up proxymodel for samples '''
+        self.samplesProxyModel = src.SortFilterProxyModel.SortFilterProxyModel()
+        self.samplesProxyModel.setDynamicSortFilter(True)
+        self.samplesProxyModel.setSourceModel(self.SamplesModel)
+        # self.samplesProxyModel.setFilterKeyColumn(6)
 
 
         src.setupUI.doSetup(self)  # connect ui elements to app varables and functions
@@ -334,6 +342,9 @@ class MainWindow(QtWidgets.QMainWindow):
         except pymysql.err.InternalError:
             self.issueWarning("Opps, something went wrong!")
 
+
+    def add_sample(self):
+        pass
 
 
     ''' set up menuBar & menubar behaviors '''

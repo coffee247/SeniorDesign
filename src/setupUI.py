@@ -39,6 +39,8 @@ def doSetup(caller):
     self.SampleLength_SpinBox = self.stacks.findChild(QtWidgets.QSpinBox, 'SampleLength_SpinBox')
     self.createSample_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'createSample_pushButton')
     self.samples_tableView = self.stacks.findChild(QtWidgets.QTableView, 'samples_tableView')
+ #   self.samples_tableView.setModel(self.samplesProxyModel)
+    self.createSample_pushButton.clicked.connect(self.add_sample)
 
 
 

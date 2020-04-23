@@ -5110,6 +5110,12 @@ border 2px solid black;</string>
                   </item>
                   <item row="1" column="1">
                    <widget class="QPlainTextEdit" name="SampleDescription_PlainTextEdit">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
@@ -5718,7 +5724,7 @@ border 2px solid black;</string>
                    </widget>
                   </item>
                   <item row="7" column="1">
-                   <widget class="QPushButton" name="pushButton_9">
+                   <widget class="QPushButton" name="createSample_pushButton">
                     <property name="styleSheet">
                      <string notr="true">background-color: lightgreen;</string>
                     </property>

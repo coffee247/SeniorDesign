@@ -24,7 +24,7 @@ class SamplesModel(QAbstractTableModel):
         return len(self.Samples)
 
     def columnCount(self, index=QModelIndex()):
-        return 6    #  fields:
+        return 8    #  fields:
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
