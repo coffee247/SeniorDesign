@@ -29,6 +29,8 @@ def doSetup(caller):
     self.remove_ply_pushButton.clicked.connect(self.on_remove_plies_button_clicked)
     self.add_ply_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'add_ply_pushButton')
     self.add_ply_pushButton.clicked.connect(self.add_ply_button_clicked)
+    self.fabric_plies_tableView.setColumnHidden(5, True)
+
 
     #UI Samples Elements
     self.sampleID_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit,'sampleID_lineEdit')

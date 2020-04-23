@@ -143,13 +143,23 @@ create table fiber_styles (style_name varchar(30) primary key);
 
 insert into fiber_styles (style_name) values ('woven'), ('uni directional'), ('multi axial');
 
+
+
+create table fabric (fabric_id varchar(30) primary key, fabric_descript varchar(120));
+
+insert into fabric (fabric_id, fabric_descript)
+    values('fabric 1', 'Test fabric number 1'),
+           ('second fabric', 'Fabric 2 test description');
+
 Create table ply (
     ply_descript varchar(120),
     fiber_style varchar(30),
     fiber_type varchar(30),
     ply_weight int(5),
     fabric_id varchar(30),
-    ply_id int auto_increment primary key);
+    ply_id int auto_increment primary key,
+    CONSTRAINT FK_ply_fabric FOREIGN KEY (fabric_id) references fabric (fabric_id)
+    );
 
 insert into ply(ply_descript, fiber_style, fiber_type, ply_weight, fabric_id)
     values ('test ply description', 'multi axial', 'Spectra', 10, 'fabric 1'),
@@ -158,9 +168,22 @@ insert into ply(ply_descript, fiber_style, fiber_type, ply_weight, fabric_id)
            ('There are a lot of plies in this fabric', 'woven', 'Kevlar', 12, 'fabric 1'),
            ('test ply description','multi axial','Spectra',10,'second fabric');
 
-create table fabric (fabric_id varchar(30) primary key, fabric_descript varchar(120));
 
-insert into fabric (fabric_id, fabric_descript)
-    values('fabric 1', 'Test fabric number 1'),
-           ('second fabric', 'Fabric 2 test description');
-
+Create table sample (
+    sample_description varchar(30),
+    dimensions_w int(4),
+    dimensions_h int(4),
+    backing varchar(20),
+    sample_type varchar(30),
+    manufacturer varchar(30),
+    fabric_id varchar(30),
+    sample_id int auto_increment primary key,
+    CONSTRAINT FK_sample_backing FOREIGN KEY (backing)
+    REFERENCES backings(backing),
+    CONSTRAINT FK_sample_samplyType FOREIGN KEY (sample_type)
+    REFERENCES sample_types(type_name),
+    CONSTRAINT FK_sample_manufacturer FOREIGN KEY (manufacturer)
+    REFERENCES manufacturers(Mfr_name),
+    CONSTRAINT FK_sample_fabric FOREIGN KEY (fabric_id)
+    REFERENCES fabric(fabric_id)
+    );

@@ -24,7 +24,7 @@ class PliesModel(QAbstractTableModel):
         return len(self.Plies)
 
     def columnCount(self, index=QModelIndex()):
-        return 5    #  fields:
+        return 6    #  fields:
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
@@ -40,6 +40,7 @@ class PliesModel(QAbstractTableModel):
             fiber_type = self.Plies[index.row()]["fiber_type"]
             ply_weight = self.Plies[index.row()]["ply_weight"]
             fabric_id = self.Plies[index.row()]["fabric_id"]
+            plyID = self.Plies[index.row()]["ply_id"]
 
             if index.column() == 0:
                 return ply_descript
@@ -51,6 +52,8 @@ class PliesModel(QAbstractTableModel):
                 return ply_weight
             elif index.column() == 4:
                 return fabric_id
+            elif index.column() == 5:
+                return plyID
             return None
 
 
@@ -82,7 +85,7 @@ class PliesModel(QAbstractTableModel):
         self.beginInsertRows(QModelIndex(), position, position + rows -1)
 
         for row in range(rows):
-            self.Plies.insert(position + row, {"ply_descript": "", "fiber_style": "", "fiber_type": "", "ply_weight": "", "fabric_id": ""})
+            self.Plies.insert(position + row, {"ply_descript": "", "fiber_style": "", "fiber_type": "", "ply_weight": "", "fabric_id": "", "ply_id": ""})
             self.dataChanged.emit(index, index)
         self.endInsertRows()
         return True
@@ -97,7 +100,7 @@ class PliesModel(QAbstractTableModel):
         self.dataChanged.emit(index, index)
         return True
 
-    def addData(self, ply_descript, fiber_style, fiber_type, ply_weight, fabric_id):
+    def addData(self, ply_descript, fiber_style, fiber_type, ply_weight, fabric_id, plyID):
         rowCount = self.rowCount()
         self.insertRow(0)
         for i in range(5):
@@ -116,6 +119,9 @@ class PliesModel(QAbstractTableModel):
                 self.dataChanged.emit(index, index)
             elif i == 4:
                 self.setData(index, fabric_id, role=Qt.EditRole)
+                self.dataChanged.emit(index, index)
+            elif i == 5:
+                self.setData(index, plyID, role=Qt.EditRole)
                 self.dataChanged.emit(index, index)
         return None
 
@@ -140,6 +146,8 @@ class PliesModel(QAbstractTableModel):
                 aPly["ply_weight"] = f"{value}"
             elif index.column() == 4:
                 aPly["fabric_id"] = f"{value}"
+            elif index.column() == 5:
+                aPly["ply_id"] = f"{value}"
             else:
                 return False
 

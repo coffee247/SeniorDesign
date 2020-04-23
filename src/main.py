@@ -279,22 +279,12 @@ class MainWindow(QtWidgets.QMainWindow):
         contactName = self.contact_name_lineEdit.text()
         contactPhone = self.contact_phone_lineEdit.text()
 
-
-
-
-
-
     ''' Respond to remove plies button clicked '''
     def on_remove_plies_button_clicked(self):
         if self.fabric_plies_tableView.selectedIndexes() != []:
             try:
-                descValue = self.pliesModel.Plies[self.PliesRow]['ply_descript']
-                weight = int(self.pliesModel.Plies[self.PliesRow]["ply_weight"])
-                style = self.pliesModel.Plies[self.PliesRow]["fiber_style"]
-                plytype = self.pliesModel.Plies[self.PliesRow]["fiber_type"]
-                fabricID = self.pliesModel.Plies[self.PliesRow]["fabric_id"]
-                myquery = f"delete from ply where ply_descript = '{descValue}' and fiber_style = '{style}'" \
-                          f" and fiber_type = '{plytype}' and ply_weight = {weight} and fabric_id = '{fabricID}'"
+                plyID = self.pliesModel.Plies[self.PliesRow]["ply_id"]
+                myquery = f"delete from ply where ply_id = '{plyID}'"
                 self.dbase.db_doQuery(myquery)
                 self.dbase.db_doQuery("Commit")
                 self.pliesModel.removeRows(self.PliesRow)
