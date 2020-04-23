@@ -254,13 +254,13 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.dbase.db_doQuery(myquery)  # execute the insert query
                 self.dbase.db_doQuery("Commit") # Success, so commit the change to the database
                 ''' Query worked, so update the model '''
-                self.pliesModel.addData(plyDescript, plyFabricStyle, plyFiberType, plyWeight, plyFabric_id)
+                IDquery = f"SELECT MAX(ply_id) FROM ply"
+                data = self.dbase.db_doQuery(IDquery)
+                ID = data[0][0]
+                self.pliesModel.addData(plyDescript, plyFabricStyle, plyFiberType, plyWeight, plyFabric_id, ID)
             except pymysql.err.IntegrityError as e:
-                    self.issueWarning(f"Oops\n\nTry again!")
-            except pymysql.err.InternalError:
-                pass
-            finally:
-                pass
+                self.issueWarning(f"Oops\n\nTry again!")
+
 
 
     def on_add_client_clicked(self):
