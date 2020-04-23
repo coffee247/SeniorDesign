@@ -473,7 +473,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -3637,7 +3637,7 @@ selection-color: red;</string>
                     <string notr="true">border: none;</string>
                    </property>
                    <property name="text">
-                    <string>Edit sample and fiber pick-lists</string>
+                    <string>Edit Sample and Fiber Pick-lists</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>

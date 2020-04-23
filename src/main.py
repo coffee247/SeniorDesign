@@ -375,6 +375,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def add_sample(self):
         sampleID = self.sampleID_lineEdit.text()
+        dim_w = self.SampleWidth_SpinBox.value()
+        dim_l = self.SampleLength_SpinBox.value()
         sampleDescr = self.sample_descript_Plaintext.toPlainText()
         fabindex = self.existing_fabrics_comboBox.currentIndex()
         if fabindex == -1:
@@ -540,11 +542,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.backing_combobox.setCurrentIndex(self.BackingRow)
         val = self.backingModel.itemData(index)
         self.backing_lineEdit.setText(val[0])
-        with open('configs/defaults.json', 'r') as dconfig:
-            data = json.load(dconfig)
-            data['backing'] = val[0]
-        with open('configs/defaults.json', 'w') as dconfig:
-            dconfig.write(json.dumps(data))
+        self.setDefaults('backing', val[0])
+
 
     def add_backing(self):
         Backing = self.backing_lineEdit.text()
@@ -710,6 +709,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.projosDragLineEdit.setText(self.Drag[0])
         ''' Set the index of the projoComboBox to the index of the clicked row '''
         self.projoComboBox.setCurrentIndex(ProjoRow[0].row())
+        self.setDefaults('projectile', self.Projo[0])
+        self.setDefaults('projo_mass', self.Mass[0])
+        self.setDefaults('projo_drag', self.Drag[0])
 
 
 
@@ -747,11 +749,7 @@ class MainWindow(QtWidgets.QMainWindow):
         type = self.fiberTypesModel.itemData(index)
         self.fiberType_lineEdit.setText(type[0])
         self.fiberType_comboBox.setCurrentIndex(self.fiberTypeRow)
-        with open('configs/defaults.json', 'r') as dconfig:
-            data = json.load(dconfig)
-            data['fiber_type'] = type[0]
-        with open('configs/defaults.json', 'w') as dconfig:
-            dconfig.write(json.dumps(data))
+        self.setDefaults('fiber_type', type[0])
 
     def addFiber(self):
         fiberVal = self.fiberType_lineEdit.text().title()
@@ -793,26 +791,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def DoHistoryQuery(self):
         ''' toDo set up QSortFilterProxyModel for history navigation '''
-        # HistQuery = self.QuerryTextLabel.text()
-        # text = ""
-        # if HistQuery != "":
-        #      try:
-        #          data = self.dbase.db_doQuery(HistQuery)
-        #          for a in range(len(data)):
-        #             text = text + "\n" +(str((data[a])))
-        #          self.TempResult.setText(text)
-        #      except:
-        #          pass
-        #      finally:
-        #         try:
-        #             self.conn = self.dbase.getConn()
-        #             with self.conn:
-        #                 self.HistoryModel.setQuery(HistQuery)
-        #                 if self.HistoryModel.lastError().isValid():
-        #                     print(self.HistoryModel.lastError())
-        #                 self.HistView.show()
-        #         except:
-        #             pass
         pass
 
 
@@ -848,11 +826,8 @@ class MainWindow(QtWidgets.QMainWindow):
         powder = self.powdersModel.itemData(index)
         self.powdersLineEdit.setText(powder[0])
         self.powdersComboBox.setCurrentIndex(self.PowderRow)
-        with open('configs/defaults.json', 'r') as dconfig:
-            data = json.load(dconfig)
-            data['powder'] = powder[0]
-        with open('configs/defaults.json', 'w') as dconfig:
-            dconfig.write(json.dumps(data))
+        self.setDefaults('powder', powder[0])
+
 
 
     def removePowders(self):
@@ -899,11 +874,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.grainsLineEdit.setText(grains[0])
         # self.grainsLabel.setText(grains[0])
         self.grainsComboBox.setCurrentIndex(self.GrainsRow)
-        with open('configs/defaults.json', 'r') as dconfig:
-            data = json.load(dconfig)
-            data['grain'] = grains[0]
-        with open('configs/defaults.json', 'w') as dconfig:
-            dconfig.write(json.dumps(data))
+        self.setDefaults('grain', grains[0])
+
 
     def removeGrains(self):
         Value = int(self.grainsModel.Grains[self.GrainsRow]["grainsValue"])
@@ -918,6 +890,7 @@ class MainWindow(QtWidgets.QMainWindow):
         style = self.fabricStylesModel.itemData(index)
         self.fabric_styles_lineEdit.setText(style[0])
         self.Fabric_Style_ComboBox.setCurrentIndex(self.fabricStyleRow)
+        self.setDefaults('fabric_style', style[0])
 
     def on_add_fabric_style(self):
         fabricStyleVal = self.fabric_styles_lineEdit.text()
@@ -962,11 +935,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ballisticianComboBox.setCurrentIndex(self.BallisticianRow)
         val = self.ballModel.itemData(index)
         self.ballisticianLineEdit.setText(val[0])
-        with open('configs/defaults.json', 'r') as dconfig:
-            data = json.load(dconfig)
-            data['ballistician'] = val[0]
-        with open('configs/defaults.json', 'w') as dconfig:
-            dconfig.write(json.dumps(data))
+        self.setDefaults('ballistician', val[0])
+
 
     def removeBallistician(self):
         row = self.BallisticianRow
@@ -1089,6 +1059,10 @@ class MainWindow(QtWidgets.QMainWindow):
             self.fiberType_lineEdit.setText(data['fiber_type'])
             self.sampTypes_lineEdit.setText(data['sample_type'])
             self.manufacturer_lineEdit.setText(data['manufacturer'])
+            self.fabric_styles_lineEdit.setText(data['fabric_style'])
+            self.projosDragLineEdit.setText(data['projo_drag'])
+            self.projosLineEdit.setText(data['projectile'])
+            self.projosMassLineEdit.setText(data['projo_mass'])
             dconfig.close()
 
 
