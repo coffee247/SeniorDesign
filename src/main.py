@@ -191,7 +191,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_number_Validator(self.projosMassLineEdit)
         self.setup_number_Validator(self.projosDragLineEdit)
 
-        self.loadDefaultRangeVals()
+        self.loadDefaultVals()
+
 
 
     def setup_email_validator(self):
@@ -480,12 +481,23 @@ class MainWindow(QtWidgets.QMainWindow):
         manufacturer = self.manufactModel.itemData(index)
         self.manufacturer_lineEdit.setText(manufacturer[0])
         self.Manufacturer_comboBox.setCurrentIndex(self.ManufacturerRow)
+        self.setDefaults('manufacturer', manufacturer[0])
 
     def on_sample_types_view_clicked(self, index):
         self.sampletypeRow = index.row()
         sampleType = self.sample_types_Model.itemData(index)
         self.sampTypes_lineEdit.setText(sampleType[0])
         self.sample_types_comboBox.setCurrentIndex(self.sampletypeRow)
+        self.setDefaults('sample_type', sampleType[0])
+
+
+
+    def setDefaults(self, field, value):
+        with open('configs/defaults.json', 'r') as dconfig:
+            data = json.load(dconfig)
+            data[f'{field}'] = value
+        with open('configs/defaults.json', 'w') as dconfig:
+            dconfig.write(json.dumps(data))
 
     def on_remove_sampleTypes(self):
         try:
@@ -528,6 +540,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.backing_combobox.setCurrentIndex(self.BackingRow)
         val = self.backingModel.itemData(index)
         self.backing_lineEdit.setText(val[0])
+        with open('configs/defaults.json', 'r') as dconfig:
+            data = json.load(dconfig)
+            data['backing'] = val[0]
+        with open('configs/defaults.json', 'w') as dconfig:
+            dconfig.write(json.dumps(data))
 
     def add_backing(self):
         Backing = self.backing_lineEdit.text()
@@ -581,6 +598,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.HWscreenEdit.setText(data['HWscreen'])
             self.TimeoutEdit.setText(data['HWtimeout'])
             self.HWmagEdit.setText(data['HWmag'])
+            HWconfig.close()
     def ScreensChanged(self):
         oldsetting = self.counter.counterStr
         self.counter.counterStr = self.HWscreenEdit.text()  # change the value (in the counter object) immediately
@@ -729,6 +747,11 @@ class MainWindow(QtWidgets.QMainWindow):
         type = self.fiberTypesModel.itemData(index)
         self.fiberType_lineEdit.setText(type[0])
         self.fiberType_comboBox.setCurrentIndex(self.fiberTypeRow)
+        with open('configs/defaults.json', 'r') as dconfig:
+            data = json.load(dconfig)
+            data['fiber_type'] = type[0]
+        with open('configs/defaults.json', 'w') as dconfig:
+            dconfig.write(json.dumps(data))
 
     def addFiber(self):
         fiberVal = self.fiberType_lineEdit.text().title()
@@ -825,6 +848,11 @@ class MainWindow(QtWidgets.QMainWindow):
         powder = self.powdersModel.itemData(index)
         self.powdersLineEdit.setText(powder[0])
         self.powdersComboBox.setCurrentIndex(self.PowderRow)
+        with open('configs/defaults.json', 'r') as dconfig:
+            data = json.load(dconfig)
+            data['powder'] = powder[0]
+        with open('configs/defaults.json', 'w') as dconfig:
+            dconfig.write(json.dumps(data))
 
 
     def removePowders(self):
@@ -871,6 +899,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.grainsLineEdit.setText(grains[0])
         # self.grainsLabel.setText(grains[0])
         self.grainsComboBox.setCurrentIndex(self.GrainsRow)
+        with open('configs/defaults.json', 'r') as dconfig:
+            data = json.load(dconfig)
+            data['grain'] = grains[0]
+        with open('configs/defaults.json', 'w') as dconfig:
+            dconfig.write(json.dumps(data))
 
     def removeGrains(self):
         Value = int(self.grainsModel.Grains[self.GrainsRow]["grainsValue"])
@@ -929,6 +962,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ballisticianComboBox.setCurrentIndex(self.BallisticianRow)
         val = self.ballModel.itemData(index)
         self.ballisticianLineEdit.setText(val[0])
+        with open('configs/defaults.json', 'r') as dconfig:
+            data = json.load(dconfig)
+            data['ballistician'] = val[0]
+        with open('configs/defaults.json', 'w') as dconfig:
+            dconfig.write(json.dumps(data))
 
     def removeBallistician(self):
         row = self.BallisticianRow
@@ -994,13 +1032,7 @@ class MainWindow(QtWidgets.QMainWindow):
         except:
             self.issueWarning("Please enter a value for EACH range field")
 
-    def loadDefaultRangeVals(self):
-        with open('configs/HWconfig.json', 'r') as HWconfig:
-            data = json.load(HWconfig)
-        self.S1S2LineEdit.setText(data['S1S2'])
-        self.S2TargLineEdit.setText(data['S2Targ'])
-        self.MidS2LineEdit.setText(data['MidS2'])
-        self.MuzMidLineEdit.setText(data['MuzMid'])
+
 
 
 
@@ -1038,6 +1070,27 @@ class MainWindow(QtWidgets.QMainWindow):
             data['lang'] = langStr  # memorialize the change in the json file
         with open('configs/lang_config.json', 'w') as config:
             config.write(json.dumps(data))  # write the json file back to disk
+
+    def loadDefaultVals(self):
+        with open('configs/HWconfig.json', 'r') as HWconfig:
+            data = json.load(HWconfig)
+            HWconfig.close()
+        self.S1S2LineEdit.setText(data['S1S2'])
+        self.S2TargLineEdit.setText(data['S2Targ'])
+        self.MidS2LineEdit.setText(data['MidS2'])
+        self.MuzMidLineEdit.setText(data['MuzMid'])
+
+        with open('configs/defaults.json', 'r') as dconfig:
+            data = json.load(dconfig)
+            self.ballisticianLineEdit.setText(data['ballistician'])
+            self.grainsLineEdit.setText(data['grain'])
+            self.powdersLineEdit.setText(data['powder'])
+            self.BackingLineEdit.setText(data['backing'])
+            self.fiberType_lineEdit.setText(data['fiber_type'])
+            self.sampTypes_lineEdit.setText(data['sample_type'])
+            self.manufacturer_lineEdit.setText(data['manufacturer'])
+            dconfig.close()
+
 
 
 app = QtWidgets.QApplication(sys.argv)
