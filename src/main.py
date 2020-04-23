@@ -191,7 +191,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_number_Validator(self.projosMassLineEdit)
         self.setup_number_Validator(self.projosDragLineEdit)
 
-
+        self.loadDefaultRangeVals()
 
 
     def setup_email_validator(self):
@@ -298,20 +298,20 @@ class MainWindow(QtWidgets.QMainWindow):
     def on_remove_plies_button_clicked(self):
         selectionModel = self.fabric_plies_tableView.selectionModel()
         indexes = selectionModel.selectedRows()
-        for index in indexes:
-            rowToRemove = self.pliesProxyModel.mapToSource(index).row()
-            plyIDToRemove = self.pliesModel.Plies[rowToRemove]["ply_id"]
-            try:
-                myquery = f"delete from ply where ply_id = '{plyIDToRemove}'"
-                self.dbase.db_doQuery(myquery)
-                self.dbase.db_doQuery("Commit")
-                self.pliesModel.removeRows(rowToRemove)
-                self.ply_description_plainTextEdit.setPlainText('')
-            except:
-                self.issueWarning("Oops!\nSomething went wrong!")
-
-
-
+        if indexes != []:
+            for index in indexes:
+                rowToRemove = self.pliesProxyModel.mapToSource(index).row()
+                plyIDToRemove = self.pliesModel.Plies[rowToRemove]["ply_id"]
+                try:
+                    myquery = f"delete from ply where ply_id = '{plyIDToRemove}'"
+                    self.dbase.db_doQuery(myquery)
+                    self.dbase.db_doQuery("Commit")
+                    self.pliesModel.removeRows(rowToRemove)
+                    self.ply_description_plainTextEdit.setPlainText('')
+                except:
+                    self.issueWarning("Oops!\nSomething went wrong!")
+        else:
+            self.issueWarning("Please select a ply to delete first")
 
     ''' Respond to fabric comboBox  selectionChange event'''
     def on_FabricChanged(self):
@@ -357,24 +357,27 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def on_remove_fabric_clicked(self):
         fabricID = self.fabric_ID_lineEdit.text()
-        myquery = f"delete from fabric where fabric_id = '{fabricID}'"
-        index = self.existing_fabrics_comboBox.currentIndex()
-        if fabricID == self.existing_fabrics_comboBox.currentText():
-            try:
-                self.dbase.db_doQuery(myquery)
-                self.dbase.db_doQuery("Commit")
-                self.fabricsModel.removeRows(index)
-                self.goProjects()  # this will reset the QProxyModel filter among other things.
-                self.issueWarning("The fabric was deleted!\n\nPlease select another fabric from the fabrics pulldown!")
-            except:
-                self.issueWarning("Opps, something went wrong!")
+        if fabricID != 'Non-Fabric':
+            myquery = f"delete from fabric where fabric_id = '{fabricID}'"
+            index = self.existing_fabrics_comboBox.currentIndex()
+            if fabricID == self.existing_fabrics_comboBox.currentText():
+                try:
+                    self.dbase.db_doQuery(myquery)
+                    self.dbase.db_doQuery("Commit")
+                    self.fabricsModel.removeRows(index)
+                    self.goProjects()  # this will reset the QProxyModel filter among other things.
+                    self.issueWarning("The fabric was deleted!\n\nPlease select another fabric from the fabrics pulldown!")
+                except:
+                    self.issueWarning("Opps, something went wrong!")
+        else:
+            self.issueWarning("Non-Fabric is not deletable!\n\nThis is by design and protects you, the user!")
 
     def add_sample(self):
         sampleID = self.sampleID_lineEdit.text()
         sampleDescr = self.sample_descript_Plaintext.toPlainText()
-        index = self.existing_fabrics_comboBox.currentIndex()
-        if index == -1:
-            self.issueWarning("You have'n chosen a fabric\nPlease select (or create)\na fabric before making a sample!")
+        fabindex = self.existing_fabrics_comboBox.currentIndex()
+        if fabindex == -1:
+            self.issueWarning("You have'nt chosen a fabric\nPlease select (or create)\na fabric before making a sample!")
         else:
             pass
         # myquery = f"insert into fabric (fabric_id, fabric_descript) values('{fabricID}', '{fabricDescr}')"
@@ -994,10 +997,10 @@ class MainWindow(QtWidgets.QMainWindow):
     def loadDefaultRangeVals(self):
         with open('configs/HWconfig.json', 'r') as HWconfig:
             data = json.load(HWconfig)
-        self.S1S2LineEdit.setText(self.S1S2[0])
-        self.S2TargLineEdit.setText(self.S2Targ[0])
-        self.MidS2LineEdit.setText(self.MidS2[0])
-        self.MuzMidLineEdit.setText(self.MuzMid[0])
+        self.S1S2LineEdit.setText(data['S1S2'])
+        self.S2TargLineEdit.setText(data['S2Targ'])
+        self.MidS2LineEdit.setText(data['MidS2'])
+        self.MuzMidLineEdit.setText(data['MuzMid'])
 
 
 
@@ -1011,6 +1014,14 @@ class MainWindow(QtWidgets.QMainWindow):
         S2Targ = self.rangeModel.itemData(self.RangeRow[3])
         MidS2 = self.rangeModel.itemData(self.RangeRow[4])
         MuzMid = self.rangeModel.itemData(self.RangeRow[5])
+        with open('configs/HWconfig.json', 'r') as HWconfig:
+            data = json.load(HWconfig)
+            data['S1S2'] = S1S2[0]  # memorialize the change in the json file
+            data['S2Targ'] = S2Targ[0]
+            data['MidS2'] = MidS2[0]
+            data['MuzMid'] = MuzMid[0]
+            with open('configs/HWconfig.json', 'w') as HWconfig:
+                HWconfig.write(json.dumps(data))
         self.S1S2LineEdit.setText(S1S2[0])
         self.S2TargLineEdit.setText(S2Targ[0])
         self.MidS2LineEdit.setText(MidS2[0])
