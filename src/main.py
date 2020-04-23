@@ -383,21 +383,10 @@ class MainWindow(QtWidgets.QMainWindow):
             self.issueWarning("You have'nt chosen a fabric\nPlease select (or create)\na fabric before making a sample!")
         else:
             pass
-        # myquery = f"insert into fabric (fabric_id, fabric_descript) values('{fabricID}', '{fabricDescr}')"
-        # try:
-        #     self.dbase.db_doQuery(myquery)
-        #     self.dbase.db_doQuery("Commit")
-        #     self.fabricsModel.addData(fabricID, fabricDescr)
-        #     self.fabric_ID_lineEdit.setText(f"{fabricID}")
-        #     self.fabric_ID_lineEdit.setFocus()
-        # except pymysql.err.IntegrityError as e:
-        #     if e.args[0] == 1062:
-        #         self.issueWarning(f"Duplicate Entry for {fabricID} ---> (already exists.)\n\nTry again!")
-        #         self.fabric_ID_lineEdit.setText("")
-        #         self.fabric_ID_lineEdit.setFocus()
-        # except pymysql.err.InternalError:
-        #     self.issueWarning("Opps, something went wrong!")
 
+    ''' handle Create new Project button clicked'''
+    def addProject_button_pressed(self):
+        pass
 
     ''' set up menuBar & menubar behaviors '''
     def createMenus(self):

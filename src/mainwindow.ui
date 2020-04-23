@@ -473,7 +473,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -4912,7 +4912,7 @@ border 2px solid black;</string>
                    </spacer>
                   </item>
                   <item row="8" column="1">
-                   <widget class="QPlainTextEdit" name="Project_desciption_lineEdit">
+                   <widget class="QPlainTextEdit" name="Project_desciption_PlainTextEdit">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                       <horstretch>0</horstretch>

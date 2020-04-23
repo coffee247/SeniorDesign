@@ -43,6 +43,12 @@ def doSetup(caller):
     self.createSample_pushButton.clicked.connect(self.add_sample)
 
 
+    self.project_ID_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'project_ID_comboBox')
+    self.project_ID_lineEdit = self.stacks.findChild(QtWidgets.QLineEdit, 'project_ID_lineEdit')
+    self.Create_Project_pushButton = self.stacks.findChild(QtWidgets.QPushButton, 'Create_Project_pushButton')
+    self.Project_desciption_PlainTextEdit = self.stacks.findChild(QtWidgets.QPlainTextEdit, 'Project_desciption_PlainTextEdit')
+    self.Create_Project_pushButton.clicked.connect(self.addProject_button_pressed)
+
 
     #UI Fabrics Elemenst
     self.existing_fabrics_comboBox = self.stacks.findChild(QtWidgets.QComboBox, 'existing_fabrics_comboBox')
