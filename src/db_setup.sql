@@ -171,11 +171,11 @@ insert into ply(ply_descript, fiber_style, fiber_type, ply_weight, fabric_id)
 
 Create table sample (
     sample_description varchar(30),
-    dimensions_w int(4),
-    dimensions_h int(4),
     backing varchar(20),
     sample_type varchar(30),
     manufacturer varchar(30),
+    dimensions_w int(4),
+    dimensions_h int(4),
     fabric_id varchar(30),
     sample_id int auto_increment primary key,
     CONSTRAINT FK_sample_backing FOREIGN KEY (backing)
