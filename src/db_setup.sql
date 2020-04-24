@@ -48,10 +48,18 @@ insert into shot(ShotDate, scrset1rawdat, scrset2rawdat,
                  magrawdat, obliquity, backingID, rangeID,
                  ballistician, envID, fabricID, projoID,
                  grains, powder)
-    values ('2020-03-29 19:56:42', 0.023453456, 0.023453441, 0.023423457,
+    values ('2020-03-29 19:56:42', 0.023453456, 0.073453441, 0.073423457,
             90, 'Air', 12, 'Luke Jeter', 1, 'fabric 1', 17, 147, 'Accurate #9'),
-           ('2020-03-30 14:30:42', 0.523453456, 0.623453441, 0.723423457,
-            90, 'Aluminum', 13, 'Eric Key', 1, 'second fabric', 33, 147, 'Hi-Skor 700x');
+           ('2020-03-30 14:30:42', 0.523453456, 0.723453441, 0.623423457,
+            90, 'Aluminum', 13, 'Eric Key', 1, 'second fabric', 33, 147, 'Hi-Skor 700x'),
+           ('2020-02-20 17:56:42', 0.023253456, 0.063453441, 0.073423457,
+            90, 'Clay', 12, 'Luke Jeter', 1, 'fabric 1', 17, 125, 'Accurate #9'),
+           ('2020-01-18 14:33:43', 0.523253456, 0.523453441, 0.423423457,
+            90, 'Aluminum', 13, 'Eric Key', 1, 'second fabric', 33, 147, 'Hi-Skor 700x'),
+           ('2019-03-29 18:56:42', 0.043453456, 0.043453441, 0.053423457,
+            90, 'Clay', 12, 'Luke Jeter', 2, 'fabric 1', 17, 158, 'Accurate #9'),
+           ('2020-03-29 14:40:42', 0.223453456, 0.323453441, 0.223423457,
+            90, 'Aluminum', 13, 'Eric Key', 1, 'second fabric', 33, 147, 'IMR-4756');
 
 create Table querries (Descr varchar(256) primary key, TheQuery varchar(512));
 
@@ -168,6 +176,11 @@ insert into ply(ply_descript, fiber_style, fiber_type, ply_weight, fabric_id)
            ('There are a lot of plies in this fabric', 'woven', 'Kevlar', 12, 'fabric 1'),
            ('test ply description','multi axial','Spectra',10,'second fabric');
 
+Create table projects (
+    project_descript varchar(120),
+    client_id varchar(30),
+    project_id varchar(30) primary key);
+
 
 Create table sample (
     sample_description varchar(30),
@@ -177,6 +190,7 @@ Create table sample (
     dimensions_w int(4),
     dimensions_h int(4),
     fabric_id varchar(30),
+    project_id varchar(30),
     sample_id int auto_increment primary key,
     CONSTRAINT FK_sample_backing FOREIGN KEY (backing)
     REFERENCES backings(backing),
@@ -184,6 +198,8 @@ Create table sample (
     REFERENCES sample_types(type_name),
     CONSTRAINT FK_sample_manufacturer FOREIGN KEY (manufacturer)
     REFERENCES manufacturers(Mfr_name),
+    CONSTRAINT FK_sample_project FOREIGN KEY (project_id)
+    REFERENCES projects(project_id),
     CONSTRAINT FK_sample_fabric FOREIGN KEY (fabric_id)
     REFERENCES fabric(fabric_id)
     );

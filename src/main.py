@@ -3,39 +3,34 @@ import json
 import random
 import sys
 import threading
-import time
 
 import pymysql
 from PyQt5 import uic, QtWidgets, QtCore, Qt
-from PyQt5.QtCore import QLocale, QLibraryInfo, QCoreApplication, QRegExp, Qt, QRegularExpression, QObject, QEvent
-from PyQt5.QtGui import QIcon, QPixmap, QRegExpValidator
-from PyQt5.QtSql import QSqlQueryModel
+from PyQt5.QtCore import QRegExp, Qt
+from PyQt5.QtGui import QIcon, QRegExpValidator
 from PyQt5.QtWidgets import QAction, QMessageBox
-from PyQt5.uic.Compiler.qtproxies import QtGui
 
 import src.BIMSresources  # This file contains links to images used as icons and the HTML doc used as hime page.
 import src.database as db  # This file contains code to connect to database and run SQL querries
-import src.environs
-import src.grains
-import src.powders
-import src.projectiles
-import src.ballisticians
-import src.ranges
-import src.querries
+import src.models.environs
+import src.models.grains
+import src.models.powders
+import src.models.projectiles
+import src.models.ballisticians
+import src.models.ranges
 import src.setupUI
 import src.lowLevel
-import src.fiberTypes
-import src.manufacturers
-import src.backing
-import src.fiber_style
-import src.sample_Types
-import src.plies
-import src.samples
-import src.fabrics
+import src.models.fiberTypes
+import src.models.manufacturers
+import src.models.backing
+import src.models.fiber_style
+import src.models.sample_Types
+import src.models.plies
+import src.models.samples
+import src.models.fabrics
+import src.models.shots
 import src.SortFilterProxyModel
 import logging
-from time import time
-
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -81,22 +76,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self.conn = self.dbase.getConn()
 
         ''' Create necessary instances of data models '''
-        self.rangeModel = src.ranges.RangeModel()
-        self.environModel = src.environs.EnvironModel()
-        self.grainsModel = src.grains.GrainsModel()
-        self.powdersModel = src.powders.PowdersModel()
-        self.projectilesModel = src.projectiles.ProjectilesModel()
-        self.ballModel = src.ballisticians.BallisticiansModel()
-        self.QuerriesModel = src.querries.QuerriesModel()
-        self.HistoryModel = QSqlQueryModel() # see src/basicsortfilterproxymodel.py for example of good idea
-        self.fiberTypesModel = src.fiberTypes.FiberTypesModel()
-        self.manufactModel = src.manufacturers.ManufacturersModel()
-        self.backingModel = src.backing.BackingsModel()
-        self.fabricStylesModel = src.fiber_style.fiber_styles_model()
-        self.sample_types_Model = src.sample_Types.sample_types_model()
-        self.pliesModel = src.plies.PliesModel()
-        self.SamplesModel = src.samples.SamplesModel()
-        self.fabricsModel = src.fabrics.FabricsModel()
+        self.rangeModel = src.models.ranges.RangeModel()
+        self.environModel = src.models.environs.EnvironModel()
+        self.grainsModel = src.models.grains.GrainsModel()
+        self.powdersModel = src.models.powders.PowdersModel()
+        self.projectilesModel = src.models.projectiles.ProjectilesModel()
+        self.ballModel = src.models.ballisticians.BallisticiansModel()
+        self.fiberTypesModel = src.models.fiberTypes.FiberTypesModel()
+        self.manufactModel = src.models.manufacturers.ManufacturersModel()
+        self.backingModel = src.models.backing.BackingsModel()
+        self.fabricStylesModel = src.models.fiber_style.fiber_styles_model()
+        self.sample_types_Model = src.models.sample_Types.sample_types_model()
+        self.pliesModel = src.models.plies.PliesModel()
+        self.SamplesModel = src.models.samples.SamplesModel()
+        self.fabricsModel = src.models.fabrics.FabricsModel()
+        self.shotsModel = src.models.shots.ShotsModel()
 
         ''' set up proxymodel for plies '''
         self.pliesProxyModel = src.SortFilterProxyModel.SortFilterProxyModel()
@@ -109,6 +103,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.samplesProxyModel.setDynamicSortFilter(True)
         self.samplesProxyModel.setSourceModel(self.SamplesModel)
         # self.samplesProxyModel.setFilterKeyColumn(6)
+
+        ''' set up proxymodel for history '''
+        self.histProxyModel = src.SortFilterProxyModel.SortFilterProxyModel()
+        self.histProxyModel.setDynamicSortFilter(True)
+        self.histProxyModel.setSourceModel(self.shotsModel)
+   #     self.histProxyModel.setFilterKeyColumn(8)
 
 
         src.setupUI.doSetup(self)  # connect ui elements to app varables and functions
@@ -126,7 +126,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dbase.populateListView(self, "threatPowder", "powderType", 0, self.powdersModel)
         self.dbase.populateListView(self, "BimsRange", "RangeID", 0, self.rangeModel)
         self.dbase.populateListView(self, "ballisticians", "ballistician", 0, self.ballModel)
-        self.dbase.populateListView(self, "querries", "Descr", 0, self.QuerriesModel)
+        self.dbase.populateListView(self, "shot", "SHOTID", 0, self.shotsModel)
         self.dbase.populateListView(self, "fiber_types", "fiberType", 0, self.fiberTypesModel)
         self.dbase.populateListView(self, 'manufacturers', 'Mfr_name', 0, self.manufactModel)
         self.dbase.populateListView(self, 'backings', 'backing', 0, self.backingModel)
@@ -162,12 +162,11 @@ class MainWindow(QtWidgets.QMainWindow):
         projoheader.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         projoheader.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
 
-        db.getQuerries(self)
-        ''' Set up header for query table in history page (QuerySelView) '''
-        querryHeader = self.QuerySelView.horizontalHeader()
-        querryHeader.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
-        querryHeader.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
 
+        self.history_treeView.hideColumn(0)
+        for col in range(2,6,1):
+            self.history_treeView.hideColumn(col)
+        self.history_treeView.setColumnWidth(1, 180)
 
         if config["lang"] != "en":
             self.langCombo.setCurrentIndex(1) # index 1 in langCombo is "English"
@@ -192,6 +191,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_number_Validator(self.projosDragLineEdit)
 
         self.loadDefaultVals()
+
+        self.searchPattern_lineEdit.setText("Luke")
+        self.searchCol_comboBox.addItem("Ballistician", 'ballistician')
+        self.searchCol_comboBox.addItem("Date", 'ShotDate')
+        self.showFullScreen()
 
 
 
@@ -226,7 +230,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stacks.setCurrentIndex(4)
     def goProjects(self):
         self.existing_fabrics_comboBox.setCurrentIndex(-1)
-        self.pliesProxyModel.setFilterRegExp('zxqGarbageKey_DoesNotExist_IsMadeUP')
+        self.pliesProxyModel.setFilterRegExp('zxqGarbageKey_DoesNotExist_IsMadeUP')  # set proxyModel filter with bad key
         self.fabric_ID_lineEdit.setText("")
         self.fabric_ID_lineEdit.setFocus()
         self.fabric_description_plainTextEdit.setPlainText("")
@@ -235,6 +239,11 @@ class MainWindow(QtWidgets.QMainWindow):
         sys.exit()
 
 
+    def searchTerm_changed(self):
+        pass
+
+    def SearchColChanged(self):
+        pass
 
     ''' Respond to clicks in fabric_plies_tableView '''
     @QtCore.pyqtSlot(QtCore.QModelIndex)
@@ -423,6 +432,7 @@ class MainWindow(QtWidgets.QMainWindow):
             hwCounter = src.lowLevel.counter()
             rawVelTime, ShotClockTime = hwCounter.read()
             logging.warning(f"Shot detected at {ShotClockTime}... Raw data =  {rawVelTime}. <---")
+
         except:
             rawVelTime = random.random()
             from time import time
@@ -430,6 +440,28 @@ class MainWindow(QtWidgets.QMainWindow):
             self.velocityDataLabel.setText(f"Shot fired! {rawVelTime}")
             self.standbyLabel.setText("")
             logging.warning(f"Shot detected at {ShotClockTime}... Raw data =  {rawVelTime}. <---")
+            self.recordShotData(rawVelTime, ShotClockTime, 0)
+
+    def recordShotData(self, rawVelTime, ShotClockTime, magrawdat = .012345):
+        try:
+            with open('configs/defaults.json', 'r') as dconfig:
+                data = json.load(dconfig)
+                fabricName = self.existing_fabrics_comboBox.currentText()
+                myquery = f"insert into shot (scrset1rawdat, scrset2rawdat, magrawdat, obliquity, backingID, " \
+                          f"rangeID, ballistician, envID, fabricID, projoID, grains, powder) values " \
+                          f"('{rawVelTime}', '{rawVelTime}', '{magrawdat}', '90', '{data['backing']}', '1'," \
+                          f" '{data['ballistician']}', '1', '{fabricName}', '17', '{data['grain']}', '{data['powder']}')"
+                self.dbase.db_doQuery(myquery)
+                self.dbase.db_doQuery("Commit")
+                self.shotsModel.dataChanged
+                # self.shotsModel.addData(rawVelTime, rawVelTime, magrawdat, 90, data['backing'], 1, data['ballistician'],
+                #                         1, fabricName, 17, data['grain'], data['powder'])
+                dconfig.close()
+        except:
+            pass
+        pass
+
+
 
 
     def on_remove_Manufacturer_clicked(self):

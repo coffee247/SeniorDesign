@@ -191,8 +191,6 @@ def doSetup(caller):
 
 
     self.EnvironView = self.stacks.findChild(QtWidgets.QTableView, 'environ_tableView')
-    self.QuerySelView = self.stacks.findChild(QtWidgets.QTableView, 'QuerySelector_tableView')
-    self.HistView = self.stacks.findChild(QtWidgets.QTableView, 'History_tableView')
 
 
     # identify Hardware  LineEdit fields
@@ -221,6 +219,8 @@ def doSetup(caller):
     self.velocityDataLabel = self.findChild(QtWidgets.QLabel, 'VelocityDataLabel')
     self.shootButton = self.findChild(QtWidgets.QPushButton, 'FIRE_shot_pushButton')
     self.shots_treeView = self.stacks.findChild(QtWidgets.QTreeView, 'shots_treeView')
+    self.shots_treeView.setModel(self.shotsModel)
+
 
     # connect measure page buttons
     self.shootButton.clicked.connect(self.shoot)
@@ -242,8 +242,6 @@ def doSetup(caller):
 
 
 
-    # connect history page buttons
-    self.HistExecuteButton.clicked.connect(self.DoHistoryQuery)
 
 
     # set up table headers
@@ -258,18 +256,14 @@ def doSetup(caller):
     self.fabric_plies_tableView.verticalHeader().hide()
     self.fabric_plies_tableView.setSelectionBehavior(QAbstractItemView.SelectRows) # Select by entire row (not by individual cell)
 
-    self.QuerySelView.verticalHeader().hide()  # Hide the Vertical Header in ProjectilesView
-    self.QuerySelView.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select by entire row (not by individual cell)
+
+    #
+    self.history_treeView = self.stacks.findChild(QtWidgets.QTreeView, 'history_treeView')
+    self.history_treeView.setModel(self.shotsModel)
 
 
 
 
-    # set up QuerySelectorView (on History page)
-    self.QuerySelView.setModel(self.QuerriesModel)
-    self.QuerySelView.clicked.connect(self.doQuerySelect_clicked)
-
-    # set up HistoryView
-    self.HistView.setModel(self.HistoryModel)
 
     # connect Hardware LineEdits to Harware setting functions
     self.HWscreenEdit.editingFinished.connect(self.ScreensChanged)

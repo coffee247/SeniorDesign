@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1876</width>
-    <height>936</height>
+    <width>1548</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -250,14 +250,14 @@ margin: 3px</string>
         <item>
          <widget class="QStackedWidget" name="stackedWidget">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>960</width>
+            <width>1300</width>
             <height>800</height>
            </size>
           </property>
@@ -473,7 +473,7 @@ margin: 3px</string>
            <enum>QFrame::Sunken</enum>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="Home">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -529,89 +529,7 @@ margin: 3px</string>
            </layout>
           </widget>
           <widget class="QWidget" name="History">
-           <layout class="QGridLayout" name="gridLayout_6">
-            <item row="4" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QLabel" name="QueryText_Label">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>80</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">border: 1px solid black; background-color: white</string>
-                </property>
-                <property name="text">
-                 <string>Querries will be pre-viewed here</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="HistoryExecute_Button">
-                <property name="minimumSize">
-                 <size>
-                  <width>83</width>
-                  <height>80</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>33</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: lightgreen;</string>
-                </property>
-                <property name="text">
-                 <string>Execute</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="6" column="0">
-             <widget class="QTableView" name="History_tableView">
-              <property name="styleSheet">
-               <string notr="true">background-color: white; border: 1px solid black;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_14">
-              <property name="styleSheet">
-               <string notr="true">border: None;</string>
-              </property>
-              <property name="text">
-               <string>Select a query below:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="Line" name="line_7">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>1</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QTableView" name="QuerySelector_tableView">
-              <property name="styleSheet">
-               <string notr="true">background-color: white;</string>
-              </property>
-             </widget>
-            </item>
+           <layout class="QFormLayout" name="formLayout_11">
             <item row="0" column="0">
              <widget class="QLabel" name="label_41">
               <property name="sizePolicy">
@@ -636,13 +554,181 @@ margin: 3px</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_15">
-              <property name="text">
-               <string>Temporary Query Result</string>
+            <item row="1" column="0">
+             <widget class="Line" name="line_7">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <item>
+               <widget class="QFrame" name="frame_25">
+                <property name="styleSheet">
+                 <string notr="true">background-color: lightblue;</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QFormLayout" name="formLayout_9">
+                 <item row="0" column="0" colspan="2">
+                  <layout class="QVBoxLayout" name="verticalLayout_9">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout">
+                     <item>
+                      <widget class="QLabel" name="label_14">
+                       <property name="styleSheet">
+                        <string notr="true">BORDER: NONE;</string>
+                       </property>
+                       <property name="text">
+                        <string>Search pattern:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="searchPattern_lineEdit">
+                       <property name="styleSheet">
+                        <string notr="true">background-color: white</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_14">
+                     <item>
+                      <widget class="QLabel" name="label_15">
+                       <property name="styleSheet">
+                        <string notr="true">BORDER: NONE;</string>
+                       </property>
+                       <property name="text">
+                        <string>Search Column:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QComboBox" name="searchCol_comboBox">
+                       <property name="styleSheet">
+                        <string notr="true">background-color: white;</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="frame_27">
+                <property name="styleSheet">
+                 <string notr="true">background-color: lightblue;</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QFormLayout" name="formLayout_10">
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="SearchCaseSensetivity_checkBox">
+                   <property name="styleSheet">
+                    <string notr="true">border: none;</string>
+                   </property>
+                   <property name="text">
+                    <string>Case sensitive search</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="SortCaseSensetivity_checkBox">
+                   <property name="styleSheet">
+                    <string notr="true">border: none;
+</string>
+                   </property>
+                   <property name="text">
+                    <string>Case sensitive sorting of results</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox">
+                <property name="styleSheet">
+                 <string notr="true">background-color: white;</string>
+                </property>
+                <property name="title">
+                 <string>Penetration</string>
+                </property>
+                <layout class="QFormLayout" name="formLayout_4">
+                 <item row="0" column="0">
+                  <widget class="QRadioButton" name="Penetration_complete_radioButton">
+                   <property name="styleSheet">
+                    <string notr="true">border: none;</string>
+                   </property>
+                   <property name="text">
+                    <string>Complete</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QRadioButton" name="Penetration_partial_radioButton">
+                   <property name="styleSheet">
+                    <string notr="true">border: none;</string>
+                   </property>
+                   <property name="text">
+                    <string>Partial</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QRadioButton" name="Penetration_none_radioButton">
+                   <property name="styleSheet">
+                    <string notr="true">border: none;</string>
+                   </property>
+                   <property name="text">
+                    <string>None</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="3" column="0">
+             <widget class="QTreeView" name="history_treeView">
+              <property name="minimumSize">
+               <size>
+                <width>1200</width>
+                <height>600</height>
+               </size>
+              </property>
+              <property name="baseSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: white; border: 1px solid black;</string>
               </property>
              </widget>
             </item>
@@ -1228,6 +1314,12 @@ selection-color: red;</string>
                 <horstretch>1</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>1900</width>
+                <height>0</height>
+               </size>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -5833,7 +5925,7 @@ border 2px solid black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1876</width>
+     <width>1548</width>
      <height>22</height>
     </rect>
    </property>

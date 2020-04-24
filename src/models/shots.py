@@ -89,7 +89,7 @@ class ShotsModel(QAbstractTableModel):
 
         if orientation == Qt.Horizontal:
             if section == 0:
-                return "ID"
+                return "SHOTID"
             if section == 1:
                 return "Date"
             if section == 2:
@@ -128,7 +128,7 @@ class ShotsModel(QAbstractTableModel):
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
 
         for row in range(rows):
-            self.Plies.insert(position + row,
+            self.Shots.insert(position + row,
                               {"SHOTID": "",
                                "ShotDate": "",
                                "scrnset1rawdat": "",
@@ -219,36 +219,36 @@ class ShotsModel(QAbstractTableModel):
         if role != Qt.EditRole:
             return False
 
-        if index.isValid() and 0 <= index.row() < len(self.Plies):
-            aPly = self.Plies[index.row()]
+        if index.isValid() and 0 <= index.row() < len(self.Shots):
+            aShot = self.Shots[index.row()]
             if index.column() == 0:
-                aPly["SHOTID"] = f"{value}"
+                aShot["SHOTID"] = f"{value}"
             elif index.column() == 1:
-                aPly["ShotDate"] = f"{value}"
+                aShot["ShotDate"] = f"{value}"
             elif index.column() == 2:
-                aPly["scrnset1rawdat"] = f"{value}"
+                aShot["scrnset1rawdat"] = f"{value}"
             elif index.column() == 3:
-                aPly["scrnset2rawdat"] = f"{value}"
+                aShot["scrnset2rawdat"] = f"{value}"
             elif index.column() == 4:
-                aPly["magrawdat"] = f"{value}"
+                aShot["magrawdat"] = f"{value}"
             elif index.column() == 5:
-                aPly["obliquity"] = f"{value}"
+                aShot["obliquity"] = f"{value}"
             elif index.column() == 6:
-                aPly["backingID"] = f"{value}"
+                aShot["backingID"] = f"{value}"
             elif index.column() == 7:
-                aPly["rangeID"] = f"{value}"
+                aShot["rangeID"] = f"{value}"
             elif index.column() == 8:
-                aPly["ballistician"] = f"{value}"
+                aShot["ballistician"] = f"{value}"
             elif index.column() == 9:
-                aPly["envID"] = f"{value}"
+                aShot["envID"] = f"{value}"
             elif index.column() == 10:
-                aPly["fabricID"] = f"{value}"
+                aShot["fabricID"] = f"{value}"
             elif index.column() == 11:
-                aPly["projoID"] = f"{value}"
+                aShot["projoID"] = f"{value}"
             elif index.column() == 12:
-                aPly["grains"] = f"{value}"
+                aShot["grains"] = f"{value}"
             elif index.column() == 13:
-                aPly["powder"] = f"{value}"
+                aShot["powder"] = f"{value}"
             else:
                 return False
 
