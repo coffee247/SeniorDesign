@@ -7,7 +7,6 @@ def doSetup(caller):
     self = caller
 
     self.stacks = self.findChild(QtWidgets.QStackedWidget, 'stackedWidget')
-    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'lang_combo')
 
     # identify left menubar buttons
     self.homeButton = self.findChild(QtWidgets.QPushButton, 'homeButton')
@@ -271,3 +270,11 @@ def doSetup(caller):
     self.TimeoutEdit.editingFinished.connect(self.TimoutChanged)
     self.HWchangeLabel = self.stacks.findChild(QtWidgets.QLabel,'HWchangeLabel')
     self.HWchangeLabel.setText("")
+
+
+    # Set up language support button
+    self.langCombo = self.stacks.findChild(QtWidgets.QComboBox, 'lang_combo')
+    self.langCombo.setToolTip('<html><head><style> body {background-color: white;} </style></head>'
+                              '<body><p>Set language then re-start application</p></body></html>')
+    self.langCombo.setToolTipDuration(5000)
+    self.langCombo.currentIndexChanged.connect(self.dolanguageChangeRequest)

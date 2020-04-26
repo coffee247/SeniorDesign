@@ -42,7 +42,7 @@ class MainWindow(QtWidgets.QMainWindow):
         ''' set up logging '''
         logging.basicConfig(filename='app.log', filemode='a', format='%(asctime)s - %(message)s')
 
-        ''' set up Internationalization support '''
+        # Internationalization support
         with open('configs/lang_config.json', 'r') as lang_config:
             config = json.load(lang_config)
         self.translator = QtCore.QTranslator()
@@ -50,7 +50,7 @@ class MainWindow(QtWidgets.QMainWindow):
             language = "Dupont_BIMS_{}.qm".format(config["lang"])
             self.translator.load(language)
 
-        ''' install translator to the app '''
+        # install translator to the app
         app.installTranslator(self.translator)
         # app.removeTranslator(self.translator)
 
@@ -1056,11 +1056,12 @@ class MainWindow(QtWidgets.QMainWindow):
             langStr = "en"
         else:
             langStr = "pt"
-        with open('configs/lang_config.json', 'r') as config:
-            data = json.load(config)
+        with open('configs/lang_config.json', 'r') as lang_config:
+            data = json.load(lang_config)
             data['lang'] = langStr  # memorialize the change in the json file
-        with open('configs/lang_config.json', 'w') as config:
-            config.write(json.dumps(data))  # write the json file back to disk
+        with open('configs/lang_config.json', 'w') as lang_config:
+            lang_config.write(json.dumps(data))  # write the json file back to disk
+            lang_config.close()
 
     def loadDefaultVals(self):
         with open('configs/HWconfig.json', 'r') as HWconfig:
